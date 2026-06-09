@@ -1,0 +1,17 @@
+{
+  "dataset": "generic-jsonl",
+  "data_path": "data/YOUR_SOURCE/YOUR_FILE.jsonl.gz",
+  "provider": "mock",
+  "model": "mock",
+  "mode": "oracle",
+  "sample_size": 10,
+  "k_values": [0, 1, 2, 3, 5],
+  "temperature": 0,
+  "max_tokens": 1024,
+  "requests_per_minute": null,
+  "field_question_id": "question_id",
+  "field_question": "question",
+  "field_answer": "answer",
+  "field_skill_text": "skill_text",
+  "output_root": "results"
+}

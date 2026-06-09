@@ -1,0 +1,37 @@
+[
+  {
+    "name": "trs-deepmath",
+    "path": "data/trs/corpora/deepmath_103k_oss_skill_corpus.jsonl.gz",
+    "adapter": "TrsDeepMathDataset",
+    "evaluator": "exact",
+    "notes": "Recommended primary math dataset; answers are mostly short canonical strings."
+  },
+  {
+    "name": "trs-aops",
+    "path": "data/trs/corpora/aops_skill_corpus.jsonl.gz",
+    "adapter": "TrsAopsDataset",
+    "evaluator": "boxed",
+    "notes": "AoPS source rows often contain full worked solutions; boxed final answer extraction is used."
+  },
+  {
+    "name": "trs-mixed",
+    "path": "data/trs/corpora/trs_skill_corpus.jsonl",
+    "adapter": "TrsMixedDataset",
+    "evaluator": "exact",
+    "notes": "Mixed TRS demo skill corpus."
+  },
+  {
+    "name": "trs-benchmark-correct",
+    "path": "data/trs/corpora/benchmark_correct_cot_skill_corpus.jsonl.gz",
+    "adapter": "TrsBenchmarkCorrectDataset",
+    "evaluator": "text-solution",
+    "notes": "Benchmark-derived skill cards; overlaps evaluation suite and should be treated as source/diagnostic data."
+  },
+  {
+    "name": "trs-benchmark-error-priority",
+    "path": "data/trs/corpora/benchmark_error_priority_skill_corpus.jsonl.gz",
+    "adapter": "TrsBenchmarkErrorPriorityDataset",
+    "evaluator": "text-solution",
+    "notes": "Benchmark-derived error-priority cards; source/diagnostic data."
+  }
+]

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT_DIR"
+
+if [[ -f ".env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source ".env"
+  set +a
+fi
+
+BUNDLED_PYTHON="/Users/jonaswalcher/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if [[ -x "$BUNDLED_PYTHON" ]]; then
+    PYTHON_BIN="$BUNDLED_PYTHON"
+  elif command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="python3"
+  elif command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="python"
+  else
+    echo "Could not find Python. Set PYTHON_BIN in .env." >&2
+    exit 1
+  fi
+fi
+
+PYTHONPATH=src "$PYTHON_BIN" -B -m insights_repetition.cli "$@"

@@ -1,0 +1,13 @@
+{
+  "dataset": "trs-deepmath",
+  "provider": "openrouter",
+  "model": "deepseek/deepseek-v4-flash",
+  "mode": "oracle",
+  "eval_offset": 2,
+  "sample_size": 10,
+  "k_values": [0, 1],
+  "temperature": 0,
+  "max_tokens": 1024,
+  "requests_per_minute": 20,
+  "output_root": "results"
+}

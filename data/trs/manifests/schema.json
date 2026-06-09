@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRS skill-card record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "dataset_id",
+    "source_question_id",
+    "domain",
+    "question",
+    "skill_text"
+  ],
+  "properties": {
+    "dataset_id": {
+      "type": "string",
+      "description": "Stable source collection identifier, e.g. deepmath_oss_93020."
+    },
+    "source_question_id": {
+      "type": "string",
+      "description": "Question/problem identifier from the local source file."
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "math",
+        "contest_math",
+        "coding",
+        "science",
+        "non_skill_control"
+      ]
+    },
+    "question": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Problem text used as part of the retrieval key."
+    },
+    "answer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Reference or official answer when retained in the skill-card source."
+    },
+    "topic": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "difficulty": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "skill_text": {
+      "type": "string",
+      "description": "Compact reusable skill card. Prefer Trigger/Do/Avoid/Check/Risk style content or the source heuristic field."
+    },
+    "keywords": {
+      "type": [
+        "string",
+        "array",
+        "null"
+      ],
+      "description": "Retrieval trigger keywords."
+    },
+    "source_model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Model that generated the source trajectory or answer."
+    },
+    "distill_model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Summarizer/distiller that produced the skill card."
+    },
+    "verdict": {
+      "type": [
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ],
+      "description": "Correctness/verifier status when available."
+    },
+    "representation_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "structured_skill_card, structured, drop_caution, free_summary, raw_cot, raw_example, etc."
+    },
+    "source_path": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Local source path used during packaging. This is for reproducibility and should be removed or documented before public upload if needed."
+    }
+  }
+}

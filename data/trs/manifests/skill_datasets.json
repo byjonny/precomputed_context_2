@@ -1,0 +1,121 @@
+[
+  {
+    "file": "data/aops_skill_corpus.jsonl.gz",
+    "records": 7735,
+    "bytes": 9146338,
+    "sha256": "ff00d5a9efc09a86b9c684f465565028922d5f2ce329ea23f48a1ce6bc0f9c1b",
+    "fields": [
+      "answer",
+      "difficulty",
+      "question",
+      "question_id",
+      "skill_score",
+      "skill_text",
+      "source_key",
+      "source_label",
+      "topic"
+    ]
+  },
+  {
+    "file": "data/benchmark_correct_cot_skill_corpus.jsonl.gz",
+    "records": 120,
+    "bytes": 174623,
+    "sha256": "c398d3a4883b16dc451775c590dd52d78d705d9f7dffc26e9cd990f64ec27310",
+    "fields": [
+      "answer",
+      "benchmark",
+      "benchmark_display_name",
+      "difficulty",
+      "keywords",
+      "question",
+      "question_id",
+      "skill_text",
+      "source_key",
+      "source_label",
+      "topic"
+    ]
+  },
+  {
+    "file": "data/benchmark_error_priority_skill_corpus.jsonl.gz",
+    "records": 120,
+    "bytes": 173427,
+    "sha256": "57e3479c8a56c1000de724b7dd126b8ef75684c8a4050715194455ccea43c183",
+    "fields": [
+      "answer",
+      "benchmark",
+      "benchmark_display_name",
+      "difficulty",
+      "keywords",
+      "question",
+      "question_id",
+      "skill_text",
+      "source_key",
+      "source_label",
+      "topic"
+    ]
+  },
+  {
+    "file": "data/coding_nemotron_competitive_programming.jsonl.gz",
+    "records": 42564,
+    "bytes": 33504357,
+    "sha256": "25a207da3216af279b83c079f8789dc7b83cf234f0601785f8b2c9c99da4795c",
+    "fields": [
+      "answer",
+      "avoid",
+      "card_id",
+      "card_type",
+      "category",
+      "check",
+      "complexity",
+      "dataset_id",
+      "difficulty",
+      "distill_model",
+      "do",
+      "domain",
+      "keywords",
+      "question",
+      "representation_type",
+      "risk",
+      "skill_text",
+      "source_model",
+      "source_question_id",
+      "tags",
+      "topic",
+      "trigger",
+      "verdict"
+    ]
+  },
+  {
+    "file": "data/deepmath_103k_oss_skill_corpus.jsonl.gz",
+    "records": 103020,
+    "bytes": 61680122,
+    "sha256": "d32fab5398416682595bfe5024debc75645b1e56629c2d5da1bd1148b1dbcdd7",
+    "fields": [
+      "answer",
+      "difficulty",
+      "question",
+      "question_id",
+      "skill_text",
+      "source_key",
+      "source_label",
+      "topic"
+    ]
+  },
+  {
+    "file": "data/trs_skill_corpus.jsonl",
+    "records": 10476,
+    "bytes": 21501690,
+    "sha256": "136ae5438d4f23d62ccbb0f3cccd2e81b4564372c86917abd1bedb2b3c70ba6a",
+    "fields": [
+      "answer",
+      "difficulty",
+      "question",
+      "question_id",
+      "skill_score",
+      "skill_text",
+      "source_key",
+      "source_label",
+      "topic"
+    ]
+  }
+]
