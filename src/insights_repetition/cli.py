@@ -45,6 +45,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-tokens", type=int, default=2048)
+    parser.add_argument("--max-token-warning-ratio", type=float, default=0.95)
     parser.add_argument("--output-root", default="results")
     parser.add_argument("--requests-per-minute", type=float)
     parser.add_argument("--request-timeout-s", type=float, default=120.0)
@@ -74,6 +75,7 @@ RUN_DEFAULTS = {
     "seed": 0,
     "temperature": 0.0,
     "max_tokens": 2048,
+    "max_token_warning_ratio": 0.95,
     "output_root": "results",
     "allow_answer_leakage": False,
     "show_progress": True,
@@ -202,6 +204,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         seed=args.seed,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
+        max_token_warning_ratio=args.max_token_warning_ratio,
         output_root=args.output_root,
         requests_per_minute=args.requests_per_minute,
         skip_answer_leakage=not args.allow_answer_leakage,

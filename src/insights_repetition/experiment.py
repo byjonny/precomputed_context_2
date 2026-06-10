@@ -43,6 +43,7 @@ class ExperimentConfig:
     max_retries: int = 1
     retry_backoff_s: float = 5.0
     continue_on_error: bool = True
+    max_token_warning_ratio: float = 0.95
 
 
 def stable_hash(text: str, length: int = 16) -> str:
@@ -88,6 +89,41 @@ def sum_known(values: list[int | float | None]) -> float | None:
     if not clean:
         return None
     return float(sum(clean))
+
+
+def token_limit_flags(usage: TokenUsage, max_tokens: int, warning_ratio: float) -> dict[str, Any]:
+    completion_tokens = usage.completion_tokens
+    reasoning_tokens = usage.reasoning_tokens
+    visible_output_tokens = usage.visible_output_tokens
+    warning_threshold = max(1, int(max_tokens * warning_ratio))
+    hit_max_tokens = completion_tokens is not None and completion_tokens >= max_tokens
+    near_max_tokens = completion_tokens is not None and completion_tokens >= warning_threshold
+    reasoning_near_limit = reasoning_tokens is not None and reasoning_tokens >= warning_threshold
+    no_visible_output_at_limit = bool(near_max_tokens and (visible_output_tokens or 0) == 0)
+
+    flags: list[str] = []
+    if hit_max_tokens:
+        flags.append("hit_max_tokens")
+    elif near_max_tokens:
+        flags.append("near_max_tokens")
+    if reasoning_near_limit:
+        flags.append("reasoning_near_limit")
+    if no_visible_output_at_limit:
+        flags.append("no_visible_output_at_limit")
+
+    return {
+        "max_tokens": max_tokens,
+        "warning_ratio": warning_ratio,
+        "warning_threshold": warning_threshold,
+        "completion_tokens": completion_tokens,
+        "reasoning_tokens": reasoning_tokens,
+        "visible_output_tokens": visible_output_tokens,
+        "hit_max_tokens": hit_max_tokens,
+        "near_max_tokens": near_max_tokens,
+        "reasoning_near_limit": reasoning_near_limit,
+        "no_visible_output_at_limit": no_visible_output_at_limit,
+        "flags": flags,
+    }
 
 
 class RequestRateLimiter:
@@ -220,6 +256,9 @@ def summarize_run(result_rows: list[dict[str, Any]], k_values: list[int]) -> tup
             "total_reasoning_tokens": sum_known([row["usage"].get("reasoning_tokens") for row in rows]),
             "total_visible_output_tokens": sum_known([row["usage"].get("visible_output_tokens") for row in rows]),
             "total_tokens": sum_known([row["usage"].get("total_tokens") for row in rows]),
+            "max_token_hits": sum(1 for row in rows if row.get("token_limit", {}).get("hit_max_tokens")),
+            "near_max_token_hits": sum(1 for row in rows if row.get("token_limit", {}).get("near_max_tokens")),
+            "reasoning_limit_hits": sum(1 for row in rows if row.get("token_limit", {}).get("reasoning_near_limit")),
             "mean_cost": mean([row["usage"].get("cost") for row in rows]),
             "total_cost": sum(row["usage"].get("cost") or 0.0 for row in rows),
             "cost_currency": next((row["usage"].get("cost_currency") for row in rows if row["usage"].get("cost_currency")), None),
@@ -385,6 +424,11 @@ class ExperimentRunner:
                             model=self.config.model,
                             raw_response={"error": error_message},
                         )
+                    token_limit = token_limit_flags(
+                        response.usage,
+                        self.config.max_tokens,
+                        self.config.max_token_warning_ratio,
+                    )
                     eval_result = self.evaluator.evaluate(response.text, record)
                     reporter.request_done(
                         is_correct=eval_result.is_correct,
@@ -398,6 +442,7 @@ class ExperimentRunner:
                         latency_s=latency_s,
                         rate_limit_sleep_s=rate_limit_sleep_s,
                         error_message=error_message,
+                        token_limit=token_limit,
                     )
                     row = {
                         "run_id": run_id,
@@ -430,6 +475,7 @@ class ExperimentRunner:
                         "cost": response.usage.cost,
                         "cost_currency": response.usage.cost_currency,
                         "cost_details": response.usage.cost_details,
+                        "token_limit": token_limit,
                         "latency_s": latency_s,
                         "rate_limit_sleep_s": rate_limit_sleep_s,
                         "attempts": attempts,

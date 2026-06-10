@@ -121,19 +121,30 @@ class TerminalReporter:
         latency_s: float,
         rate_limit_sleep_s: float,
         error_message: str | None = None,
+        token_limit: dict[str, Any] | None = None,
     ) -> None:
         if not self.enabled:
             return
         status = "error" if error_message else ("correct" if is_correct else "wrong")
         sleep_part = f" sleep={rate_limit_sleep_s:.1f}s" if rate_limit_sleep_s > 0 else ""
+        limit_flags = (token_limit or {}).get("flags") or []
+        flag_part = f" flags={','.join(limit_flags)}" if limit_flags else ""
         write_line(
             f"     {status:7} pred={short(predicted_answer, 40)!r} "
             f"tokens={fmt_number(total_tokens, 0)} visible={fmt_number(visible_output_tokens, 0)} "
             f"reason={fmt_number(reasoning_tokens, 0)} cost={fmt_cost(cost, currency)} "
-            f"latency={latency_s:.1f}s{sleep_part}"
+            f"latency={latency_s:.1f}s{sleep_part}{flag_part}"
         )
         if error_message:
             write_line(f"     error: {short(error_message, 220)!r}")
+        if limit_flags:
+            write_line(
+                "     token warning: "
+                f"completion={fmt_number((token_limit or {}).get('completion_tokens'), 0)}/"
+                f"{fmt_number((token_limit or {}).get('max_tokens'), 0)}, "
+                f"reasoning={fmt_number((token_limit or {}).get('reasoning_tokens'), 0)}, "
+                f"visible={fmt_number((token_limit or {}).get('visible_output_tokens'), 0)}"
+            )
         if reasoning_text:
             write_line(f"     reasoning preview: {short(reasoning_text, 220)!r}")
 
@@ -189,6 +200,7 @@ class TerminalReporter:
                     fmt_number(condition.get("mean_completion_tokens"), 1),
                     fmt_number(condition.get("mean_total_tokens"), 1),
                     fmt_number(condition.get("total_reasoning_tokens"), 0),
+                    fmt_number(condition.get("near_max_token_hits"), 0),
                     fmt_cost(condition.get("total_cost"), condition.get("cost_currency")),
                 ]
             )
@@ -204,6 +216,7 @@ class TerminalReporter:
                 "mean out",
                 "mean total",
                 "reason sum",
+                "limit flags",
                 "cost",
             ],
             condition_rows,
