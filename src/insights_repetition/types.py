@@ -37,6 +37,8 @@ class LLMRequest:
     model: str
     temperature: float = 0.0
     max_tokens: int = 2048
+    timeout_s: float | None = None
+    extra_body: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
 

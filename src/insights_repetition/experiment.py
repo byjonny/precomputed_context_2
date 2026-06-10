@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from insights_repetition.answer_extraction import estimate_tokens
 from insights_repetition.datasets.base import DatasetAdapter
 from insights_repetition.evaluators.base import Evaluator
 from insights_repetition.io import append_jsonl, write_json
@@ -14,7 +15,7 @@ from insights_repetition.llm.base import LLMBridge
 from insights_repetition.prompts import build_prompt
 from insights_repetition.retrieval import BM25Retriever
 from insights_repetition.terminal import TerminalReporter
-from insights_repetition.types import LLMRequest, ProblemRecord
+from insights_repetition.types import LLMRequest, LLMResponse, ProblemRecord, TokenUsage
 
 
 @dataclass
@@ -37,6 +38,11 @@ class ExperimentConfig:
     requests_per_minute: float | None = None
     skip_answer_leakage: bool = True
     show_progress: bool = True
+    reasoning: dict[str, Any] | None = None
+    request_timeout_s: float | None = 120.0
+    max_retries: int = 1
+    retry_backoff_s: float = 5.0
+    continue_on_error: bool = True
 
 
 def stable_hash(text: str, length: int = 16) -> str:
@@ -75,6 +81,13 @@ def mean(values: list[int | float | None]) -> float | None:
     if not clean:
         return None
     return float(statistics.mean(clean))
+
+
+def sum_known(values: list[int | float | None]) -> float | None:
+    clean = [value for value in values if value is not None]
+    if not clean:
+        return None
+    return float(sum(clean))
 
 
 class RequestRateLimiter:
@@ -120,6 +133,12 @@ def summarize_run(result_rows: list[dict[str, Any]], k_values: list[int]) -> tup
         }
         output_tokens_by_k = {
             str(k): by_k[k]["usage"].get("completion_tokens") if k in by_k else None for k in k_values
+        }
+        reasoning_tokens_by_k = {
+            str(k): by_k[k]["usage"].get("reasoning_tokens") if k in by_k else None for k in k_values
+        }
+        visible_output_tokens_by_k = {
+            str(k): by_k[k]["usage"].get("visible_output_tokens") if k in by_k else None for k in k_values
         }
         cost_by_k = {
             str(k): by_k[k]["usage"].get("cost") if k in by_k else None for k in k_values
@@ -168,6 +187,8 @@ def summarize_run(result_rows: list[dict[str, Any]], k_values: list[int]) -> tup
                 "correct_by_k": correct_by_k,
                 "total_tokens_by_k": total_tokens_by_k,
                 "output_tokens_by_k": output_tokens_by_k,
+                "reasoning_tokens_by_k": reasoning_tokens_by_k,
+                "visible_output_tokens_by_k": visible_output_tokens_by_k,
                 "cost_by_k": cost_by_k,
                 "baseline_correct": baseline,
                 "k1_correct": k1,
@@ -192,7 +213,13 @@ def summarize_run(result_rows: list[dict[str, Any]], k_values: list[int]) -> tup
             "mean_prompt_tokens": mean([row["usage"].get("prompt_tokens") for row in rows]),
             "mean_completion_tokens": mean([row["usage"].get("completion_tokens") for row in rows]),
             "mean_reasoning_tokens": mean([row["usage"].get("reasoning_tokens") for row in rows]),
+            "mean_visible_output_tokens": mean([row["usage"].get("visible_output_tokens") for row in rows]),
             "mean_total_tokens": mean([row["usage"].get("total_tokens") for row in rows]),
+            "total_prompt_tokens": sum_known([row["usage"].get("prompt_tokens") for row in rows]),
+            "total_completion_tokens": sum_known([row["usage"].get("completion_tokens") for row in rows]),
+            "total_reasoning_tokens": sum_known([row["usage"].get("reasoning_tokens") for row in rows]),
+            "total_visible_output_tokens": sum_known([row["usage"].get("visible_output_tokens") for row in rows]),
+            "total_tokens": sum_known([row["usage"].get("total_tokens") for row in rows]),
             "mean_cost": mean([row["usage"].get("cost") for row in rows]),
             "total_cost": sum(row["usage"].get("cost") or 0.0 for row in rows),
             "cost_currency": next((row["usage"].get("cost_currency") for row in rows if row["usage"].get("cost_currency")), None),
@@ -311,6 +338,8 @@ class ExperimentRunner:
                         model=self.config.model,
                         temperature=self.config.temperature,
                         max_tokens=self.config.max_tokens,
+                        timeout_s=self.config.request_timeout_s,
+                        extra_body={"reasoning": self.config.reasoning} if self.config.reasoning else {},
                         metadata={
                             "question_id": record.question_id,
                             "gold_answer": record.answer,
@@ -319,17 +348,56 @@ class ExperimentRunner:
                     )
                     rate_limit_sleep_s = rate_limiter.wait()
                     started = time.time()
-                    response = self.llm.generate(request)
+                    response: LLMResponse | None = None
+                    error_message = None
+                    attempts = 0
+                    while True:
+                        try:
+                            attempts += 1
+                            response = self.llm.generate(request)
+                            break
+                        except Exception as exc:
+                            error_message = str(exc)
+                            if attempts <= self.config.max_retries:
+                                sleep_s = self.config.retry_backoff_s * attempts
+                                reporter.request_retry(attempts, self.config.max_retries, error_message, sleep_s)
+                                time.sleep(sleep_s)
+                                continue
+                            if not self.config.continue_on_error:
+                                raise
+                            break
                     latency_s = time.time() - started
+                    if response is None:
+                        prompt_tokens = estimate_tokens(prompt)
+                        response = LLMResponse(
+                            text="",
+                            reasoning_text="",
+                            usage=TokenUsage(
+                                prompt_tokens=prompt_tokens,
+                                completion_tokens=0,
+                                reasoning_tokens=None,
+                                visible_output_tokens=0,
+                                total_tokens=prompt_tokens,
+                                estimated=True,
+                                raw_usage={"error": error_message},
+                            ),
+                            provider=self.llm.name,
+                            model=self.config.model,
+                            raw_response={"error": error_message},
+                        )
                     eval_result = self.evaluator.evaluate(response.text, record)
                     reporter.request_done(
                         is_correct=eval_result.is_correct,
                         predicted_answer=eval_result.predicted_answer,
                         total_tokens=response.usage.total_tokens,
+                        reasoning_tokens=response.usage.reasoning_tokens,
+                        visible_output_tokens=response.usage.visible_output_tokens,
+                        reasoning_text=response.reasoning_text,
                         cost=response.usage.cost,
                         currency=response.usage.cost_currency,
                         latency_s=latency_s,
                         rate_limit_sleep_s=rate_limit_sleep_s,
+                        error_message=error_message,
                     )
                     row = {
                         "run_id": run_id,
@@ -364,6 +432,8 @@ class ExperimentRunner:
                         "cost_details": response.usage.cost_details,
                         "latency_s": latency_s,
                         "rate_limit_sleep_s": rate_limit_sleep_s,
+                        "attempts": attempts,
+                        "error": error_message,
                     }
                     append_jsonl(results_path, row)
                     result_rows.append(row)

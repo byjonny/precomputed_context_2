@@ -34,6 +34,30 @@ def ssl_error_hint(exc: urllib.error.URLError) -> str:
     return ""
 
 
+def extract_reasoning_text(message: dict) -> str:
+    direct = str(
+        message.get("reasoning_content")
+        or message.get("reasoning")
+        or message.get("thinking")
+        or ""
+    )
+    if direct:
+        return direct
+
+    details = message.get("reasoning_details") or []
+    if not isinstance(details, list):
+        return ""
+
+    parts: list[str] = []
+    for detail in details:
+        if not isinstance(detail, dict):
+            continue
+        text = detail.get("text") or detail.get("summary") or detail.get("content")
+        if isinstance(text, str) and text.strip():
+            parts.append(text.strip())
+    return "\n\n".join(parts)
+
+
 class OpenAICompatibleBridge(LLMBridge):
     name = "openai-compatible"
 
@@ -59,6 +83,7 @@ class OpenAICompatibleBridge(LLMBridge):
             "max_tokens": request.max_tokens,
             "stream": False,
         }
+        payload.update(request.extra_body)
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -71,7 +96,7 @@ class OpenAICompatibleBridge(LLMBridge):
             headers=headers,
             method="POST",
         )
-        urlopen_kwargs = {"timeout": 600}
+        urlopen_kwargs = {"timeout": request.timeout_s or 600}
         ssl_context = build_ssl_context()
         if ssl_context is not None:
             urlopen_kwargs["context"] = ssl_context
@@ -84,12 +109,7 @@ class OpenAICompatibleBridge(LLMBridge):
         choices = raw.get("choices") or []
         message = (choices[0].get("message") if choices else {}) or {}
         text = str(message.get("content") or "")
-        reasoning_text = str(
-            message.get("reasoning_content")
-            or message.get("reasoning")
-            or message.get("thinking")
-            or ""
-        )
+        reasoning_text = extract_reasoning_text(message)
         usage_raw = raw.get("usage") or {}
         completion_details = usage_raw.get("completion_tokens_details") or {}
         cost = usage_raw.get("cost")
@@ -97,6 +117,8 @@ class OpenAICompatibleBridge(LLMBridge):
         prompt_tokens = usage_raw.get("prompt_tokens")
         completion_tokens = usage_raw.get("completion_tokens")
         reasoning_tokens = completion_details.get("reasoning_tokens")
+        if reasoning_tokens is None:
+            reasoning_tokens = usage_raw.get("reasoning_tokens")
         estimated = prompt_tokens is None or completion_tokens is None
         if prompt_tokens is None:
             prompt_tokens = estimate_tokens(request.prompt)

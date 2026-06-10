@@ -72,14 +72,24 @@ def extract_choice(text: str) -> str:
 
 def normalize_answer(text: str) -> str:
     text = text.strip().lower()
+    text = text.replace("∞", r"\infty")
+    text = text.replace("π", r"\pi")
+    text = text.replace("−", "-")
     text = re.sub(r"\\boxed\s*{([^{}]*)}", r"\1", text)
     text = re.sub(r"\\text\s*{([^{}]*)}", r"\1", text)
+    text = text.replace(r"\dfrac", r"\frac")
+    text = text.replace(r"\tfrac", r"\frac")
+    text = re.sub(r"\\frac\s*{([^{}]+)}\s*{([^{}]+)}", r"\1/\2", text)
     for token in ["$", r"\(", r"\)", r"\[", r"\]", "`", "*"]:
         text = text.replace(token, "")
     for token in [r"\left", r"\right"]:
         text = text.replace(token, "")
     text = text.replace(" ", "")
     text = text.rstrip(".;,")
+    if text in {r"\varnothing", "∅", "emptyset", "varnothing"}:
+        return r"\emptyset"
+    if text.startswith(("nosuch", "novalue", "nosolution", "nonexistent", "non-existent")):
+        return r"\emptyset"
     return text
 
 

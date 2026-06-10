@@ -21,6 +21,15 @@ def parse_k_values(text: str) -> list[int]:
     return values
 
 
+def parse_json_object(value: str | dict | None) -> dict | None:
+    if value is None or isinstance(value, dict):
+        return value
+    parsed = json.loads(value)
+    if not isinstance(parsed, dict):
+        raise argparse.ArgumentTypeError("expected a JSON object")
+    return parsed
+
+
 def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--data-path")
@@ -38,7 +47,12 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--max-tokens", type=int, default=2048)
     parser.add_argument("--output-root", default="results")
     parser.add_argument("--requests-per-minute", type=float)
+    parser.add_argument("--request-timeout-s", type=float, default=120.0)
+    parser.add_argument("--max-retries", type=int, default=1)
+    parser.add_argument("--retry-backoff-s", type=float, default=5.0)
+    parser.add_argument("--fail-fast", dest="continue_on_error", action="store_false", default=True)
     parser.add_argument("--quiet", dest="show_progress", action="store_false", default=True)
+    parser.add_argument("--reasoning", type=parse_json_object, help='JSON object, e.g. \'{"effort":"medium"}\'.')
     parser.add_argument("--allow-answer-leakage", action="store_true")
     parser.add_argument("--ollama-url", default="http://localhost:11434")
     parser.add_argument("--api-base-url", default="https://api.openai.com/v1/chat/completions")
@@ -63,7 +77,12 @@ RUN_DEFAULTS = {
     "output_root": "results",
     "allow_answer_leakage": False,
     "show_progress": True,
+    "reasoning": None,
     "requests_per_minute": None,
+    "request_timeout_s": 120.0,
+    "max_retries": 1,
+    "retry_backoff_s": 5.0,
+    "continue_on_error": True,
     "ollama_url": "http://localhost:11434",
     "api_base_url": "https://api.openai.com/v1/chat/completions",
     "api_key_env": "INSIGHTS_API_KEY",
@@ -103,6 +122,7 @@ def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
         values["k_values"] = parse_k_values(k_values)
     else:
         values["k_values"] = [int(value) for value in k_values]
+    values["reasoning"] = parse_json_object(values.get("reasoning"))
     return argparse.Namespace(**values)
 
 
@@ -186,6 +206,11 @@ def cmd_run(args: argparse.Namespace) -> None:
         requests_per_minute=args.requests_per_minute,
         skip_answer_leakage=not args.allow_answer_leakage,
         show_progress=args.show_progress,
+        reasoning=args.reasoning,
+        request_timeout_s=args.request_timeout_s,
+        max_retries=args.max_retries,
+        retry_backoff_s=args.retry_backoff_s,
+        continue_on_error=args.continue_on_error,
     )
     runner = ExperimentRunner(dataset=dataset, evaluator=evaluator, llm=llm, config=config)
     run_dir = runner.run()

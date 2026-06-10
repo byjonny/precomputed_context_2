@@ -113,6 +113,7 @@ temperature
 max_tokens
 requests_per_minute
 show_progress
+reasoning
 output_root
 ```
 
@@ -256,6 +257,43 @@ raw_usage
 ```
 
 When a provider does not return token counts, the code stores estimates.
+
+Dashboard token columns:
+
+```text
+mean in       average prompt/input tokens sent to the model
+mean visible  average visible answer tokens estimated from response text
+mean reason   average hidden reasoning tokens, only when the provider reports them
+mean out      average provider completion tokens
+mean total    average provider total tokens
+reason sum    total hidden reasoning tokens for that k, only when reported
+```
+
+For reasoning models, provider `completion_tokens` often includes hidden reasoning plus visible output. That is why `reasoning_tokens` is logged separately whenever the API exposes it. If a provider does not report hidden reasoning tokens, `mean reason` / `reason sum` show `-`, not `0`.
+
+OpenRouter returns reasoning-token counts in `usage.completion_tokens_details.reasoning_tokens` when applicable. Some models/providers do not expose reasoning tokens, so this metric is only guaranteed when OpenRouter includes it in the response.
+
+To explicitly request reasoning through OpenRouter, add a `reasoning` object to your config:
+
+```json
+"model": "openai/o4-mini",
+"max_tokens": 4096,
+"reasoning": {
+  "effort": "medium"
+}
+```
+
+There is also a template config:
+
+```bash
+./insights-repetition --config openrouter_reasoning_template
+```
+
+For a one-call smoke test that should expose reasoning text and counts:
+
+```bash
+./insights-repetition --config openrouter_reasoning_smoke
+```
 
 
 ## Run With An OpenAI-Compatible API

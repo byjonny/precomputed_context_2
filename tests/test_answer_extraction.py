@@ -1,4 +1,4 @@
-from insights_repetition.answer_extraction import extract_choice, extract_final_answer, normalize_answer
+from insights_repetition.answer_extraction import answers_match, extract_choice, extract_final_answer, normalize_answer
 
 
 def test_extract_last_boxed() -> None:
@@ -10,5 +10,14 @@ def test_extract_choice() -> None:
     assert extract_choice(r"\mathrm{(D)}\text{ } 3+\sqrt6") == "D"
 
 
-def test_trs_normalize_is_strict_about_fraction_aliases() -> None:
-    assert normalize_answer(r"$-\dfrac{2}{3}$") != normalize_answer(r"-\frac{2}{3}")
+def test_equivalent_fraction_aliases_match() -> None:
+    assert answers_match(r"$-\dfrac{2}{3}$", r"-\frac{2}{3}")
+    assert answers_match("π/2", r"\dfrac{\pi}{2}")
+
+
+def test_unicode_infinity_matches_latex_infinity() -> None:
+    assert answers_match("∞", r"\infty")
+
+
+def test_empty_set_aliases_match() -> None:
+    assert answers_match("No values of k.", r"\emptyset")

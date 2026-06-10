@@ -85,6 +85,8 @@ class TerminalReporter:
         write_line(f"repeats     : {config.repeats}")
         write_line(f"k_values    : {config.k_values}")
         write_line(f"calls       : {total_calls}")
+        if config.reasoning:
+            write_line(f"reasoning   : {config.reasoning}")
         if config.requests_per_minute:
             write_line(f"rate limit  : {config.requests_per_minute:g} requests/min")
         write_line("-" * 78)
@@ -111,19 +113,36 @@ class TerminalReporter:
         is_correct: bool,
         predicted_answer: str,
         total_tokens: int | None,
+        reasoning_tokens: int | None,
+        visible_output_tokens: int | None,
+        reasoning_text: str,
         cost: float | None,
         currency: str | None,
         latency_s: float,
         rate_limit_sleep_s: float,
+        error_message: str | None = None,
     ) -> None:
         if not self.enabled:
             return
-        status = "correct" if is_correct else "wrong"
+        status = "error" if error_message else ("correct" if is_correct else "wrong")
         sleep_part = f" sleep={rate_limit_sleep_s:.1f}s" if rate_limit_sleep_s > 0 else ""
         write_line(
             f"     {status:7} pred={short(predicted_answer, 40)!r} "
-            f"tokens={fmt_number(total_tokens, 0)} cost={fmt_cost(cost, currency)} "
+            f"tokens={fmt_number(total_tokens, 0)} visible={fmt_number(visible_output_tokens, 0)} "
+            f"reason={fmt_number(reasoning_tokens, 0)} cost={fmt_cost(cost, currency)} "
             f"latency={latency_s:.1f}s{sleep_part}"
+        )
+        if error_message:
+            write_line(f"     error: {short(error_message, 220)!r}")
+        if reasoning_text:
+            write_line(f"     reasoning preview: {short(reasoning_text, 220)!r}")
+
+    def request_retry(self, attempt: int, max_retries: int, error_message: str, sleep_s: float) -> None:
+        if not self.enabled:
+            return
+        write_line(
+            f"     retry {attempt}/{max_retries} after error: "
+            f"{short(error_message, 180)!r}; sleeping {sleep_s:.1f}s"
         )
 
     def final_summary(
@@ -165,13 +184,28 @@ class TerminalReporter:
                     fmt_percent(condition.get("accuracy")),
                     accuracy_bar(condition.get("accuracy")),
                     fmt_number(condition.get("mean_prompt_tokens"), 1),
+                    fmt_number(condition.get("mean_visible_output_tokens"), 1),
+                    fmt_number(condition.get("mean_reasoning_tokens"), 1),
                     fmt_number(condition.get("mean_completion_tokens"), 1),
                     fmt_number(condition.get("mean_total_tokens"), 1),
+                    fmt_number(condition.get("total_reasoning_tokens"), 0),
                     fmt_cost(condition.get("total_cost"), condition.get("cost_currency")),
                 ]
             )
         for line in table(
-            ["k", "correct", "accuracy", "bar", "mean in", "mean out", "mean total", "cost"],
+            [
+                "k",
+                "correct",
+                "accuracy",
+                "bar",
+                "mean in",
+                "mean visible",
+                "mean reason",
+                "mean out",
+                "mean total",
+                "reason sum",
+                "cost",
+            ],
             condition_rows,
         ):
             write_line(line)
