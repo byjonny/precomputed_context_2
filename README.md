@@ -111,7 +111,10 @@ sample_size
 k_values
 temperature
 max_tokens
+max_token_warning_ratio
 requests_per_minute
+request_timeout_s
+max_retries
 show_progress
 reasoning
 output_root
@@ -253,6 +256,7 @@ completion_tokens
 reasoning_tokens
 visible_output_tokens
 total_tokens
+token_limit
 raw_usage
 ```
 
@@ -267,9 +271,12 @@ mean reason   average hidden reasoning tokens, only when the provider reports th
 mean out      average provider completion tokens
 mean total    average provider total tokens
 reason sum    total hidden reasoning tokens for that k, only when reported
+limit flags   number of calls whose completion tokens reached the warning threshold
 ```
 
 For reasoning models, provider `completion_tokens` often includes hidden reasoning plus visible output. That is why `reasoning_tokens` is logged separately whenever the API exposes it. If a provider does not report hidden reasoning tokens, `mean reason` / `reason sum` show `-`, not `0`.
+
+Each row also stores a `token_limit` object. It flags `near_max_tokens`, `hit_max_tokens`, `reasoning_near_limit`, and `no_visible_output_at_limit`. This catches cases where a model burns the whole `max_tokens` budget on reasoning and returns little or no final answer. The default warning threshold is controlled by `max_token_warning_ratio` and is usually `0.95`.
 
 OpenRouter returns reasoning-token counts in `usage.completion_tokens_details.reasoning_tokens` when applicable. Some models/providers do not expose reasoning tokens, so this metric is only guaranteed when OpenRouter includes it in the response.
 
