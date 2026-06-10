@@ -87,6 +87,8 @@ class TerminalReporter:
         write_line(f"calls       : {total_calls}")
         if config.reasoning:
             write_line(f"reasoning   : {config.reasoning}")
+        if config.parallel_workers > 1:
+            write_line(f"parallel    : {config.parallel_workers} workers")
         if config.requests_per_minute:
             write_line(f"rate limit  : {config.requests_per_minute:g} requests/min")
         write_line("-" * 78)

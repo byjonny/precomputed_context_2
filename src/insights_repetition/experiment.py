@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import statistics
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -44,6 +46,7 @@ class ExperimentConfig:
     retry_backoff_s: float = 5.0
     continue_on_error: bool = True
     max_token_warning_ratio: float = 0.95
+    parallel_workers: int = 1
 
 
 def stable_hash(text: str, length: int = 16) -> str:
@@ -130,21 +133,23 @@ class RequestRateLimiter:
     def __init__(self, requests_per_minute: float | None) -> None:
         self.requests_per_minute = requests_per_minute
         self._last_request_at: float | None = None
+        self._lock = threading.Lock()
 
     def wait(self) -> float:
-        if not self.requests_per_minute or self.requests_per_minute <= 0:
+        with self._lock:
+            if not self.requests_per_minute or self.requests_per_minute <= 0:
+                self._last_request_at = time.time()
+                return 0.0
+            min_interval = 60.0 / self.requests_per_minute
+            now = time.time()
+            slept = 0.0
+            if self._last_request_at is not None:
+                elapsed = now - self._last_request_at
+                if elapsed < min_interval:
+                    slept = min_interval - elapsed
+                    time.sleep(slept)
             self._last_request_at = time.time()
-            return 0.0
-        min_interval = 60.0 / self.requests_per_minute
-        now = time.time()
-        slept = 0.0
-        if self._last_request_at is not None:
-            elapsed = now - self._last_request_at
-            if elapsed < min_interval:
-                slept = min_interval - elapsed
-                time.sleep(slept)
-        self._last_request_at = time.time()
-        return slept
+            return slept
 
 
 def summarize_run(result_rows: list[dict[str, Any]], k_values: list[int]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -316,6 +321,139 @@ class ExperimentRunner:
         self.llm = llm
         self.config = config
 
+    def _execute_task(
+        self,
+        task: dict[str, Any],
+        rate_limiter: RequestRateLimiter,
+        retry_callback: Any = None,
+    ) -> dict[str, Any]:
+        record: ProblemRecord = task["record"]
+        prompt: str = task["prompt"]
+        k: int = task["k"]
+        request = LLMRequest(
+            prompt=prompt,
+            model=self.config.model,
+            temperature=self.config.temperature,
+            max_tokens=self.config.max_tokens,
+            timeout_s=self.config.request_timeout_s,
+            extra_body={"reasoning": self.config.reasoning} if self.config.reasoning else {},
+            metadata={
+                "question_id": record.question_id,
+                "gold_answer": record.answer,
+                "k": k,
+            },
+        )
+        rate_limit_sleep_s = rate_limiter.wait()
+        started = time.time()
+        response: LLMResponse | None = None
+        error_message = None
+        attempts = 0
+        retry_events: list[dict[str, Any]] = []
+        while True:
+            try:
+                attempts += 1
+                response = self.llm.generate(request)
+                break
+            except Exception as exc:
+                error_message = str(exc)
+                if attempts <= self.config.max_retries:
+                    sleep_s = self.config.retry_backoff_s * attempts
+                    retry_event = {
+                        "attempt": attempts,
+                        "max_retries": self.config.max_retries,
+                        "error_message": error_message,
+                        "sleep_s": sleep_s,
+                    }
+                    retry_events.append(retry_event)
+                    if retry_callback:
+                        retry_callback(attempts, self.config.max_retries, error_message, sleep_s)
+                    time.sleep(sleep_s)
+                    continue
+                if not self.config.continue_on_error:
+                    raise
+                break
+        latency_s = time.time() - started
+        if response is None:
+            prompt_tokens = estimate_tokens(prompt)
+            response = LLMResponse(
+                text="",
+                reasoning_text="",
+                usage=TokenUsage(
+                    prompt_tokens=prompt_tokens,
+                    completion_tokens=0,
+                    reasoning_tokens=None,
+                    visible_output_tokens=0,
+                    total_tokens=prompt_tokens,
+                    estimated=True,
+                    raw_usage={"error": error_message},
+                ),
+                provider=self.llm.name,
+                model=self.config.model,
+                raw_response={"error": error_message},
+            )
+        token_limit = token_limit_flags(
+            response.usage,
+            self.config.max_tokens,
+            self.config.max_token_warning_ratio,
+        )
+        eval_result = self.evaluator.evaluate(response.text, record)
+        row = {
+            "run_id": task["run_id"],
+            "dataset": self.config.dataset,
+            "mode": self.config.mode,
+            "provider": response.provider,
+            "model": response.model,
+            "repeat_idx": task["repeat_idx"],
+            "item_index": task["item_index"],
+            "question_id": record.question_id,
+            "topic": record.metadata.get("topic"),
+            "difficulty": record.metadata.get("difficulty"),
+            "k": k,
+            "question": record.question,
+            "gold_answer": eval_result.gold_answer,
+            "predicted_answer": eval_result.predicted_answer,
+            "predicted_normalized": eval_result.predicted_normalized,
+            "gold_normalized": eval_result.gold_normalized,
+            "is_correct": eval_result.is_correct,
+            "evaluation_method": eval_result.method,
+            "skill_source_id": task["skill_source_id"],
+            "skill_text_hash": stable_hash(task["skill_text"]),
+            "skill_text": task["skill_text"],
+            "retrieval_score": task["retrieval_score"],
+            "prompt_hash": stable_hash(prompt),
+            "prompt_chars": len(prompt),
+            "response_text": response.text,
+            "reasoning_text": response.reasoning_text,
+            "usage": response.usage.to_dict(),
+            "cost": response.usage.cost,
+            "cost_currency": response.usage.cost_currency,
+            "cost_details": response.usage.cost_details,
+            "token_limit": token_limit,
+            "latency_s": latency_s,
+            "rate_limit_sleep_s": rate_limit_sleep_s,
+            "attempts": attempts,
+            "error": error_message,
+        }
+        return {
+            "order_idx": task["order_idx"],
+            "row": row,
+            "retry_events": retry_events,
+            "report": {
+                "is_correct": eval_result.is_correct,
+                "predicted_answer": eval_result.predicted_answer,
+                "total_tokens": response.usage.total_tokens,
+                "reasoning_tokens": response.usage.reasoning_tokens,
+                "visible_output_tokens": response.usage.visible_output_tokens,
+                "reasoning_text": response.reasoning_text,
+                "cost": response.usage.cost,
+                "currency": response.usage.cost_currency,
+                "latency_s": latency_s,
+                "rate_limit_sleep_s": rate_limit_sleep_s,
+                "error_message": error_message,
+                "token_limit": token_limit,
+            },
+        }
+
     def run(self) -> Path:
         records = load_records(self.dataset, skip_answer_leakage=self.config.skip_answer_leakage)
         if not records:
@@ -352,6 +490,8 @@ class ExperimentRunner:
         reporter = TerminalReporter(enabled=self.config.show_progress)
         reporter.start(self.config, run_id, run_dir, len(eval_records), total_calls)
 
+        tasks: list[dict[str, Any]] = []
+        order_idx = 0
         for repeat_idx in range(self.config.repeats):
             for item_index, record in enumerate(eval_records):
                 skill_text = record.skill_text
@@ -372,117 +512,48 @@ class ExperimentRunner:
                     prompt = build_prompt(record.question, skill_text, k)
                     call_index += 1
                     reporter.request_start(call_index, total_calls, record, k, len(prompt))
-                    request = LLMRequest(
-                        prompt=prompt,
-                        model=self.config.model,
-                        temperature=self.config.temperature,
-                        max_tokens=self.config.max_tokens,
-                        timeout_s=self.config.request_timeout_s,
-                        extra_body={"reasoning": self.config.reasoning} if self.config.reasoning else {},
-                        metadata={
-                            "question_id": record.question_id,
-                            "gold_answer": record.answer,
-                            "k": k,
-                        },
-                    )
-                    rate_limit_sleep_s = rate_limiter.wait()
-                    started = time.time()
-                    response: LLMResponse | None = None
-                    error_message = None
-                    attempts = 0
-                    while True:
-                        try:
-                            attempts += 1
-                            response = self.llm.generate(request)
-                            break
-                        except Exception as exc:
-                            error_message = str(exc)
-                            if attempts <= self.config.max_retries:
-                                sleep_s = self.config.retry_backoff_s * attempts
-                                reporter.request_retry(attempts, self.config.max_retries, error_message, sleep_s)
-                                time.sleep(sleep_s)
-                                continue
-                            if not self.config.continue_on_error:
-                                raise
-                            break
-                    latency_s = time.time() - started
-                    if response is None:
-                        prompt_tokens = estimate_tokens(prompt)
-                        response = LLMResponse(
-                            text="",
-                            reasoning_text="",
-                            usage=TokenUsage(
-                                prompt_tokens=prompt_tokens,
-                                completion_tokens=0,
-                                reasoning_tokens=None,
-                                visible_output_tokens=0,
-                                total_tokens=prompt_tokens,
-                                estimated=True,
-                                raw_usage={"error": error_message},
-                            ),
-                            provider=self.llm.name,
-                            model=self.config.model,
-                            raw_response={"error": error_message},
-                        )
-                    token_limit = token_limit_flags(
-                        response.usage,
-                        self.config.max_tokens,
-                        self.config.max_token_warning_ratio,
-                    )
-                    eval_result = self.evaluator.evaluate(response.text, record)
-                    reporter.request_done(
-                        is_correct=eval_result.is_correct,
-                        predicted_answer=eval_result.predicted_answer,
-                        total_tokens=response.usage.total_tokens,
-                        reasoning_tokens=response.usage.reasoning_tokens,
-                        visible_output_tokens=response.usage.visible_output_tokens,
-                        reasoning_text=response.reasoning_text,
-                        cost=response.usage.cost,
-                        currency=response.usage.cost_currency,
-                        latency_s=latency_s,
-                        rate_limit_sleep_s=rate_limit_sleep_s,
-                        error_message=error_message,
-                        token_limit=token_limit,
-                    )
-                    row = {
+                    task = {
+                        "order_idx": order_idx,
                         "run_id": run_id,
-                        "dataset": self.config.dataset,
-                        "mode": self.config.mode,
-                        "provider": response.provider,
-                        "model": response.model,
                         "repeat_idx": repeat_idx,
                         "item_index": item_index,
-                        "question_id": record.question_id,
-                        "topic": record.metadata.get("topic"),
-                        "difficulty": record.metadata.get("difficulty"),
+                        "record": record,
                         "k": k,
-                        "question": record.question,
-                        "gold_answer": eval_result.gold_answer,
-                        "predicted_answer": eval_result.predicted_answer,
-                        "predicted_normalized": eval_result.predicted_normalized,
-                        "gold_normalized": eval_result.gold_normalized,
-                        "is_correct": eval_result.is_correct,
-                        "evaluation_method": eval_result.method,
-                        "skill_source_id": skill_source_id,
-                        "skill_text_hash": stable_hash(skill_text),
                         "skill_text": skill_text,
+                        "skill_source_id": skill_source_id,
                         "retrieval_score": retrieval_score,
-                        "prompt_hash": stable_hash(prompt),
-                        "prompt_chars": len(prompt),
-                        "response_text": response.text,
-                        "reasoning_text": response.reasoning_text,
-                        "usage": response.usage.to_dict(),
-                        "cost": response.usage.cost,
-                        "cost_currency": response.usage.cost_currency,
-                        "cost_details": response.usage.cost_details,
-                        "token_limit": token_limit,
-                        "latency_s": latency_s,
-                        "rate_limit_sleep_s": rate_limit_sleep_s,
-                        "attempts": attempts,
-                        "error": error_message,
+                        "prompt": prompt,
                     }
-                    append_jsonl(results_path, row)
-                    result_rows.append(row)
+                    if self.config.parallel_workers <= 1:
+                        result = self._execute_task(task, rate_limiter, retry_callback=reporter.request_retry)
+                        reporter.request_done(**result["report"])
+                        append_jsonl(results_path, result["row"])
+                        result_rows.append(result["row"])
+                    else:
+                        tasks.append(task)
+                    order_idx += 1
+
+        if self.config.parallel_workers > 1:
+            completed: dict[int, dict[str, Any]] = {}
+            next_to_write = 0
+            with ThreadPoolExecutor(max_workers=self.config.parallel_workers) as executor:
+                futures = [executor.submit(self._execute_task, task, rate_limiter) for task in tasks]
+                for future in as_completed(futures):
+                    result = future.result()
+                    for retry_event in result["retry_events"]:
+                        reporter.request_retry(
+                            retry_event["attempt"],
+                            retry_event["max_retries"],
+                            retry_event["error_message"],
+                            retry_event["sleep_s"],
+                        )
+                    reporter.request_done(**result["report"])
+                    completed[int(result["order_idx"])] = result["row"]
+                    while next_to_write in completed:
+                        row = completed.pop(next_to_write)
+                        append_jsonl(results_path, row)
+                        result_rows.append(row)
+                        next_to_write += 1
 
         per_item, aggregate = summarize_run(result_rows, self.config.k_values)
         for row in per_item:

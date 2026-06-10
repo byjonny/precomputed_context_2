@@ -48,6 +48,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--max-token-warning-ratio", type=float, default=0.95)
     parser.add_argument("--output-root", default="results")
     parser.add_argument("--requests-per-minute", type=float)
+    parser.add_argument("--parallel-workers", type=int, default=1)
     parser.add_argument("--request-timeout-s", type=float, default=120.0)
     parser.add_argument("--max-retries", type=int, default=1)
     parser.add_argument("--retry-backoff-s", type=float, default=5.0)
@@ -81,6 +82,7 @@ RUN_DEFAULTS = {
     "show_progress": True,
     "reasoning": None,
     "requests_per_minute": None,
+    "parallel_workers": 1,
     "request_timeout_s": 120.0,
     "max_retries": 1,
     "retry_backoff_s": 5.0,
@@ -207,6 +209,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         max_token_warning_ratio=args.max_token_warning_ratio,
         output_root=args.output_root,
         requests_per_minute=args.requests_per_minute,
+        parallel_workers=args.parallel_workers,
         skip_answer_leakage=not args.allow_answer_leakage,
         show_progress=args.show_progress,
         reasoning=args.reasoning,

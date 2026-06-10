@@ -113,12 +113,15 @@ temperature
 max_tokens
 max_token_warning_ratio
 requests_per_minute
+parallel_workers
 request_timeout_s
 max_retries
 show_progress
 reasoning
 output_root
 ```
+
+Set `parallel_workers` above `1` to run several requests at the same time. Keep `requests_per_minute` aligned with your provider limit; the rate limiter still spaces request starts across workers.
 
 Secrets stay outside the config in `.env`, for example `OPENROUTER_API_KEY`.
 
