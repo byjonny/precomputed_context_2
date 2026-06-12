@@ -43,6 +43,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--library-size", type=int, default=1000)
     parser.add_argument("--repeats", type=int, default=1)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--shuffle-records", action="store_true", default=False)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-tokens", type=int, default=2048)
     parser.add_argument("--max-token-warning-ratio", type=float, default=0.95)
@@ -74,6 +75,7 @@ RUN_DEFAULTS = {
     "library_size": 1000,
     "repeats": 1,
     "seed": 0,
+    "shuffle_records": False,
     "temperature": 0.0,
     "max_tokens": 2048,
     "max_token_warning_ratio": 0.95,
@@ -204,6 +206,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         library_size=args.library_size,
         repeats=args.repeats,
         seed=args.seed,
+        shuffle_records=args.shuffle_records,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
         max_token_warning_ratio=args.max_token_warning_ratio,

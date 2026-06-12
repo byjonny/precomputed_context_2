@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import random
 import statistics
 import threading
 import time
@@ -37,6 +38,7 @@ class ExperimentConfig:
     temperature: float
     max_tokens: int
     output_root: str
+    shuffle_records: bool = False
     requests_per_minute: float | None = None
     skip_answer_leakage: bool = True
     show_progress: bool = True
@@ -65,6 +67,13 @@ def load_records(dataset: DatasetAdapter, *, skip_answer_leakage: bool) -> list[
     if skip_answer_leakage:
         records = [record for record in records if not answer_leaks_in_skill(record)]
     return records
+
+
+def order_records(records: list[ProblemRecord], *, shuffle_records: bool, seed: int) -> list[ProblemRecord]:
+    ordered = list(records)
+    if shuffle_records:
+        random.Random(seed).shuffle(ordered)
+    return ordered
 
 
 def select_records(records: list[ProblemRecord], sample_size: int | None, offset: int = 0) -> list[ProblemRecord]:
@@ -458,6 +467,7 @@ class ExperimentRunner:
         records = load_records(self.dataset, skip_answer_leakage=self.config.skip_answer_leakage)
         if not records:
             raise ValueError("no records loaded after filtering")
+        records = order_records(records, shuffle_records=self.config.shuffle_records, seed=self.config.seed)
 
         retriever = None
         eval_offset = 0

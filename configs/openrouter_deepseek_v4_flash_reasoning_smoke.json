@@ -4,18 +4,21 @@
   "model": "deepseek/deepseek-v4-flash",
   "mode": "oracle",
   "eval_offset": 3,
-  "sample_size": 20,
-  "k_values": [0,1,2],
+  "sample_size": 300,
+  "seed": 0,
+  "shuffle_records": true,
+  "k_values": [0,1,2,3],
   "temperature": 0,
-  "max_tokens": 4096,
+  "max_tokens": 20000,
   "max_token_warning_ratio": 0.95,
   "reasoning": {
-    "effort": "medium"
+    "effort": "none"
   },
   "request_timeout_s": 120,
   "max_retries": 1,
   "retry_backoff_s": 5,
   "continue_on_error": true,
+  "parallel_workers": 3,
   "requests_per_minute": 10,
   "output_root": "results"
 }

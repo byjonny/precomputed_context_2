@@ -108,6 +108,8 @@ model
 mode
 eval_offset
 sample_size
+seed
+shuffle_records
 k_values
 temperature
 max_tokens
@@ -122,6 +124,8 @@ output_root
 ```
 
 Set `parallel_workers` above `1` to run several requests at the same time. Keep `requests_per_minute` aligned with your provider limit; the rate limiter still spaces request starts across workers.
+
+Set `shuffle_records` to `true` to deterministically shuffle the loaded dataset before `eval_offset` and `sample_size` are applied. The `seed` controls that shuffle, so the same seed gives the same batch and a different seed gives a different batch.
 
 Secrets stay outside the config in `.env`, for example `OPENROUTER_API_KEY`.
 
