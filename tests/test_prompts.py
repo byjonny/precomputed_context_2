@@ -125,6 +125,17 @@ def test_sequence_q_matches_default_direct_prompt() -> None:
     assert sequence_prompt == default_prompt
 
 
+def test_sequence_q_q_does_not_insert_separator_without_sep_token() -> None:
+    prompt = build_prompt(
+        "What is 1+1?",
+        "Add directly.",
+        0,
+        {"mode": "sequence", "sequence": "{q, q}"},
+    )
+    assert prompt.count("What is 1+1?") == 2
+    assert "Let me repeat it:" not in prompt
+
+
 def test_separate_prompt_accepts_question_and_insight_arrays() -> None:
     prompt = build_prompt(
         "What is 1+1?",

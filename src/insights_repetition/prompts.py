@@ -281,6 +281,10 @@ def _canonical_sequence_counts(sequence: list[Any]) -> tuple[int, int] | None:
 
     if question_count <= 0:
         return None
+    if insight_count == 0:
+        return (0, 1) if question_count == 1 else None
+    if question_count != 1:
+        return None
     return insight_count, question_count
 
 
