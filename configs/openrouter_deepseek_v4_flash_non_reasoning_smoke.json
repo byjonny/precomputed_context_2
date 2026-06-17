@@ -4,7 +4,7 @@
   "model": "deepseek/deepseek-v4-flash",
   "mode": "oracle",
   "eval_offset": 3,
-  "sample_size": 1000,
+  "sample_size": 300,
   "seed": 1021,
   "shuffle_records": true,
   "temperature": 0,
@@ -25,5 +25,8 @@
     "0": "{q, q}",
     "1": "{q, i, sep, q, i}",
     "2": "{q, sep, q, i}"
-  }
+  },
+  "prompt_config": {
+    "hint_delimiter": "\n\n--- same hint repeated ---\n\n"
+}
 }

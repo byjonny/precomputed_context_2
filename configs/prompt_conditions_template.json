@@ -11,5 +11,8 @@
     "0": "{q}",
     "1": "{i, q}",
     "2": "{q, q, sep, i, i}"
-  }
+  },
+  "prompt_config": {
+    "hint_delimiter": "\n\n--- same hint repeated ---\n\n"
+}
 }
