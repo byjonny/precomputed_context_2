@@ -40,6 +40,7 @@ class ExperimentConfig:
     output_root: str
     shuffle_records: bool = False
     progress_summary_interval: int | None = 100
+    prompt_config: dict[str, Any] | None = None
     requests_per_minute: float | None = None
     skip_answer_leakage: bool = True
     show_progress: bool = True
@@ -538,7 +539,7 @@ class ExperimentRunner:
 
                 reporter.item(repeat_idx, item_index, len(eval_records), record, skill_source_id)
                 for k in self.config.k_values:
-                    prompt = build_prompt(record.question, skill_text, k)
+                    prompt = build_prompt(record.question, skill_text, k, self.config.prompt_config)
                     call_index += 1
                     reporter.request_start(call_index, total_calls, record, k, len(prompt))
                     task = {

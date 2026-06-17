@@ -49,6 +49,11 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--max-token-warning-ratio", type=float, default=0.95)
     parser.add_argument("--output-root", default="results")
     parser.add_argument("--progress-summary-interval", type=int, default=100)
+    parser.add_argument(
+        "--prompt-config",
+        type=parse_json_object,
+        help='JSON object, e.g. \'{"layout":"separate","problem_repetitions":2}\'.',
+    )
     parser.add_argument("--requests-per-minute", type=float)
     parser.add_argument("--parallel-workers", type=int, default=1)
     parser.add_argument("--request-timeout-s", type=float, default=120.0)
@@ -82,6 +87,7 @@ RUN_DEFAULTS = {
     "max_token_warning_ratio": 0.95,
     "output_root": "results",
     "progress_summary_interval": 100,
+    "prompt_config": None,
     "allow_answer_leakage": False,
     "show_progress": True,
     "reasoning": None,
@@ -122,6 +128,8 @@ def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
     payload = json.loads(config_path.read_text(encoding="utf-8"))
     values = dict(RUN_DEFAULTS)
     values.update(payload)
+    if values.get("prompt_config") is None and values.get("prompt") is not None:
+        values["prompt_config"] = values.get("prompt")
     missing = [key for key in ["dataset", "provider", "model"] if not values.get(key)]
     if missing:
         raise ValueError(f"config missing required fields: {', '.join(missing)}")
@@ -131,6 +139,7 @@ def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
     else:
         values["k_values"] = [int(value) for value in k_values]
     values["reasoning"] = parse_json_object(values.get("reasoning"))
+    values["prompt_config"] = parse_json_object(values.get("prompt_config"))
     return argparse.Namespace(**values)
 
 
@@ -214,6 +223,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         max_token_warning_ratio=args.max_token_warning_ratio,
         output_root=args.output_root,
         progress_summary_interval=args.progress_summary_interval,
+        prompt_config=args.prompt_config,
         requests_per_minute=args.requests_per_minute,
         parallel_workers=args.parallel_workers,
         skip_answer_leakage=not args.allow_answer_leakage,

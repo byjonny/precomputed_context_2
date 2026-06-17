@@ -115,6 +115,7 @@ temperature
 max_tokens
 max_token_warning_ratio
 progress_summary_interval
+prompt_config
 requests_per_minute
 parallel_workers
 request_timeout_s
@@ -129,6 +130,24 @@ Set `parallel_workers` above `1` to run several requests at the same time. Keep 
 Set `shuffle_records` to `true` to deterministically shuffle the loaded dataset before `eval_offset` and `sample_size` are applied. The `seed` controls that shuffle, so the same seed gives the same batch and a different seed gives a different batch.
 
 Set `progress_summary_interval` to print a preliminary evaluation table every N completed result rows. The default is `100`; set it to `0` to disable live summaries.
+
+Set `prompt_config` to change only the prompt composition. By default, `k` repeats the insight and the problem appears once. For problem repetition:
+
+```json
+"prompt_config": {
+  "layout": "separate",
+  "problem_repetitions": 2
+}
+```
+
+For full block repetition, where each repeated block contains insight plus problem:
+
+```json
+"prompt_config": {
+  "layout": "full_block",
+  "problem_repetitions": 2
+}
+```
 
 Secrets stay outside the config in `.env`, for example `OPENROUTER_API_KEY`.
 
