@@ -158,27 +158,13 @@ class TerminalReporter:
             f"{short(error_message, 180)!r}; sleeping {sleep_s:.1f}s"
         )
 
-    def final_summary(
+    def _condition_overview(
         self,
         *,
         config: ExperimentConfig,
-        run_dir: Path,
         aggregate: dict[str, Any],
         result_rows: list[dict[str, Any]],
     ) -> None:
-        if not self.enabled:
-            return
-
-        write_line()
-        write_line("=" * 78)
-        write_line("Result Overview")
-        write_line("=" * 78)
-        write_line(f"output      : {run_dir}")
-        write_line(f"items       : {aggregate.get('n_items')}")
-        write_line(f"total cost  : {fmt_cost(aggregate.get('total_cost'), aggregate.get('cost_currency'))}")
-        write_line(f"elapsed     : {time.time() - self.started_at:.1f}s")
-        write_line()
-
         rows_by_k: dict[int, list[dict[str, Any]]] = {k: [] for k in config.k_values}
         for row in result_rows:
             rows_by_k.setdefault(int(row["k"]), []).append(row)
@@ -224,6 +210,50 @@ class TerminalReporter:
             condition_rows,
         ):
             write_line(line)
+
+    def preliminary_summary(
+        self,
+        *,
+        config: ExperimentConfig,
+        aggregate: dict[str, Any],
+        result_rows: list[dict[str, Any]],
+        completed_calls: int,
+        total_calls: int,
+    ) -> None:
+        if not self.enabled:
+            return
+        write_line()
+        write_line("-" * 78)
+        write_line(
+            f"Prelim Eval ({completed_calls}/{total_calls} calls, "
+            f"elapsed {time.time() - self.started_at:.1f}s)"
+        )
+        write_line("-" * 78)
+        self._condition_overview(config=config, aggregate=aggregate, result_rows=result_rows)
+        write_line("-" * 78)
+
+    def final_summary(
+        self,
+        *,
+        config: ExperimentConfig,
+        run_dir: Path,
+        aggregate: dict[str, Any],
+        result_rows: list[dict[str, Any]],
+    ) -> None:
+        if not self.enabled:
+            return
+
+        write_line()
+        write_line("=" * 78)
+        write_line("Result Overview")
+        write_line("=" * 78)
+        write_line(f"output      : {run_dir}")
+        write_line(f"items       : {aggregate.get('n_items')}")
+        write_line(f"total cost  : {fmt_cost(aggregate.get('total_cost'), aggregate.get('cost_currency'))}")
+        write_line(f"elapsed     : {time.time() - self.started_at:.1f}s")
+        write_line()
+
+        self._condition_overview(config=config, aggregate=aggregate, result_rows=result_rows)
 
         transitions = aggregate.get("transition_counts", {})
         transition_rows = [

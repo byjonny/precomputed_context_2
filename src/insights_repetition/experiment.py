@@ -39,6 +39,7 @@ class ExperimentConfig:
     max_tokens: int
     output_root: str
     shuffle_records: bool = False
+    progress_summary_interval: int | None = 100
     requests_per_minute: float | None = None
     skip_answer_leakage: bool = True
     show_progress: bool = True
@@ -500,6 +501,24 @@ class ExperimentRunner:
         reporter = TerminalReporter(enabled=self.config.show_progress)
         reporter.start(self.config, run_id, run_dir, len(eval_records), total_calls)
 
+        def maybe_report_progress_summary() -> None:
+            interval = self.config.progress_summary_interval
+            completed_calls = len(result_rows)
+            if not interval or interval <= 0 or completed_calls == 0:
+                return
+            if completed_calls >= total_calls:
+                return
+            if completed_calls % interval != 0:
+                return
+            _, partial_aggregate = summarize_run(result_rows, self.config.k_values)
+            reporter.preliminary_summary(
+                config=self.config,
+                aggregate=partial_aggregate,
+                result_rows=result_rows,
+                completed_calls=completed_calls,
+                total_calls=total_calls,
+            )
+
         tasks: list[dict[str, Any]] = []
         order_idx = 0
         for repeat_idx in range(self.config.repeats):
@@ -539,6 +558,7 @@ class ExperimentRunner:
                         reporter.request_done(**result["report"])
                         append_jsonl(results_path, result["row"])
                         result_rows.append(result["row"])
+                        maybe_report_progress_summary()
                     else:
                         tasks.append(task)
                     order_idx += 1
@@ -564,6 +584,7 @@ class ExperimentRunner:
                         append_jsonl(results_path, row)
                         result_rows.append(row)
                         next_to_write += 1
+                        maybe_report_progress_summary()
 
         per_item, aggregate = summarize_run(result_rows, self.config.k_values)
         for row in per_item:

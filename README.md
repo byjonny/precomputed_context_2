@@ -114,6 +114,7 @@ k_values
 temperature
 max_tokens
 max_token_warning_ratio
+progress_summary_interval
 requests_per_minute
 parallel_workers
 request_timeout_s
@@ -126,6 +127,8 @@ output_root
 Set `parallel_workers` above `1` to run several requests at the same time. Keep `requests_per_minute` aligned with your provider limit; the rate limiter still spaces request starts across workers.
 
 Set `shuffle_records` to `true` to deterministically shuffle the loaded dataset before `eval_offset` and `sample_size` are applied. The `seed` controls that shuffle, so the same seed gives the same batch and a different seed gives a different batch.
+
+Set `progress_summary_interval` to print a preliminary evaluation table every N completed result rows. The default is `100`; set it to `0` to disable live summaries.
 
 Secrets stay outside the config in `.env`, for example `OPENROUTER_API_KEY`.
 
