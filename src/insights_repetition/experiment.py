@@ -23,6 +23,7 @@ from insights_repetition.types import LLMRequest, LLMResponse, ProblemRecord, To
 
 @dataclass
 class ExperimentConfig:
+    experiment_name: str | None
     dataset: str
     data_path: str
     evaluator: str
@@ -88,7 +89,11 @@ def select_records(records: list[ProblemRecord], sample_size: int | None, offset
 def make_run_id(config: ExperimentConfig) -> str:
     stamp = time.strftime("%Y%m%d_%H%M%S")
     k_part = "-".join(str(k) for k in config.k_values)
-    return f"{stamp}_{config.dataset}_{config.mode}_{config.provider}_{config.model}_k{k_part}".replace("/", "_")
+    name_part = f"_{config.experiment_name}" if config.experiment_name else ""
+    return f"{stamp}{name_part}_{config.dataset}_{config.mode}_{config.provider}_{config.model}_k{k_part}".replace(
+        "/",
+        "_",
+    )
 
 
 def mean(values: list[int | float | None]) -> float | None:
@@ -410,6 +415,7 @@ class ExperimentRunner:
         eval_result = self.evaluator.evaluate(response.text, record)
         row = {
             "run_id": task["run_id"],
+            "experiment_name": self.config.experiment_name,
             "dataset": self.config.dataset,
             "mode": self.config.mode,
             "provider": response.provider,

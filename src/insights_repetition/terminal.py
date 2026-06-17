@@ -76,6 +76,8 @@ class TerminalReporter:
         write_line("Insights Repetition Run")
         write_line("=" * 78)
         write_line(f"run_id      : {run_id}")
+        if config.experiment_name:
+            write_line(f"experiment  : {config.experiment_name}")
         write_line(f"output      : {run_dir}")
         write_line(f"dataset     : {config.dataset}")
         write_line(f"mode        : {config.mode}")

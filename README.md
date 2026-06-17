@@ -105,6 +105,7 @@ Most experiment settings are steered through the config:
 dataset
 provider
 model
+experiment_name
 mode
 eval_offset
 sample_size
@@ -116,6 +117,7 @@ max_tokens
 max_token_warning_ratio
 progress_summary_interval
 prompt_config
+experiments
 requests_per_minute
 parallel_workers
 request_timeout_s
@@ -131,23 +133,218 @@ Set `shuffle_records` to `true` to deterministically shuffle the loaded dataset 
 
 Set `progress_summary_interval` to print a preliminary evaluation table every N completed result rows. The default is `100`; set it to `0` to disable live summaries.
 
-Set `prompt_config` to change only the prompt composition. By default, `k` repeats the insight and the problem appears once. For problem repetition:
+For prompt-structure experiments, the shortest config is just an `experiments` object. The keys are condition ids, and the values are prompt recipes:
 
 ```json
-"prompt_config": {
-  "layout": "separate",
-  "problem_repetitions": 2
+"experiments": {
+  "0": "{q}",
+  "1": "{i, q}",
+  "2": "{q, q, sep, i, i}"
 }
 ```
 
-For full block repetition, where each repeated block contains insight plus problem:
+This automatically sets:
+
+```json
+"k_values": [0, 1, 2],
+"prompt_config": {
+  "mode": "sequence",
+  "sequence_by_k": {
+    "0": "{q}",
+    "1": "{i, q}",
+    "2": "{q, q, sep, i, i}"
+  }
+}
+```
+
+So you usually do not need to write `k_values` manually for prompt recipe experiments.
+
+Canonical recipes such as `{q}`, `{i, q}`, and `{i, i, q}` are rendered with the same direct/TRS-style templates as the original repetition experiment. In particular, `{i, i, q}` is equivalent to "repeat the insight twice, then show the problem" inside one Solving Hints block.
+
+Older runs before the prompt refactor used the delimiter `--- same hint repeated ---`. To reproduce those hashes exactly, set:
 
 ```json
 "prompt_config": {
-  "layout": "full_block",
-  "problem_repetitions": 2
+  "hint_delimiter": "\n\n--- same hint repeated ---\n\n"
 }
 ```
+
+Set `prompt_config` directly only when you need more control. The default mode is `separate`: question copies and insight copies are repeated separately, with the separator `Let me repeat it:` between copies.
+
+Use arrays when each `k` condition should have its own number of question and insight copies:
+
+```json
+"k_values": [0, 1, 2, 3],
+"prompt_config": {
+  "mode": "separate",
+  "repeat_question": [1, 1, 2, 2],
+  "repeat_insight": [0, 1, 0, 2]
+}
+```
+
+This means:
+
+```text
+k=0 -> q
+k=1 -> i + q
+k=2 -> q + q
+k=3 -> i + i + q + q
+```
+
+Arrays are indexed by the numeric `k`. For sparse or non-contiguous condition ids, use `conditions`:
+
+```json
+"k_values": [0, 1, 5],
+"prompt_config": {
+  "mode": "separate",
+  "conditions": {
+    "0": {"q": 1, "i": 0},
+    "1": {"q": 1, "i": 1},
+    "5": {"q": 2, "i": 2}
+  }
+}
+```
+
+Use `sequence` mode when you want to write the exact prompt recipe yourself. Use `q` for the problem, `i` for the insight, and `sep` for the separator text.
+
+```json
+"prompt_config": {
+  "mode": "sequence",
+  "sequence": "{q, q, sep, i, i}"
+}
+```
+
+This produces:
+
+```text
+[Q] [Q] Let me repeat it: [I] [I]
+```
+
+Use `sequence_by_k` when each `k` condition should have its own exact prompt structure:
+
+```json
+"prompt_config": {
+  "mode": "sequence",
+  "sequence_by_k": {
+    "0": ["q"],
+    "1": ["i", "q"],
+    "2": ["i", "sep", "i", "q"],
+    "3": ["q", "sep", "q"],
+    "4": ["i", "q", "sep", "i", "q"]
+  }
+}
+```
+
+Then set matching `k_values`:
+
+```json
+"k_values": [0, 1, 2, 3, 4]
+```
+
+One config file can also contain several full runs. In that case, `experiments` is a list. Put shared settings at the top, then override only the fields that differ:
+
+```json
+{
+  "dataset": "trs-deepmath",
+  "provider": "openrouter",
+  "model": "deepseek/deepseek-v4-flash",
+  "sample_size": 100,
+  "temperature": 0,
+  "max_tokens": 4096,
+  "output_root": "results",
+  "experiments": [
+    {
+      "experiment_name": "trs_baseline",
+      "k_values": [0, 1],
+      "prompt_config": {
+        "mode": "separate",
+        "repeat_question": [1, 1],
+        "repeat_insight": [0, 1]
+      }
+    },
+    {
+      "experiment_name": "question_and_insight_repetition",
+      "k_values": [0, 1, 2],
+      "prompt_config": {
+        "mode": "sequence",
+        "sequence_by_k": {
+          "0": "{q}",
+          "1": "{i, q}",
+          "2": "{q, q, sep, i, i}"
+        }
+      }
+    }
+  ]
+}
+```
+
+Run it like any other config:
+
+```bash
+./insights-repetition --config prompt_experiments_template
+```
+
+Each entry in `experiments` becomes its own result folder, with the `experiment_name` included in the run id.
+
+The default separator is:
+
+```text
+Let me repeat it:
+```
+
+You can override it:
+
+```json
+"prompt_config": {
+  "mode": "sequence",
+  "separator": "Let me repeat that:",
+  "sequence": ["q", "sep", "q"]
+}
+```
+
+Count-based prompt configs are still supported:
+
+TRS-style baseline/insertion:
+
+```json
+"prompt_config": {
+  "mode": "separate",
+  "repeat_insight": "k",
+  "repeat_question": 1
+}
+```
+
+Problem repetition only:
+
+```json
+"prompt_config": {
+  "mode": "separate",
+  "repeat_insight": 0,
+  "repeat_question": 2
+}
+```
+
+Separate insight and problem repetition:
+
+```json
+"prompt_config": {
+  "mode": "separate",
+  "repeat_insight": "k",
+  "repeat_question": 2
+}
+```
+
+Full block repetition:
+
+```json
+"prompt_config": {
+  "mode": "full_block",
+  "repeat_insight": "k",
+  "repeat_question": 2
+}
+```
+
+Older names are still accepted for compatibility: `layout` means `mode`, `insight_repetitions` means `repeat_insight`, and `problem_repetitions` / `repeat_problem` mean `repeat_question`.
 
 Secrets stay outside the config in `.env`, for example `OPENROUTER_API_KEY`.
 

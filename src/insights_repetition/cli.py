@@ -31,6 +31,7 @@ def parse_json_object(value: str | dict | None) -> dict | None:
 
 
 def add_common_run_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--experiment-name")
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--data-path")
     parser.add_argument("--evaluator", help="Override dataset default evaluator.")
@@ -52,7 +53,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--prompt-config",
         type=parse_json_object,
-        help='JSON object, e.g. \'{"layout":"separate","problem_repetitions":2}\'.',
+        help='JSON object, e.g. \'{"mode":"sequence","sequence":"{q, q, sep, i, i}"}\'.',
     )
     parser.add_argument("--requests-per-minute", type=float)
     parser.add_argument("--parallel-workers", type=int, default=1)
@@ -73,6 +74,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
 
 
 RUN_DEFAULTS = {
+    "experiment_name": None,
     "data_path": None,
     "evaluator": None,
     "mode": "oracle",
@@ -106,6 +108,39 @@ RUN_DEFAULTS = {
     "field_skill_text": "skill_text",
 }
 
+CONFIG_COLLECTION_KEYS = {"experiments", "experiemtents"}
+
+
+def _experiments_value(payload: dict) -> object | None:
+    if "experiments" in payload:
+        return payload["experiments"]
+    return payload.get("experiemtents")
+
+
+def _condition_ids_from_prompt_experiments(experiments: dict) -> list[int]:
+    condition_ids: list[int] = []
+    for key in experiments:
+        try:
+            condition_ids.append(int(key))
+        except ValueError as exc:
+            raise ValueError(f"prompt experiment id must be an integer-like key, got {key!r}") from exc
+    return condition_ids
+
+
+def _payload_from_prompt_experiments(payload: dict, experiments: dict) -> dict:
+    values = {key: value for key, value in payload.items() if key not in CONFIG_COLLECTION_KEYS}
+    prompt_config = values.get("prompt_config")
+    if prompt_config is None:
+        prompt_config = {"mode": "sequence", "sequence_by_k": experiments}
+    else:
+        prompt_config = parse_json_object(prompt_config)
+        prompt_config = dict(prompt_config or {})
+        prompt_config.setdefault("mode", "sequence")
+        prompt_config["sequence_by_k"] = experiments
+    values["prompt_config"] = prompt_config
+    values.setdefault("k_values", _condition_ids_from_prompt_experiments(experiments))
+    return values
+
 
 def resolve_config_path(config: str | Path) -> Path:
     raw = Path(config)
@@ -123,11 +158,17 @@ def resolve_config_path(config: str | Path) -> Path:
     return raw
 
 
-def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
-    config_path = resolve_config_path(config_path)
-    payload = json.loads(config_path.read_text(encoding="utf-8"))
+def namespace_from_payload(payload: dict, *, experiment_index: int | None = None) -> argparse.Namespace:
+    experiments = _experiments_value(payload)
+    if isinstance(experiments, dict):
+        payload = _payload_from_prompt_experiments(payload, experiments)
+
     values = dict(RUN_DEFAULTS)
-    values.update(payload)
+    values.update({key: value for key, value in payload.items() if key not in CONFIG_COLLECTION_KEYS})
+    if values.get("experiment_name") is None and values.get("name") is not None:
+        values["experiment_name"] = values.get("name")
+    if values.get("experiment_name") is None and experiment_index is not None:
+        values["experiment_name"] = f"experiment_{experiment_index + 1}"
     if values.get("prompt_config") is None and values.get("prompt") is not None:
         values["prompt_config"] = values.get("prompt")
     missing = [key for key in ["dataset", "provider", "model"] if not values.get(key)]
@@ -141,6 +182,40 @@ def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
     values["reasoning"] = parse_json_object(values.get("reasoning"))
     values["prompt_config"] = parse_json_object(values.get("prompt_config"))
     return argparse.Namespace(**values)
+
+
+def namespaces_from_config(config_path: str | Path) -> list[argparse.Namespace]:
+    config_path = resolve_config_path(config_path)
+    payload = json.loads(config_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("config must be a JSON object")
+
+    experiments = _experiments_value(payload)
+    if experiments is None:
+        return [namespace_from_payload(payload)]
+    if isinstance(experiments, dict):
+        if not experiments:
+            raise ValueError("experiments must not be empty")
+        return [namespace_from_payload(_payload_from_prompt_experiments(payload, experiments))]
+    if not isinstance(experiments, list) or not experiments:
+        raise ValueError("experiments must be a non-empty list")
+
+    base = {key: value for key, value in payload.items() if key not in CONFIG_COLLECTION_KEYS}
+    namespaces: list[argparse.Namespace] = []
+    for index, experiment in enumerate(experiments):
+        if not isinstance(experiment, dict):
+            raise ValueError(f"experiment {index + 1} must be a JSON object")
+        merged = dict(base)
+        merged.update(experiment)
+        namespaces.append(namespace_from_payload(merged, experiment_index=index))
+    return namespaces
+
+
+def namespace_from_config(config_path: str | Path) -> argparse.Namespace:
+    namespaces = namespaces_from_config(config_path)
+    if len(namespaces) != 1:
+        raise ValueError("config contains multiple experiments; use namespaces_from_config")
+    return namespaces[0]
 
 
 def cmd_list_datasets(_: argparse.Namespace) -> None:
@@ -205,6 +280,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         api_key_env=args.api_key_env,
     )
     config = ExperimentConfig(
+        experiment_name=args.experiment_name,
         dataset=args.dataset,
         data_path=str(Path(args.data_path or dataset.info.default_path)),
         evaluator=evaluator_name,
@@ -240,7 +316,12 @@ def cmd_run(args: argparse.Namespace) -> None:
 
 
 def cmd_run_config(args: argparse.Namespace) -> None:
-    cmd_run(namespace_from_config(args.config))
+    namespaces = namespaces_from_config(args.config)
+    for index, namespace in enumerate(namespaces):
+        if len(namespaces) > 1:
+            name = namespace.experiment_name or f"experiment_{index + 1}"
+            print(f"\nRunning config experiment {index + 1}/{len(namespaces)}: {name}", flush=True)
+        cmd_run(namespace)
 
 
 def build_parser() -> argparse.ArgumentParser:

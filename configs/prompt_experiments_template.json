@@ -1,0 +1,33 @@
+{
+  "dataset": "trs-deepmath",
+  "provider": "mock",
+  "model": "mock",
+  "sample_size": 1,
+  "temperature": 0,
+  "max_tokens": 512,
+  "progress_summary_interval": 0,
+  "output_root": "results",
+  "experiments": [
+    {
+      "experiment_name": "trs_baseline",
+      "k_values": [0, 1],
+      "prompt_config": {
+        "mode": "separate",
+        "repeat_question": [1, 1],
+        "repeat_insight": [0, 1]
+      }
+    },
+    {
+      "experiment_name": "question_and_insight_repetition",
+      "k_values": [0, 1, 2],
+      "prompt_config": {
+        "mode": "sequence",
+        "sequence_by_k": {
+          "0": "{q}",
+          "1": "{i, q}",
+          "2": "{q, q, sep, i, i}"
+        }
+      }
+    }
+  ]
+}
