@@ -11,7 +11,7 @@
   "max_tokens": 20000,
   "max_token_warning_ratio": 0.95,
   "reasoning": {
-    "effort": "none"
+    "enabled": false
   },
   "request_timeout_s": 120,
   "max_retries": 1,
@@ -28,5 +28,5 @@
   },
   "prompt_config": {
     "hint_delimiter": "\n\n--- same hint repeated ---\n\n"
-}
+  }
 }
