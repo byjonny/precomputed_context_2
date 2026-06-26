@@ -1,0 +1,64 @@
+% Preamble: \usepackage{tikz}  \usetikzlibrary{arrows.meta}
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    font=\small,
+    >={Latex[length=2mm]},
+    box/.style={draw=#1!70!black, fill=#1!12, rounded corners=2pt,
+                align=center, inner sep=5pt, minimum height=11mm},
+    card/.style={draw=violet!70!black, fill=violet!10, rounded corners=2pt,
+                 align=center, inner sep=3pt, minimum width=48mm,
+                 minimum height=6.5mm, font=\footnotesize}
+]
+
+% ===== 1. Dataset (left) =====
+\node[box=teal, minimum width=33mm] (data) at (0,0)
+    {\textbf{TRS dataset}\\[1pt] \footnotesize question, answer, skill card};
+
+% ===== 2. Prompt construction container (explicit rectangle) =====
+\draw[draw=black!40, dashed, rounded corners=3pt]
+    (4.4, 2.05) rectangle (10.4, -2.05);
+\node[font=\small\bfseries] at (7.4, 2.35) {Prompt construction};
+
+\node[card, draw=black!45, fill=black!6] (sys) at (7.4, 1.50)
+    {System prompt};
+\node[card] (c1) at (7.4, 0.70) {Useful insight $e_i$};
+\node[card] (c2) at (7.4, -0.05) {Useful insight $e_i$ \;(same card, $k\times$)};
+\node[card, draw=black!45, fill=black!6] (prob) at (7.4, -1.45)
+    {Problem $q_i$};
+
+% ===== 2b. Repetition knob (directly below container) =====
+\node[box=black!30, fill=black!6, minimum width=33mm] (k) at (7.4, -3.5)
+    {\textbf{Repetition count}\\[1pt] \footnotesize $k \in \{0,1,2,3,5\}$};
+
+% ===== 3. Model =====
+\node[box=black!30, fill=black!6, minimum width=31mm] (model) at (13.2, 0)
+    {\textbf{Reasoning model}\\[1pt] \footnotesize fixed decoding, temp.\ 0};
+
+% ===== 4. Metrics (right, stacked) =====
+\node[box=teal, minimum width=41mm] (acc) at (18.2, 1.1)
+    {\textbf{Accuracy} $\operatorname{Acc}(k)$\\[1pt] \footnotesize paired per item across $k$};
+\node[box=teal, minimum width=41mm] (tok) at (18.2, -1.1)
+    {\textbf{Tokens and cost}\\[1pt] \footnotesize input + completion per $k$};
+
+% ===== Arrows =====
+\draw[->] (data.east) -- (4.3, 0);
+\draw[->] (k.north)   -- (7.4, -2.15);
+\draw[->] (10.5, 0)   -- (model.west);
+\draw[->] (model.east) -- ++(5mm,0) |- (acc.west);
+\draw[->] (model.east) -- ++(5mm,0) |- (tok.west);
+
+% ===== Footnote =====
+\node[font=\footnotesize, text=black!60] at (9.1, -4.6)
+    {Only $k$ varies. Question, answer, insight text, model, and decoding stay fixed.};
+
+\end{tikzpicture}}
+\caption{Experimental setup. Each TRS item provides a fixed $(q_i, a_i, e_i)$
+triple. The prompt stacks a system prompt, $k$ identical copies of the skill
+card $e_i$, and the problem. The model runs under frozen decoding settings, and
+each condition is scored on paired accuracy and token/cost accounting. The
+repetition count $k$ is the only quantity that changes across conditions.}
+\label{fig:setup}
+\end{figure*}

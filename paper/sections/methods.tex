@@ -1,5 +1,212 @@
 %% feature/sec-methods
-\section{Methods}
-\label{sec:methods}
+\section{Method}
+\label{sec:method}
 
-% TODO: replace with content
+\subsection{Overview}
+\label{sec:overview}
+
+We isolate a single variable: how many times a fixed, already-useful insight is
+repeated before a problem. Related work leaves the sign of this effect genuinely
+open (\S\ref{subsec:rw-positioning})---repetition helps non-reasoning models but is
+near-null with reasoning enabled, the activation-redistribution mechanism predicts
+help for content-light repetition yet harm for diverse semantic insertions, and raw
+reasoning traces actively degrade accuracy as more are added. We therefore state two
+directional hypotheses and test them under a design in which the repetition count
+$k$ is the only quantity that changes.
+
+\begin{description}
+  \item[\textbf{H1 (Accuracy).}] Repeating the insight more than once
+        ($k>1$) increases task accuracy over the single-insertion baseline
+        ($k{=}1$), as repeated exposure reinforces the already-useful guidance.
+  \item[\textbf{H2 (Cost).}] Repetition decreases total generated tokens, and
+        hence cost, because the reinforced insight displaces some of the model's
+        own re-derivation; the added input tokens are processed in the
+        parallelizable prefill stage rather than in generation
+        \citep{leviathan2025prompt, zhao2026trs}.
+\end{description}
+
+Because the prompt-repetition efficiency claim is that repetition shifts cost to
+prefill rather than generation, and because distilled insights are reported to act
+primarily on generated tokens \citep{zhao2026trs}, we treat token efficiency as a
+first-class axis alongside accuracy rather than a secondary diagnostic. We report
+both jointly: accuracy gains bought at a disproportionate token cost, or token
+savings that sacrifice accuracy, each falsify the combined H1--H2 picture even if one
+metric improves in isolation. The remainder of this section makes the intervention,
+data, models, and accounting precise.
+
+% NOTE: the old \subsection{Research Question} is removed here -- it restated the
+% abstract and the question is already captured by the Overview + H1/H2. The
+% one-sentence framing is folded into the Overview's first paragraph.
+
+\subsection{Task Formulation}
+\label{sec:task-formulation}
+
+Let $\mathcal{D} = \{(q_i, a_i, e_i)\}_{i=1}^{n}$ be a benchmark dataset, where $q_i$ is a mathematical problem, $a_i$ is the gold final answer, and $e_i$ is a precomputed insight associated with the problem. For each target item $i$, we construct a prompt
+\[
+    x_i^{(k)} = \operatorname{Prompt}\bigl(q_i, \underbrace{e_i, \ldots, e_i}_{k}\bigr),
+\]
+where $k \in \mathcal{K} = \{0, 1, 2, 3, 5\}$ is the repetition count. Here $k=0$ is the no-insight baseline, $k=1$ is the standard single-insight setting, and $k>1$ tests whether repeating the same insight adds benefit or causes degradation.
+
+Given a language model $M_\theta$, the model produces $\hat{y}_i^{(k)} = M_\theta(x_i^{(k)})$, and we score correctness against the gold answer,
+\[
+    c_i^{(k)} = \mathbb{1}\bigl[\operatorname{Eval}(\hat{y}_i^{(k)}, a_i) = 1\bigr],
+\]
+yielding the accuracy at repetition count $k$,
+\[
+    \operatorname{Acc}(k) = \frac{1}{n}\sum_{i=1}^{n} c_i^{(k)}.
+\]
+
+
+\subsection{Repetition Intervention and Prompt Variants}
+\label{sec:repetition-intervention}
+\input{visualizations/prompt_design}
+
+The intervention is deliberately minimal: for each problem we take one fixed insight
+text $e_i$ and copy it $k$ times; no new insight is generated when $k$ changes. Any
+difference between conditions is therefore caused by repeated exposure to the same
+text, not by a different insight, a better extraction, or any change in content.
+
+How the insight is repeated may matter as much as how many times, so we evaluate
+three variants that differ in what is held constant across copies
+(Figure~\ref{fig:variants}). Let the prompt consist of a context, the question, and
+the insight.
+
+\begin{enumerate}
+  \item[\textbf{(a)}] \textbf{Insight-only repetition:} context and question appear
+        once, and only the insight block is repeated $k$ times
+        (context, question, $\text{insight} \times k$). This is the tightest test of
+        the repetition effect, isolating re-exposure of the insight from any change
+        to the rest of the prompt.
+  \item[\textbf{(b)}] \textbf{Full-block repetition:} the entire
+        (context, question, insight) block is repeated $k$ times, mirroring the
+        canonical prompt-repetition design of \citet{leviathan2025prompt} but with
+        the insight included in each copy.
+  \item[\textbf{(c)}] \textbf{Full-block repetition, verbose:} as in (b), but each
+        repeated block is introduced with a connecting phrase
+        (e.g., ``Let me repeat that''), following the verbose variant of
+        \citet{leviathan2025prompt}, which sometimes outperformed plain repetition.
+\end{enumerate}
+
+Across all variants we hold the question, gold answer, insight text, prompt template,
+model, and decoding settings fixed, so $k$ and the variant are the only quantities
+that change. We evaluate $k \in \{0,1,2,3,5\}$: $k{=}0$ is the no-insight baseline,
+$k{=}1$ the single insertion, $k{=}2$ matches the strongest setting reported in
+prompt-repetition work, $k{=}3$ tests whether any effect persists beyond that
+optimum, and $k{=}5$ probes over-repetition and prompt-bloat failure modes. The exact
+templates for all variants and baselines are given in
+Appendix~\ref{app:prompt-templates}; variant~(a) is the template shown below.
+
+
+\begin{quote}
+\ttfamily\footnotesize
+You are solving a math problem.\\[2pt]
+Useful insight:\\
+<skill\_text>\\[2pt]
+Useful insight:\\
+<skill\_text>\\
+\ldots\\[2pt]
+Problem:\\
+<question>\\[2pt]
+Return the final answer in boxed form.
+\end{quote}
+
+For $k=0$ the prompt contains only the instruction and the problem; for $k>0$ the
+same \texttt{skill\_text} appears exactly $k$ times.
+
+
+\subsection{Dataset}
+\label{sec:dataset}
+
+We use the released TRS dataset, \texttt{stallone0000/Rea\-soning-Skill} on Hugging
+Face,\footnote{\url{https://huggingface.co/datasets/stallone0000/Reasoning-Skill}}
+linked to the paper \emph{Thinking with Reasoning Skills: Fewer Tokens, More
+Accuracy}.\footnote{\url{https://arxiv.org/abs/2604.21764}} Each row already provides
+exactly the three ingredients our study requires---a target problem, a reference
+answer, and a precomputed skill card:
+\[
+    (q_i, a_i, e_i) = (\texttt{question}, \texttt{answer}, \texttt{skill\_text}).
+\]
+
+Reusing this dataset is the core methodological choice, because it removes the main
+alternative explanation for any result we might observe. Building insights ourselves
+would require a demonstration pool, an embedding index, a retrieval policy, and an
+extraction prompt, and any effect of repetition could then be confounded with
+retrieval or extraction quality. Since the skill cards already exist and are
+independently validated to help at $k=1$, we reuse them exactly as provided and treat
+each card as a fixed intervention unit. The only quantity that changes across
+conditions is the repetition count $k$, rather than the compound of
+\text{retriever} + \text{extractor} + \text{quality} + k.
+
+We focus first on the DeepMath/TRS math slice exposed through the release, evaluating
+on a non-overlapping split where one is available. AIME and GSM8K can be added later
+as robustness checks, but each requires compatible precomputed skill cards, so we
+treat them as secondary.
+
+\subsection{Models and Decoding}
+\label{sec:model-selection}
+
+We evaluate several reasoning-capable models through OpenRouter, selected on three
+criteria: the model is exposed as a reasoning model, the API returns token-usage
+metadata, and where possible it reports reasoning-token usage separately from visible
+output. The families we consider are Qwen thinking variants, DeepSeek reasoning models
+(e.g.\ R1), and Kimi/Moonshot thinking models, with OpenAI-compatible reasoning models
+as additional reference points where their accounting permits. Spanning more than one
+family lets us separate model-specific behavior from effects that generalize.
+
+For every model, decoding settings are held fixed across repetition counts:
+deterministic decoding at temperature $0$, a fixed maximum output length, and a fixed
+reasoning-effort setting (e.g.\ \texttt{medium}). This ensures that differences
+between $k$ values are not driven by sampling variation or a shifting reasoning
+budget.
+
+\subsection{Token and Cost Accounting}
+\label{sec:token-accounting}
+
+For each response we log input tokens $t^{(k)}_{i,\mathrm{in}}$ and total completion
+tokens $t^{(k)}_{i,\mathrm{out}}$, with total tokens
+\[
+    t^{(k)}_{i,\mathrm{total}} = t^{(k)}_{i,\mathrm{in}} + t^{(k)}_{i,\mathrm{out}}.
+\]
+For reasoning models, completion tokens already include any explicit or hidden
+reasoning tokens; when the provider reports them separately we additionally log
+$t^{(k)}_{i,\mathrm{reason}}$ as a breakdown of $t_{\mathrm{out}}$, not as an additive
+term. For example, $t_{\mathrm{out}}=1600$ with $t_{\mathrm{reason}}=1300$ means the
+reasoning tokens are contained within the $1600$, and hence within
+$t_{\mathrm{total}}$.
+
+Because repetition inflates the input while the insight is meant to compress the
+output, total tokens are our primary efficiency axis. We report accuracy together with
+token, and where available cost, efficiency:
+\begin{align*}
+    \operatorname{Eff}_{\mathrm{tok}}(k)  &= \frac{\operatorname{Acc}(k)}{\operatorname{MeanTotalTokens}(k)}, \\[4pt]
+    \operatorname{Eff}_{\mathrm{cost}}(k) &= \frac{\operatorname{Acc}(k)}{\operatorname{MeanCost}(k)}.
+\end{align*}
+
+\subsection{Evaluation Protocol}
+\label{sec:evaluation}
+
+We use deterministic, answer-based evaluation rather than an LLM judge. Each output is
+postprocessed to extract the final answer, preferably from a
+\texttt{\textbackslash boxed\{...\}} expression, and the normalized prediction is
+compared against the normalized gold answer. For every item and repetition count we
+store the question id, the gold and predicted answers (raw and normalized),
+correctness, and the full token and cost breakdown.
+
+The design is fully paired: each problem is evaluated under every repetition count, so
+we can analyze per-item transitions in addition to aggregate accuracy. For two counts
+$k_a$ and $k_b$ we tabulate how many items move between outcomes,
+\[
+    N_{\mathrm{w}\to\mathrm{r}},\ \,
+    N_{\mathrm{r}\to\mathrm{w}},\ \,
+    N_{\mathrm{r}\to\mathrm{r}},\ \,
+    N_{\mathrm{w}\to\mathrm{w}},
+\]
+each as a function of $(k_a, k_b)$. This matters because aggregate accuracy can hide
+whether repetition helps the same problems consistently, trades some correct answers
+for others, or only moves a few borderline cases.
+
+All conditions are run with $3$ independent random seeds (controlling prompt-order
+shuffling and any stochastic decoding). We report mean accuracy and mean token counts
+with standard deviations. Significance between conditions at matched $k$ is assessed
+with a paired McNemar test \citep{mcnemar1947} at $p<0.1$, following
+\citet{leviathan2025prompt}.

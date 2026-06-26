@@ -1,0 +1,114 @@
+% Preamble: \usepackage{tikz}  \usetikzlibrary{arrows.meta}
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    font=\small,
+    >={Latex[length=2mm]},
+    box/.style={draw=#1!70!black, fill=#1!12, rounded corners=2pt,
+                align=center, inner sep=5pt, minimum height=11mm},
+    card/.style={draw=violet!70!black, fill=violet!10, rounded corners=2pt,
+                 align=center, inner sep=2pt, minimum width=40mm,
+                 minimum height=5.5mm, font=\footnotesize},
+    ctx/.style={card, draw=black!45, fill=black!6},
+    verb/.style={draw=orange!70!black, fill=orange!12, rounded corners=2pt,
+                 align=center, inner sep=1pt, minimum width=40mm,
+                 minimum height=4mm, font=\scriptsize\itshape},
+    brace/.style={decorate, decoration={brace, amplitude=4pt}, thick}
+]
+
+% ============================================================
+% Variant (a): insight-only repetition
+% ============================================================
+\begin{scope}[shift={(0,0)}]
+  \draw[draw=violet!55, dashed, rounded corners=3pt]
+      (-2.55, 2.30) rectangle (2.55, -2.55);
+  \node[font=\bfseries] at (0, 2.65)
+      {(a) Insight-only};
+  \node[font=\footnotesize, text=black!60] at (0, 2.05)
+      {context, question, insight$\times k$};
+
+  \node[ctx] (a-sys)  at (0, 1.40) {System prompt};
+  \node[ctx] (a-q)    at (0, 0.75) {Problem $q_i$};
+  \node[card] (a-i1)  at (0, 0.05) {Insight $e_i$};
+  \node[card] (a-i2)  at (0,-0.55) {Insight $e_i$};
+  \node[card] (a-i3)  at (0,-1.40) {Insight $e_i$};
+  \node[font=\footnotesize] at (0,-0.95) {$\vdots$};
+
+  % brace marking the repeated block
+  \draw[brace] (2.05, 0.30) -- (2.05, -1.65)
+      node[midway, right=5pt, font=\scriptsize] {$k\times$};
+\end{scope}
+
+% ============================================================
+% Variant (b): full-block repetition
+% ============================================================
+\begin{scope}[shift={(6.6,0)}]
+  \draw[draw=violet!55, dashed, rounded corners=3pt]
+      (-2.55, 2.30) rectangle (2.55, -2.55);
+  \node[font=\bfseries] at (0, 2.65)
+      {(b) Full-block};
+  \node[font=\footnotesize, text=black!60] at (0, 2.05)
+      {(context, question, insight)$\times k$};
+
+  % block 1
+  \draw[draw=violet!40, rounded corners=2pt] (-2.15, 1.62) rectangle (2.15, 0.18);
+  \node[ctx, minimum width=34mm] (b-q1) at (0, 1.30) {Problem $q_i$};
+  \node[card, minimum width=34mm] (b-i1) at (0, 0.55) {Insight $e_i$};
+  % block 2
+  \draw[draw=violet!40, rounded corners=2pt] (-2.15, -0.05) rectangle (2.15, -1.49);
+  \node[ctx, minimum width=34mm] (b-q2) at (0, -0.37) {Problem $q_i$};
+  \node[card, minimum width=34mm] (b-i2) at (0, -1.12) {Insight $e_i$};
+  % continuation
+  \node[font=\footnotesize] at (0,-1.85) {$\vdots$};
+
+  \draw[brace] (2.30, 1.62) -- (2.30, -1.49)
+      node[midway, right=5pt, font=\scriptsize] {$k\times$};
+\end{scope}
+
+% ============================================================
+% Variant (c): full-block repetition, verbose
+% ============================================================
+\begin{scope}[shift={(13.2,0)}]
+  \draw[draw=violet!55, dashed, rounded corners=3pt]
+      (-2.55, 2.30) rectangle (2.55, -2.55);
+  \node[font=\bfseries] at (0, 2.65)
+      {(c) Full-block, verbose};
+  \node[font=\footnotesize, text=black!60] at (0, 2.05)
+      {(b) $+$ connecting phrase};
+
+  % block 1
+  \draw[draw=violet!40, rounded corners=2pt] (-2.15, 1.62) rectangle (2.15, 0.18);
+  \node[ctx, minimum width=34mm] (c-q1) at (0, 1.30) {Problem $q_i$};
+  \node[card, minimum width=34mm] (c-i1) at (0, 0.55) {Insight $e_i$};
+  % verbose connector
+  \node[verb] (c-v) at (0, -0.18) {``Let me repeat that''};
+  % block 2
+  \draw[draw=violet!40, rounded corners=2pt] (-2.15, -0.52) rectangle (2.15, -1.85);
+  \node[ctx, minimum width=34mm] (c-q2) at (0, -0.84) {Problem $q_i$};
+  \node[card, minimum width=34mm] (c-i2) at (0, -1.53) {Insight $e_i$};
+  \node[font=\footnotesize] at (0,-2.18) {$\vdots$};
+
+  \draw[brace] (2.30, 1.62) -- (2.30, -1.85)
+      node[midway, right=5pt, font=\scriptsize] {$k\times$};
+\end{scope}
+
+% ============================================================
+% Shared footnote
+% ============================================================
+\node[font=\footnotesize, text=black!60] at (6.6, -3.15)
+    {Insight $e_i$ is the same fixed skill card in every copy; only $k$ and the
+     variant change. Evaluated at $k \in \{1,2,3,4,5\}$.};
+
+\end{tikzpicture}}
+\caption{Three repetition variants for the distilled insight. \textbf{(a)}
+Insight-only: the context and question appear once and only the skill card $e_i$
+is repeated $k$ times, isolating re-exposure of the insight. \textbf{(b)}
+Full-block: the entire (context, question, insight) block is repeated $k$ times,
+mirroring the canonical prompt-repetition design but with the insight included.
+\textbf{(c)} Full-block verbose: as in (b), with a connecting phrase introducing
+each repeated block, following the verbose prompt-repetition variant. In all
+variants the insight text, question, gold answer, model, and decoding settings are
+held fixed.}
+\label{fig:variants}
+\end{figure*}

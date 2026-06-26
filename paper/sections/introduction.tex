@@ -1,5 +1,65 @@
 %% feature/sec-introduction
 \section{Introduction}
-\label{sec:introduction}
+Reasoning models are good because they think out loud, and expensive for exactly
+the same reason. A model that solves a hard problem by writing thousands of
+intermediate tokens pays for every one of them in latency and cost, and re-derives
+the same sub-procedures---the same case splits, the same standard substitutions---on
+problem after problem. The obvious fix is to hand the model the result of that
+deliberation up front: a short, distilled insight that says, in effect, ``you have
+seen this shape before, here is the trick.'' Inserted once, such an insight already
+works. It preserves accuracy while cutting generated tokens, and it does so without
+fine-tuning or long demonstrations.
 
-% TODO: replace with content
+But once is a strange place to stop. A distilled insight is short, self-contained,
+and already validated as helpful---which makes it precisely the kind of thing one
+would expect to gain from emphasis. And there is direct precedent for emphasis
+through sheer repetition: simply duplicating a prompt, with no new information added,
+measurably improves non-reasoning models. So a natural lever sits in plain sight. If
+showing the insight once helps, does showing it twice, three times, five times help
+more? Does it keep the model on the rails for longer, or compress its reasoning
+further?
+
+Unfortunately, the literature points in two directions at once, and the conflict is
+the whole reason this is worth testing rather than assuming. Repetition helps
+non-reasoning models---but the same intervention is nearly inert once reasoning is
+switched on, because reasoning traces already restate the prompt on their own. A
+mechanistic account of why content-light repetition helps predicts a benefit for
+uniform, low-attention insertions, yet predicts the opposite---active
+harm---for diverse, structured, semantically heavy insertions. A distilled insight is
+exactly the latter kind of object. And feeding a reasoning model raw reasoning
+content from a similar problem does not merely fail to help; it actively degrades
+accuracy, the more of it you add. Repeating a fixed, meaningful insight could
+therefore behave like a benign reinforcing signal or like an over-constraining
+perturbation that inflates the prompt faster than it compresses the output. The sign
+is genuinely unknown.
+\input{visualizations/motivation_vis}
+
+We isolate this one effect cleanly. Each problem comes with a pre-built, independently
+validated insight---a reasoning skill card already shown to help at a single
+insertion---so the question ``does the insight help'' is settled in advance and held
+fixed. We then repeat that identical card $k$ times before the problem and change
+\emph{nothing else}: same question, same gold answer, same insight text, same prompt
+template, same model, same decoding. Repetition count is the only moving part, so any
+difference we measure cannot be blamed on a better retriever, a sharper extractor, or
+a luckier insight. Against this we run matched baselines that repeat the bare problem,
+repeat a raw reasoning trace, and pad with filler, all at the same copy counts, and we
+score every condition on two axes that matter for deployment: accuracy, and the total
+tokens it costs to get there.
+
+This is a pre-results manuscript: we specify the experiment and the evidence it must
+produce, not the answer. Our contributions are the design itself.
+
+\begin{itemize}
+  \item \textbf{A new question.} We formalize \emph{insight repetition}---repeating a
+        fixed, pre-validated reasoning insight, rather than a raw prompt---as the
+        untested intersection of prompt repetition and distilled-insight transfer.
+  \item \textbf{A confound-free design.} A copy-count-matched protocol that varies only
+        the repetition count $k$, holding the insight and everything else fixed, with
+        matched baselines (bare-problem, raw-trace, and padding repetition) at every
+        $k$.
+  \item \textbf{Efficiency as a first-class axis.} We report total generated tokens,
+        not only visible or hidden reasoning tokens, so the input inflation repetition
+        causes is made explicit and traded off against any accuracy change.
+  \item \textbf{Generality across models.} The protocol spans more than one reasoning
+        model family, separating model-specific quirks from effects that generalize.
+\end{itemize}

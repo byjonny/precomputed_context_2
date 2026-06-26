@@ -1,0 +1,66 @@
+% Preamble: \usepackage{tikz}  \usetikzlibrary{arrows.meta}
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    font=\small,
+    >={Latex[length=2mm]},
+    box/.style={draw=#1!70!black, fill=#1!12, rounded corners=2pt,
+                align=center, inner sep=5pt, minimum height=11mm},
+    card/.style={draw=violet!70!black, fill=violet!10, rounded corners=2pt,
+                 align=center, inner sep=2pt, minimum width=30mm,
+                 minimum height=5mm, font=\footnotesize},
+    out/.style={draw=#1!70!black, fill=#1!10, rounded corners=2pt,
+                align=center, inner sep=4pt, minimum width=40mm,
+                minimum height=13mm, font=\footnotesize}
+]
+
+% ===== Left: the established single-insertion fact =====
+\node[font=\small\bfseries] at (0, 2.55) {Established ($k{=}1$)};
+\draw[draw=black!40, dashed, rounded corners=3pt] (-2.4, 2.15) rectangle (2.4, -1.55);
+\node[card, draw=black!45, fill=black!6] (q1)  at (0, 1.55) {Problem $q_i$};
+\node[card] (i1) at (0, 0.80) {Insight $e_i$};
+\node[font=\footnotesize, text=teal!60!black] at (0, -0.05) {$\Downarrow$ one copy helps};
+\node[out=teal, minimum width=34mm] (base) at (0, -0.95)
+    {accuracy preserved,\\ fewer generated tokens};
+
+% ===== Center: the intervention and the open question =====
+\node[font=\small\bfseries] at (6.7, 2.55) {This paper ($k>1$)};
+\draw[draw=violet!55, dashed, rounded corners=3pt] (4.3, 2.15) rectangle (9.1, -1.55);
+\node[card, draw=black!45, fill=black!6] (q2) at (6.7, 1.55) {Problem $q_i$};
+\node[card] (ia) at (6.7, 0.85) {Insight $e_i$};
+\node[card] (ib) at (6.7, 0.25) {Insight $e_i$};
+\node[font=\footnotesize] at (6.7, -0.30) {$\vdots$ \;\; (same card, $k\times$)};
+\node[font=\footnotesize, text=violet!60!black] at (6.7, -1.05)
+    {repeat the \emph{identical} insight};
+
+\node[font=\Large\bfseries, text=black!70] at (11.0, 0.30) {?};
+
+% ===== Right: the three competing outcomes =====
+\node[out=teal,   minimum width=46mm] (o1) at (15.6, 1.55)
+    {\textbf{Help.} repetition reinforces\\ the hint: higher accuracy or\\ fewer tokens};
+\node[out=gray, fill=black!6, minimum width=46mm] (o2) at (15.6, -0.05)
+    {\textbf{Saturate.} extra copies add\\ nothing beyond the first};
+\node[out=orange,  minimum width=46mm] (o3) at (15.6, -1.65)
+    {\textbf{Hurt.} over-constrains and\\ inflates the prompt faster\\ than it compresses output};
+
+% ===== Arrows =====
+\draw[->] (2.45, -0.95) .. controls (3.4, -0.95) and (3.4, 0.30) .. (4.25, 0.30);
+\draw[->] (9.15, 0.30) -- (10.6, 0.30);
+\draw[->] (11.45, 0.30) -- (12.4, 1.55) -- (o1.west);
+\draw[->] (11.45, 0.30) -- (12.4, -0.05) -- (o2.west);
+\draw[->] (11.45, 0.30) -- (12.4, -1.65) -- (o3.west);
+
+% ===== Footnote =====
+\node[font=\footnotesize, text=black!60] at (7.8, -2.6)
+    {Only the repetition count $k$ changes; the insight, question, model, and decoding are held fixed.};
+\end{tikzpicture}}
+\caption{The question this paper isolates. A distilled reasoning insight inserted
+\emph{once} ($k{=}1$, left) already preserves accuracy while cutting generated
+tokens. We repeat the \emph{same} insight $k$ times before the problem (center),
+changing nothing else, and ask which of three outcomes follows (right): repetition
+helps, saturates, or hurts. \textbf{Takeaway:} the literature predicts all three for
+this cell, so the sign is genuinely open---which is exactly why it is worth a
+controlled test.}
+\label{fig:teaser}
+\end{figure*}

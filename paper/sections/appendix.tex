@@ -1,0 +1,76 @@
+%% feature/sec-appendix -- placed after \startappendix in main.tex
+\section{Prompt Templates}
+\label{app:prompt-templates}
+
+\subsection{Direct Prompt}
+
+\begin{quote}
+\textbf{User:} Solve the following problem. Give the final answer in the required format.\\
+\texttt{\{target\_problem\}}
+\end{quote}
+
+\subsection{Prompt Repetition}
+
+\begin{quote}
+\textbf{User:} The following problem is repeated $k$ times. Solve it once at the end and give the final answer in the required format.\\
+\texttt{[Problem copy 1]}\\
+\texttt{\{target\_problem\}}\\
+\texttt{[Problem copy 2]}\\
+\texttt{\{target\_problem\}}\\
+\texttt{...}\\
+\texttt{[Problem copy k]}\\
+\texttt{\{target\_problem\}}
+\end{quote}
+
+\subsection{Summary Repetition}
+
+\begin{quote}
+\textbf{User:} The following reusable reasoning insight may help with the next problem. Use it only if it is relevant.\\
+\texttt{[Insight copy 1]}\\
+\texttt{\{summary\}}\\
+\texttt{[Insight copy 2]}\\
+\texttt{\{summary\}}\\
+\texttt{...}\\
+\texttt{[Insight copy k]}\\
+\texttt{\{summary\}}\\
+\textbf{Problem:}\\
+\texttt{\{target\_problem\}}\\
+Give the final answer in the required format.
+\end{quote}
+
+\subsection{Raw Reasoning Transfer}
+
+\begin{quote}
+\textbf{User:} The following solved example may help with the next problem. Use it only if it is relevant.\\
+\texttt{[Solved example copy 1]}\\
+\texttt{\{exemplar\_problem\}}\\
+\texttt{\{raw\_reasoning\_trace\}}\\
+\texttt{\{exemplar\_answer\}}\\
+\texttt{...}\\
+\texttt{[Solved example copy k]}\\
+\texttt{\{exemplar\_problem\}}\\
+\texttt{\{raw\_reasoning\_trace\}}\\
+\texttt{\{exemplar\_answer\}}\\
+\textbf{Problem:}\\
+\texttt{\{target\_problem\}}\\
+Give the final answer in the required format.
+\end{quote}
+
+\subsection{Insight Extraction Prompt}
+
+\begin{quote}
+\textbf{System:} You extract reusable reasoning insights from solved examples.\\
+\textbf{User:} Read the solved example below. Write one short abstract insight that would help solve similar problems. Do not copy names, numbers, intermediate calculations, or the final answer. Focus on the general strategy, cues, pitfalls, and final-answer format. Keep the insight under \texttt{\{token\_budget\}} tokens.\\
+\texttt{\{exemplar\_problem\}}\\
+\texttt{\{raw\_reasoning\_trace\}}\\
+\texttt{\{exemplar\_answer\}}
+\end{quote}
+
+
+\section{Additional Details}
+
+\subsection{Extended Results}
+% TODO: Include complete tables for standard deviations across the different seeds used[cite: 20].
+
+\subsection{Implementation Details}
+% TODO: Link to the GitHub repository and specify scripts utilized (e.g., structured_transfer_eval.py)[cite: 97, 98].

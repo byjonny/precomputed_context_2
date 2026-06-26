@@ -8,11 +8,22 @@ from experiment data — never copy-pasted.
 ```
 paper/
   main.tex            # preamble + \input skeleton (edit rarely)
-  refs.bib            # references
-  sections/*.tex      # one file per section — edit these
+  references.bib      # bibliography (\bibliography{references})
+  sections/*.tex      # one file per section — edit these (incl. appendix.tex)
+  visualizations/*.tex# TikZ figures \input by sections
   figures/            # generated PDFs, committed (results/ is git-ignored)
+  logos/              # title-block logos
   Makefile
 ```
+
+## Required drop-in files
+The draft depends on files that live in the Overleaf working copy, not yet in
+git. The repo currently ships **placeholders** for these — overwrite them:
+- `rgstyle.sty` — TUM seminar style (required; nothing compiles without it).
+- `references.bib` — real BibTeX entries (placeholder lists the needed keys).
+- `visualizations/motivation_vis.tex`, `visualizations/prompt_design.tex` —
+  real TikZ figures (`prompt_design.tex` must keep `\label{fig:variants}`).
+- `logos/2015_Logo_TUM_sw_RGB.pdf` — TUM logo for the title block.
 
 ## Build
 One-time TeX install (Debian/Ubuntu):

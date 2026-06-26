@@ -1,34 +1,69 @@
 % =====================================================================
-%  Seminar paper — SKELETON ONLY.
-%  Replace preamble/title with your current version; keep the \input
-%  structure so co-authors edit one sections/*.tex each on feature
-%  branches and never collide in main.tex.
+%  Think Twice: Does Repeating Reasoning Insights Increase
+%  Chain-of-Thought Efficiency?  --  TUM LLM Seminar 2026
+%
+%  Modular layout: this file owns the preamble + skeleton only.
+%  Prose lives in sections/*.tex so co-authors edit one file each on
+%  separate feature branches (feature/sec-<name>) without colliding.
+%
+%  Required support files (drop in from your working copy):
+%    rgstyle.sty
+%    references.bib
+%    logos/2015_Logo_TUM_sw_RGB.pdf
+%    visualizations/motivation_vis.tex
+%    visualizations/prompt_design.tex
 % =====================================================================
-\documentclass[11pt,a4paper]{article}
+\documentclass[9pt]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[margin=2.5cm]{geometry}
-\usepackage{graphicx}
+\usepackage{rgstyle}
+
+% Additional packages for content
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb}
-\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, decorations.pathreplacing}
 
-% generated figures live here (see Makefile `make figures`)
-\graphicspath{{figures/}}
+%\title{Déjà vu - Wait I have thought of that already}
+\title{Think Twice: Does Repeating Reasoning Insights Increase Chain-of-Thought Efficiency?}
+\setshorttitle{Repeating Reasoning Insights}
 
-\title{TITLE}
-\author{AUTHORS}
-\date{\today}
+\setauthors{
+Fabian Karl\quad Kerui Ren \quad Jonas Walcher \quad Johannes Terhorst
+}
+
+\setaffiliations{
+Technical University of Munich, School of Computation, Information \& Technology}
+
+\date{}
 
 \begin{document}
-\maketitle
 
-\begin{abstract}
+\setrightlogo{logos/2015_Logo_TUM_sw_RGB.pdf}
+\makelogos
+\thispagestyle{empty}
+
+\makepapertitle
+
+% --------------------------------------------------
+% Abstract
+% --------------------------------------------------
+\begin{rgabstractbox}
 \input{sections/abstract}
-\end{abstract}
 
-% one \input per section. Branch convention: feature/sec-<name>
+\rgkeywords{machine learning, reasoning, context scaling, chain-of-thought}
+
+\rgproject{"https://github.com/byjonny/precomputed\_context\_2"}
+\end{rgabstractbox}
+
+\vspace{1.2em}
+
+% --------------------------------------------------
+% Main text -- one \input per section.
+% Branch convention: feature/sec-introduction, feature/sec-results, ...
+% --------------------------------------------------
+\begin{multicols}{2}
+
 \input{sections/introduction}
 \input{sections/related_work}
 \input{sections/methods}
@@ -37,7 +72,18 @@
 \input{sections/discussion}
 \input{sections/conclusion}
 
-\bibliographystyle{plain}
-\bibliography{refs}
+% --------------------------------------------------
+% Bibliography
+% --------------------------------------------------
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{multicols}
+
+% --------------------------------------------------
+% Appendix
+% --------------------------------------------------
+\startappendix
+\input{sections/appendix}
 
 \end{document}

@@ -1,5 +1,136 @@
 %% feature/sec-results
-\section{Results}
-\label{sec:results}
+\section{Main Results}
+\label{sec:main-results}
 
-% TODO: replace with content
+% TODO: populate after experiments are complete.
+% Key comparisons to report:
+%   SR_k vs. D       → net effect of injected summary repetition
+%   SR_k vs. PR_k    → semantic value of summary over mechanical repetition
+%   SR_k vs. RT_k    → value of distillation (abstract vs. raw trace)
+%   SR_k(k=1) vs. SR_k(k>1) → pure stacking effect within summary condition
+%   Qwen-Think vs. Qwen-NoThink → reasoning vs. non-reasoning mode difference
+
+\begin{table*}[t]
+  \caption{%
+    Accuracy (\%) and total generated token count
+  }
+  \label{tab:main-results}
+  \vskip 0.15in
+  \begin{center}
+  \begin{small}
+  \begin{tabular}{lcccccc}
+    \toprule
+    & \multicolumn{3}{c}{\textit{\textsc{Qwen-Think} (reasoning on)}}
+    & \multicolumn{3}{c}{\textit{\textsc{Kimi-Think} (reasoning on)}} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+    Condition ($k$)
+      & Acc.\ (\%) & $T_\mathrm{think}$ & $T_\mathrm{total}$
+      & Acc.\ (\%) & $T_\mathrm{think}$ & $T_\mathrm{total}$ \\
+    \midrule
+    \multicolumn{7}{c}{\textit{TRS Reasoning-Skill (math)}} \\
+    Direct (D)            & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{SR}_1$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{SR}_2$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{SR}_3$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{SR}_4$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{SR}_5$       & --   & --  & --  & --   & {[--]} & --  \\
+    \midrule
+    $\mathrm{PR}_1$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{PR}_3$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{PR}_5$       & --   & --  & --  & --   & {[--]} & --  \\
+    \midrule
+    $\mathrm{RT}_1$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{RT}_3$       & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{RT}_5$       & --   & --  & --  & --   & {[--]} & --  \\
+    \midrule
+    $\mathrm{Fill}_1$     & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{Fill}_3$     & --   & --  & --  & --   & {[--]} & --  \\
+    $\mathrm{Fill}_5$     & --   & --  & --  & --   & {[--]} & --  \\
+    \bottomrule
+  \end{tabular}
+  \end{small}
+  \end{center}
+  \vskip -0.1in
+\end{table*}
+
+\subsection{Aggregate Accuracy}
+
+Table~\ref{tab:accuracy-by-k} reports accuracy as a function of repetition count. The key comparison is between $k=1$ and $k>1$, because $k=1$ is the standard single-insight setting and $k>1$ tests repeated insight exposure.
+
+\begin{table*}[t]
+    \centering
+    \begin{tabular}{lrrrrr}
+        \hline
+        Model & $k=0$ & $k=1$ & $k=2$ & $k=3$ & $k=5$ \\
+        \hline
+        Qwen model A & -- & -- & -- & -- & -- \\
+        Qwen model B & -- & -- & -- & -- & -- \\
+        DeepSeek model & -- & -- & -- & -- & -- \\
+        Kimi model & -- & -- & -- & -- & -- \\
+        \hline
+    \end{tabular}
+    \caption{Accuracy by repetition count. Dashes indicate values to be filled after running the full experiment.}
+    \label{tab:accuracy-by-k}
+\end{table*}
+
+\subsection{Token Efficiency}
+
+Table~\ref{tab:token-efficiency} reports mean token usage. Reasoning tokens are included in total tokens, but are also shown separately when reported by the provider.
+
+\begin{table*}[t]
+    \centering
+    \begin{tabular}{llrrrr}
+        \hline
+        Model & $k$ & Mean input & Mean output & Mean reasoning & Mean total \\
+        \hline
+        Qwen model A & 0 & -- & -- & -- & -- \\
+        Qwen model A & 1 & -- & -- & -- & -- \\
+        Qwen model A & 2 & -- & -- & -- & -- \\
+        Qwen model A & 3 & -- & -- & -- & -- \\
+        Qwen model A & 5 & -- & -- & -- & -- \\
+        \hline
+    \end{tabular}
+    \caption{Mean token usage by model and repetition count. Mean reasoning tokens are a subset of mean output tokens when reported by the provider.}
+    \label{tab:token-efficiency}
+\end{table*}
+
+\subsection{Per-Item Transitions}
+
+Table~\ref{tab:item-transitions} summarizes how individual problems change when moving from one insight copy to repeated insight copies. This table is designed to show whether repetition produces real per-item improvements or merely redistributes errors.
+
+\begin{table*}[t]
+    \centering
+    \begin{tabular}{llrrrr}
+        \hline
+        Model & Comparison & Wrong$\rightarrow$Right & Right$\rightarrow$Wrong & Right$\rightarrow$Right & Wrong$\rightarrow$Wrong \\
+        \hline
+        Qwen model A & $k=1 \rightarrow k=2$ & -- & -- & -- & -- \\
+        Qwen model A & $k=1 \rightarrow k=3$ & -- & -- & -- & -- \\
+        Qwen model A & $k=1 \rightarrow k=5$ & -- & -- & -- & -- \\
+        \hline
+    \end{tabular}
+    \caption{Per-item correctness transitions relative to the single-insight baseline.}
+    \label{tab:item-transitions}
+\end{table*}
+
+\subsection{Expected Interpretation}
+
+The experiment can produce three qualitatively different outcomes:
+
+\begin{enumerate}
+    \item \textbf{Positive repetition effect:} accuracy increases from $k=1$ to $k>1$ without a disproportionate increase in total or reasoning tokens.
+    \item \textbf{Saturation:} $k=1$ improves over $k=0$, but additional repetitions provide little or no further gain.
+    \item \textbf{Degradation:} repeated insights reduce accuracy or increase reasoning tokens/cost without improving correctness.
+\end{enumerate}
+
+The most scientifically interesting case is not only whether aggregate accuracy changes, but whether the same individual items become easier or harder under repetition. Therefore, the final analysis should combine aggregate accuracy, token efficiency, and per-item transition counts.
+
+
+
+\subsection{Qualitative Results}
+\label{subsec:qualitative}
+
+% TODO: include 2–3 representative examples after experiments are complete.
+% Each example should show side-by-side outputs for:
+%   Direct (D) | SR_1 | SR_3 | SR_5
+% highlighting changes in reasoning verbosity and error patterns.

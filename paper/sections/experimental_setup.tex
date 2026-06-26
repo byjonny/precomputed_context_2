@@ -1,5 +1,23 @@
 %% feature/sec-experimental_setup
-\section{Experimental Setup}
-\label{sec:experimental_setup}
+\section{Experiments}
+\label{sec:experiments}
 
-% TODO: replace with content
+\subsection{Setup}
+\label{sec:exp-setup}
+
+The main experiment varies $k \in \{0,1,2,3,5\}$ for each model $M_\theta$, holding
+everything else fixed: the same dataset slice, target questions, gold answers,
+per-problem insight text, prompt template, model, decoding settings, and
+reasoning-effort setting. Each of the three prompt variants
+(\S\ref{sec:repetition-intervention}) is run across the full $k$ schedule. We report
+four families of measurement, defined once here and used throughout:
+\emph{accuracy} (exact match of the final boxed answer; for any auxiliary benchmarks
+we follow each one's standard protocol \citep{suzgun2022bbh, tafjord2021proofwriter});
+\emph{thinking tokens} $T_{\mathrm{think}}$ (tokens inside the \texttt{<think>} block,
+where the model exposes them), a drop in which signals that the injected context
+displaced deliberation; \emph{total generated tokens} $T_{\mathrm{total}}$ (thinking
+plus answer tokens), our primary efficiency metric because it captures full inference
+cost including hidden reasoning \citep{leviathan2025prompt}; and the
+\emph{accuracy--efficiency trade-off}, accuracy against $T_{\mathrm{total}}$ across
+$k$, which reveals whether any configuration improves accuracy and reduces tokens at
+once.

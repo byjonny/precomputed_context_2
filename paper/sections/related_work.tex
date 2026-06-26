@@ -1,5 +1,189 @@
 %% feature/sec-related_work
 \section{Related Work}
-\label{sec:related_work}
 
-% TODO: replace with content
+Chain-of-thought prompting \citep{wei2022chain}, self-consistency
+\citep{wang2022self}, and tree-structured search \citep{yao2023tree} all improve
+reasoning by spending more test-time computation, but the additional reasoning
+inflates generated tokens. Our study sits at the intersection of two literatures
+that target this cost differently and have not yet been combined: a deliberately
+mechanical prompting intervention---\emph{prompt repetition}---that improves
+non-reasoning models, and \emph{distilled-insight transfer}, which shows that
+abstracted reasoning artifacts guide reasoning models where raw traces fail. We
+first review prompt repetition, the work most directly analogous to ours, and its
+concrete prompt designs (\S\ref{subsec:rw-repetition}). We then take a short detour
+through activation-level evidence that offers a candidate mechanism for why
+re-exposing content can help at all (\S\ref{subsec:rw-meaningless}). Next we trace
+the finding that \emph{raw} reasoning traces harm reasoning models while
+\emph{distilled} insights help (\S\ref{subsec:rw-distilled}), and describe the TRS
+skill cards we reuse to isolate repetition from insight construction
+(\S\ref{subsec:rw-skills}). We close by positioning our controlled,
+copy-count-matched design against all of these (\S\ref{subsec:rw-positioning}).
+
+% --------------------------------------------------
+\subsection{Prompt Repetition and Context Scaling}
+\label{subsec:rw-repetition}
+
+The work most directly analogous to ours is prompt repetition
+\citep{leviathan2025prompt}, which studies a minimal intervention: the user query
+is duplicated, turning an input of the form \texttt{<QUERY>} into
+\texttt{<QUERY><QUERY>}, with no new information added.
+
+The authors motivate the design architecturally rather than empirically. Most LLMs
+are trained as \emph{causal} language models, so a token can attend only to tokens
+that precede it; the position of information within a query therefore affects
+prediction. They illustrate this with multiple-choice prompts, where presenting the
+answer options before the question (\emph{options-first}) forces the model to encode
+the options without yet having seen the question and behaves differently from
+\emph{question-first} ordering---a manifestation of the broader sensitivity of
+models to context position \citep{liu2023lost}. Duplicating the full query lets
+every token in the first copy be attended to from the second, approximating the
+bidirectional access a single-pass causal prompt lacks. As secondary motivation,
+they note that RL-trained reasoning models often spontaneously restate parts of the
+user request. The attention account is offered as a \emph{motivation} rather than a
+verified mechanism, and the paper provides no deeper analysis of \emph{why}
+re-exposure helps---a gap we revisit in \S\ref{subsec:rw-meaningless}.
+
+A central selling point is cost: because the repeated copy lives in the prompt, it
+is processed during the parallelizable prefill stage and does \emph{not} increase
+generated tokens or latency in most settings, leaving output format unchanged for
+drop-in deployment. Empirically, with reasoning disabled, repetition produced
+statistically significant wins on $47$ of $70$ model--benchmark pairs under a
+McNemar test at $p<0.1$ \citep{mcnemar1947}, with zero losses, and the effect
+tracked the proposed mechanism (options-first gained more than question-first;
+retrieval-style tasks improved dramatically). Two variants are studied beyond
+vanilla doubling: a \emph{verbose} form with a connective phrase between copies, and
+a \emph{three-copy} ($\times 3$) form, which is comparable to or stronger than
+doubling and notably better on the hardest retrieval tasks. Crucially, a
+\emph{padding} control that lengthens the input with filler periods to match the
+repeated length yields no improvement, isolating re-exposure of the \emph{same
+content} as the active ingredient rather than raw input length.
+
+When the same models are asked to reason step by step, the benefit of repetition
+largely disappears ($5$ wins, $1$ loss, $22$ ties), which the authors attribute to
+reasoning traces already restating the prompt. This near-null result in the
+reasoning regime is the precise gap our study targets: it is unknown whether
+re-exposing \emph{semantic guidance}, rather than the raw problem, recovers a
+benefit for reasoning models. Adjacent work probes related interventions---repeating
+only the question yields no gains \citep{shaier2024asking}, repeating the input
+improves text embeddings \citep{springer2024repetition}, and re-reading the question
+improves reasoning \citep{xu2024reread}---together suggesting that \emph{what} is
+repeated matters more than repetition per se.
+
+% --------------------------------------------------
+\subsection{Why Might Repetition Help? Activation-Level Evidence}
+\label{subsec:rw-meaningless}
+
+Prompt repetition leaves the mechanism implicit, but a separate line of work on
+\emph{meaningless tokens} supplies a concrete, activation-level account of how
+content-light insertions can change reasoning. \citet{shi2025meaningless} report
+that inserting a long sequence of meaningless tokens (e.g., repeated slashes)
+between the system prompt and the question consistently improves reasoning
+performance, particularly on mathematics. Their analysis shows the inserted tokens
+induce an approximately affine transformation of the attention outputs of the
+meaningful tokens, which propagates through the MLP and \emph{redistributes
+activations}: the fraction of near-zero activations falls while large-magnitude
+activations and overall variance rise. They hypothesize that reasoning-critical
+tokens (digits, operators, conjunctions) carry a disproportionate share of near-zero
+activations, so redistribution strengthens exactly the representations reasoning
+depends on, and they show the effect coincides with greater output diversity.
+
+Two of their controls bear directly on our question. First, repeating an
+\emph{irrelevant but meaningful} token many times (e.g., the word ``he'' inserted
+dozens of times) reproduces the same activation redistribution and the same
+performance gain, indicating that the benefit does not require the insertion to be
+semantically informative---repetition of near-identical, low-attention content is
+sufficient. Second, inserting a \emph{random sentence} does \emph{not} help: its
+attention weights and value vectors are diverse, producing a structured directional
+shift in the attention output that RMSNorm cannot absorb, perturbing rather than
+gently biasing the representation. Position and length also matter: only insertion
+between the system prompt and the question helps, and over-long insertions degrade
+performance once their accumulated effect alters the semantic structure.
+
+This literature is a double-edged motivation, which is precisely why we treat our
+outcome as open. On one hand, it reconciles with the padding control of
+\citet{leviathan2025prompt}: uniform, low-attention repetition shifts activations
+beneficially, whereas filler periods evidently do not reach the regime that
+helps---so ``repetition helps'' and ``padding does not'' are not contradictory once
+the mechanism is specified. On the other hand, a distilled insight is neither
+content-free filler nor a near-identical repeated token: it is \emph{structured,
+relevant semantic content}, closer in form to the ``random sentence'' that
+\emph{hurt} than to the uniform tokens that helped. The activation-redistribution
+mechanism therefore does not cleanly predict the repeated-insight case. Whether
+repeating a \emph{single fixed, already-useful} insight behaves like a benign
+reinforcing signal or like an over-constraining semantic perturbation is exactly the
+empirical question we isolate.
+
+% --------------------------------------------------
+\subsection{From Raw Traces to Distilled Insights}
+\label{subsec:rw-distilled}
+
+If repetition can help, a natural first attempt is to repeat raw reasoning content
+from a solved exemplar. Two findings---and our own preliminary experiments---show
+this is the wrong object. \citet{wang2025harm} demonstrate that few-shot
+chain-of-thought \emph{demonstrations harm} reasoning models, with degradation
+worsening as more exemplars are added, even when the demonstrations are high-quality
+and closely matched to the target. They attribute this to two mechanisms:
+\emph{semantic misleading}, where high lexical overlap leads the model to treat the
+target as identical to the exemplar and copy steps verbatim, and \emph{strategy
+transfer failure}, where the model cannot extract and re-apply the underlying
+solution structure. Their remedy, Insight-to-Solve (I2S), converts a demonstration
+into an abstract, reusable insight and decouples solving from the demonstration
+content, recovering gains where raw traces failed. The lesson we adopt is that the
+transferable object should be the \emph{distilled insight}, not the trace.
+
+Work on metacognitive reuse points the same way while emphasizing efficiency.
+\citet{didolkar2025metacognitive} convert recurring reasoning fragments into concise,
+named ``behaviors'' (a name plus a short instruction) via the model's own reflection
+over prior traces, store them in a procedural ``behavior handbook,'' and supply them
+in-context at inference. Behavior-conditioned inference cuts reasoning tokens by up
+to $46\%$ while matching or improving accuracy, reinforcing that a compact,
+abstracted procedural hint---not a verbose demonstration---is what reduces generated
+reasoning. Consistent with both papers, our own preliminary attempts to prepend and
+repeat the raw thinking tokens of a similar model degraded accuracy directly, which
+is what led us to repeat a \emph{distilled} insight instead. Both I2S and the
+behavior framework, however, insert their distilled object \emph{once} and vary
+other axes---refinement iterations, or the number of \emph{distinct} insights---
+rather than the number of repeated copies of one fixed insight.
+
+% --------------------------------------------------
+\subsection{Reusable Reasoning Skills and the TRS Dataset}
+\label{subsec:rw-skills}
+
+The specific distilled object we repeat is a TRS skill card \citep{zhao2026trs}. TRS
+distills long deliberation trajectories (including trial-and-error) into compact,
+structured skill cards---organized as Trigger / Do / Avoid / Check / Risk---stored
+in a key--value library and retrieved at inference to steer the model toward a direct
+solution path. On mathematical and coding benchmarks, injecting a single retrieved
+card reduces thinking tokens while preserving or improving accuracy, with benefits
+growing on harder problems; a controlled representation analysis shows the gain comes
+from structured skill reuse rather than from merely prepending relevant-looking
+context. For our purposes the decisive property is that each card is \emph{pre-built
+and independently validated to help at a single insertion}: reusing the released
+dataset lets us hold ``the insight helps'' fixed and vary only repetition, rather
+than confounding the result with our own retriever, extractor, and insight quality.
+A different dataset could serve the same role, but TRS is the one release that
+already pairs a target question, a gold answer, and a validated skill card, so we
+adopt it here. Several related methods share the intuition that reasoning can be
+transferred, compressed, or retrieved---Retrieval-of-Thought retrieves useful
+thoughts for new problems \citep{ahmed2026retrieval}, ThoughtMani manipulates the
+reasoning process with compact interventions \citep{liu2025thoughtmani}, and CoThink
+coordinates models to curb overthinking \citep{fan2025cothink}---but none asks
+whether repeating one fixed insight changes reasoning efficiency.
+
+\subsection{The Untested Intersection}
+\label{subsec:rw-positioning}
+
+Reading these literatures together exposes a precise, untested intersection. Prompt
+repetition shows that re-exposing fixed content changes behavior in
+\emph{non}-reasoning models but is near-null with reasoning enabled
+\citep{leviathan2025prompt}. The meaningless-token mechanism shows that
+\emph{content-light} repetition can help reasoning models via activation
+redistribution, while \emph{diverse semantic} insertions can hurt
+\citep{shi2025meaningless}. The distilled-insight literature shows that a
+\emph{single} abstracted insight helps reasoning models where raw traces harm
+\citep{wang2025harm, didolkar2025metacognitive, zhao2026trs}. What no one has tested
+is the cell these results jointly leave open: repeating a \emph{fixed,
+pre-validated, semantically meaningful} insight before a problem for a
+\emph{reasoning} model. The mechanism predictions conflict for this cell, and the
+single-insertion guarantee is exactly what lets us hold ``the insight helps'' fixed
+and vary only the copy count---which is what the following method makes precise.
