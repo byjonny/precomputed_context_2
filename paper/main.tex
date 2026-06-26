@@ -1,0 +1,43 @@
+% =====================================================================
+%  Seminar paper — SKELETON ONLY.
+%  Replace preamble/title with your current version; keep the \input
+%  structure so co-authors edit one sections/*.tex each on feature
+%  branches and never collide in main.tex.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+% generated figures live here (see Makefile `make figures`)
+\graphicspath{{figures/}}
+
+\title{TITLE}
+\author{AUTHORS}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+% one \input per section. Branch convention: feature/sec-<name>
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methods}
+\input{sections/experimental_setup}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

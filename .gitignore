@@ -5,3 +5,15 @@ __pycache__/
 .env
 results/
 work/
+
+# LaTeX build artifacts (keep paper/figures/*.pdf and the PDF tracked)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
+paper/*.toc
+paper/sections/*.aux
