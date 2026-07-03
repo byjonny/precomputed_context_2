@@ -1,0 +1,41 @@
+{
+  "experiment_name": "leviathan_problem_rep",
+  "dataset": "trs-deepmath",
+  "data_path": "data/trs/corpora/deepmath_103k_oss_skill_corpus.jsonl.gz",
+  "evaluator": "exact",
+  "provider": "ollama",
+  "model": "Llama3.1:8B",
+  "mode": "oracle",
+  "k_values": [
+    1,
+    2
+  ],
+  "sample_size": 1000,
+  "eval_offset": 2000,
+  "library_size": 1000,
+  "repeats": 1,
+  "seed": 0,
+  "temperature": 0,
+  "max_tokens": 2048,
+  "output_root": "results",
+  "shuffle_records": true,
+  "progress_summary_interval": 100,
+  "prompt_config": {
+    "mode": "sequence",
+    "sequence_by_k": {
+      "1": "{q}",
+      "2": "{q, sep, q}"
+    },
+    "sequence_template": "You are a helpful and harmless assistant.\nLet's think step by step.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\n{parts}\n"
+  },
+  "requests_per_minute": null,
+  "skip_answer_leakage": true,
+  "show_progress": true,
+  "reasoning": null,
+  "request_timeout_s": 600,
+  "max_retries": 2,
+  "retry_backoff_s": 5,
+  "continue_on_error": true,
+  "max_token_warning_ratio": 0.95,
+  "parallel_workers": 6
+}

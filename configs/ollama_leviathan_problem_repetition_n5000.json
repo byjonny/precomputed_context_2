@@ -1,0 +1,29 @@
+{
+  "dataset": "trs-deepmath",
+  "provider": "ollama",
+  "model": "qwen2.5:7b",
+  "ollama_url": "http://172.19.64.1:11434",
+  "mode": "oracle",
+  "sample_size": 5000,
+  "eval_offset": 2000,
+  "shuffle_records": true,
+  "seed": 0,
+  "temperature": 0,
+  "max_tokens": 2048,
+  "max_token_warning_ratio": 0.95,
+  "requests_per_minute": null,
+  "parallel_workers": 6,
+  "request_timeout_s": 600,
+  "max_retries": 2,
+  "retry_backoff_s": 5,
+  "continue_on_error": true,
+  "show_progress": true,
+  "output_root": "results",
+  "prompt_config": {
+    "sequence_template": "You are a helpful and harmless assistant.\nLet's think step by step.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\n{parts}\n"
+  },
+  "experiments": {
+    "1": "{q}",
+    "2": "{q, sep, q}"
+  }
+}
