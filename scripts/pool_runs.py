@@ -36,8 +36,10 @@ def main(argv: list[str]) -> int:
         rows.extend(run_rows)
         print(f"loaded {len(run_rows):>6} rows / {len(ids):>5} items  <- {d.name}")
     if overlaps:
-        print(f"\n!! WARNING: {overlaps} item-ids appear in more than one run; "
-              f"pooling assumes DISJOINT items. Results may double-count.")
+        print(f"\nNote: {overlaps} item-ids appear in more than one run. That is EXPECTED "
+              f"for round-robin passes over the same items (each pass = one replicate); "
+              f"accuracy-by-k pools all samples and the paired test keys on run_id. "
+              f"Only a concern if you meant these runs to cover DISJOINT item sets.")
 
     # accuracy by k
     by_k: dict[int, list[dict]] = {}
@@ -53,10 +55,12 @@ def main(argv: list[str]) -> int:
         print(f"k={k}: n={len(rs):>6}  acc={acc:.4f} ({acc*100:.2f}%)  "
               f"mean_in={mean_in:.1f}  mean_out={mean_out:.1f}")
 
-    # paired k=1 vs k=2 per item (question_id, repeat_idx)
+    # paired k=1 vs k=2 per replicate (run_id, question_id, repeat_idx).
+    # Including run_id keeps round-robin passes over the same items (each a
+    # separate run dir at repeat_idx=0) as distinct pairs instead of colliding.
     pair: dict[tuple, dict[int, bool]] = {}
     for r in rows:
-        key = (r["question_id"], r["repeat_idx"])
+        key = (r.get("run_id"), r["question_id"], r["repeat_idx"])
         pair.setdefault(key, {})[int(r["k"])] = bool(r["is_correct"])
 
     both = [(v[1], v[2]) for v in pair.values() if 1 in v and 2 in v]

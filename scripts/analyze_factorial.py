@@ -27,14 +27,18 @@ LABELS = {1: "insight-first x1  {i,q}",
 
 
 def load(run_dirs):
-    # by_item[(qid,repeat)][k] = bool correct
+    # by_item[(run_id,qid,repeat)][k] = bool correct
+    # run_id is part of the key so multiple passes over the SAME items (round-robin
+    # reruns, each a separate timestamped run dir at repeat_idx=0) stay distinct
+    # replicates instead of overwriting one another.
     by_item: dict[tuple, dict[int, bool]] = {}
     for d in run_dirs:
         for line in (Path(d) / "results.jsonl").open():
             if not line.strip():
                 continue
             r = json.loads(line)
-            by_item.setdefault((r["question_id"], r["repeat_idx"]), {})[int(r["k"])] = bool(r["is_correct"])
+            key = (r.get("run_id"), r["question_id"], r["repeat_idx"])
+            by_item.setdefault(key, {})[int(r["k"])] = bool(r["is_correct"])
     return by_item
 
 
