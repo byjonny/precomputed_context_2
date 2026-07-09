@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 .env
 work/
+
+# Archived (superseded) configs and experiment runs — kept locally, not shared
+configs/archive/
+results/archive/

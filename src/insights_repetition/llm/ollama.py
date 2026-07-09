@@ -25,6 +25,12 @@ class OllamaBridge(LLMBridge):
                 "num_predict": request.max_tokens,
             },
         }
+        # Map the config's reasoning flag to Ollama's `think` toggle so reasoning-
+        # capable models (qwen3.x, deepseek-r1, gemma) can be forced non-reasoning.
+        # {"reasoning": {"enabled": false}} -> think:false (no chain-of-thought).
+        reasoning = (request.extra_body or {}).get("reasoning")
+        if isinstance(reasoning, dict) and "enabled" in reasoning:
+            payload["think"] = bool(reasoning["enabled"])
         body = json.dumps(payload).encode("utf-8")
         http_request = urllib.request.Request(
             f"{self.base_url}/api/generate",

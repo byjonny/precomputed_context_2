@@ -11,7 +11,7 @@
 #   scripts/run_suite.sh [PASSES] [config ...]
 #   scripts/run_suite.sh                      # 5 passes over the local suite
 #   scripts/run_suite.sh 3                    # 3 passes over the local suite
-#   scripts/run_suite.sh 5 configs/big_experiment/big_exp_qwen.json   # custom set
+#   scripts/run_suite.sh 3 configs/think_twice_exp_final/api.json   # custom set
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -23,10 +23,7 @@ if [[ "$PASSES" =~ ^[0-9]+$ ]]; then shift || true; else PASSES=5; fi
 CONFIGS=("$@")
 if [[ ${#CONFIGS[@]} -eq 0 ]]; then
   CONFIGS=(
-    configs/big_experiment/big_exp_qwen.json
-    configs/big_experiment/big_exp_llama.json
-    configs/big_experiment/big_exp_gemma.json
-    configs/big_experiment/big_exp_mistral.json
+    configs/think_twice_exp_final/local.json
   )
 fi
 
