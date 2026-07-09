@@ -1,0 +1,82 @@
+{
+  "conditions": {
+    "0": {
+      "n": 1,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 121.0,
+      "mean_completion_tokens": 6.0,
+      "mean_reasoning_tokens": 0.0,
+      "mean_visible_output_tokens": 6.0,
+      "mean_total_tokens": 127.0,
+      "total_prompt_tokens": 121.0,
+      "total_completion_tokens": 6.0,
+      "total_reasoning_tokens": 0.0,
+      "total_visible_output_tokens": 6.0,
+      "total_tokens": 127.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "1": {
+      "n": 1,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 521.0,
+      "mean_completion_tokens": 6.0,
+      "mean_reasoning_tokens": 0.0,
+      "mean_visible_output_tokens": 6.0,
+      "mean_total_tokens": 527.0,
+      "total_prompt_tokens": 521.0,
+      "total_completion_tokens": 6.0,
+      "total_reasoning_tokens": 0.0,
+      "total_visible_output_tokens": 6.0,
+      "total_tokens": 527.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "2": {
+      "n": 1,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 964.0,
+      "mean_completion_tokens": 6.0,
+      "mean_reasoning_tokens": 0.0,
+      "mean_visible_output_tokens": 6.0,
+      "mean_total_tokens": 970.0,
+      "total_prompt_tokens": 964.0,
+      "total_completion_tokens": 6.0,
+      "total_reasoning_tokens": 0.0,
+      "total_visible_output_tokens": 6.0,
+      "total_tokens": 970.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    }
+  },
+  "repetition_deltas": {
+    "1_to_2": {
+      "accuracy_delta": 0.0,
+      "mean_completion_tokens_delta": 0.0,
+      "mean_total_tokens_delta": 443.0,
+      "mean_cost_delta": null
+    }
+  },
+  "transition_counts": {
+    "improved_by_repetition": 0,
+    "hurt_by_repetition": 0,
+    "stable_correct": 1,
+    "stable_wrong": 0,
+    "mixed": 0
+  },
+  "total_cost": 0.0,
+  "cost_currency": null,
+  "n_items": 1
+}

@@ -1,0 +1,32 @@
+{
+  "conditions": {
+    "1": {
+      "n": 1,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 439.0,
+      "mean_completion_tokens": 401.0,
+      "mean_reasoning_tokens": 315.0,
+      "mean_visible_output_tokens": 34.0,
+      "mean_total_tokens": 840.0,
+      "total_prompt_tokens": 439.0,
+      "total_completion_tokens": 401.0,
+      "total_reasoning_tokens": 315.0,
+      "total_visible_output_tokens": 34.0,
+      "total_tokens": 840.0,
+      "mean_cost": 0.0001241,
+      "total_cost": 0.0001241,
+      "cost_currency": "USD"
+    }
+  },
+  "repetition_deltas": {},
+  "transition_counts": {
+    "improved_by_repetition": 0,
+    "hurt_by_repetition": 0,
+    "stable_correct": 1,
+    "stable_wrong": 0,
+    "mixed": 0
+  },
+  "total_cost": 0.0001241,
+  "cost_currency": "USD",
+  "n_items": 1
+}

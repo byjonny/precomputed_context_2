@@ -1,0 +1,82 @@
+{
+  "conditions": {
+    "0": {
+      "n": 300,
+      "accuracy": 0.65,
+      "mean_prompt_tokens": 105.02666666666667,
+      "mean_completion_tokens": 699.2933333333333,
+      "mean_reasoning_tokens": 93.42333333333333,
+      "mean_visible_output_tokens": 389.0833333333333,
+      "mean_total_tokens": 804.32,
+      "total_prompt_tokens": 31508.0,
+      "total_completion_tokens": 209788.0,
+      "total_reasoning_tokens": 28027.0,
+      "total_visible_output_tokens": 116725.0,
+      "total_tokens": 241296.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": 0.00018680427866666667,
+      "total_cost": 0.0560412836,
+      "cost_currency": "USD"
+    },
+    "1": {
+      "n": 300,
+      "accuracy": 0.74,
+      "mean_prompt_tokens": 498.69,
+      "mean_completion_tokens": 782.29,
+      "mean_reasoning_tokens": 424.02666666666664,
+      "mean_visible_output_tokens": 221.7,
+      "mean_total_tokens": 1280.98,
+      "total_prompt_tokens": 149607.0,
+      "total_completion_tokens": 234687.0,
+      "total_reasoning_tokens": 127208.0,
+      "total_visible_output_tokens": 66510.0,
+      "total_tokens": 384294.0,
+      "max_token_hits": 2,
+      "near_max_token_hits": 3,
+      "reasoning_limit_hits": 3,
+      "mean_cost": 0.000262045474,
+      "total_cost": 0.0786136422,
+      "cost_currency": "USD"
+    },
+    "2": {
+      "n": 300,
+      "accuracy": 0.7566666666666667,
+      "mean_prompt_tokens": 853.5333333333333,
+      "mean_completion_tokens": 500.85333333333335,
+      "mean_reasoning_tokens": 107.30333333333333,
+      "mean_visible_output_tokens": 240.71,
+      "mean_total_tokens": 1354.3866666666668,
+      "total_prompt_tokens": 256060.0,
+      "total_completion_tokens": 150256.0,
+      "total_reasoning_tokens": 32191.0,
+      "total_visible_output_tokens": 72213.0,
+      "total_tokens": 406316.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": 0.00024156288466666665,
+      "total_cost": 0.0724688654,
+      "cost_currency": "USD"
+    }
+  },
+  "repetition_deltas": {
+    "1_to_2": {
+      "accuracy_delta": 0.01666666666666672,
+      "mean_completion_tokens_delta": -281.4366666666666,
+      "mean_total_tokens_delta": 73.40666666666675,
+      "mean_cost_delta": -2.0482589333333326e-05
+    }
+  },
+  "transition_counts": {
+    "improved_by_repetition": 18,
+    "hurt_by_repetition": 13,
+    "stable_correct": 176,
+    "stable_wrong": 54,
+    "mixed": 39
+  },
+  "total_cost": 0.2071237912,
+  "cost_currency": "USD",
+  "n_items": 300
+}

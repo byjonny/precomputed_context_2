@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;fill:#111827}.muted{fill:#6b7280}.title{font-size:24px;font-weight:700}.small{font-size:12px}.axis{stroke:#d1d5db;stroke-width:1}.grid{stroke:#e5e7eb;stroke-width:1}.legend{font-size:13px}</style>
+<text x="40" y="42" class="title">Reasoning-token distribution by repetition count</text>
+<text x="40" y="67" class="muted small">Left: absolute reasoning-token bins. Right: paired per-item delta; negative means the later k used fewer reasoning tokens.</text>
+<line x1="60" x2="580" y1="540.0" y2="540.0" class="grid"/>
+<text x="50" y="544.0" text-anchor="end" class="small muted">0</text>
+<line x1="60" x2="580" y1="465.0" y2="465.0" class="grid"/>
+<text x="50" y="469.0" text-anchor="end" class="small muted">5</text>
+<line x1="60" x2="580" y1="390.0" y2="390.0" class="grid"/>
+<text x="50" y="394.0" text-anchor="end" class="small muted">10</text>
+<line x1="60" x2="580" y1="315.0" y2="315.0" class="grid"/>
+<text x="50" y="319.0" text-anchor="end" class="small muted">15</text>
+<line x1="60" x2="580" y1="240.0" y2="240.0" class="grid"/>
+<text x="50" y="244.0" text-anchor="end" class="small muted">20</text>
+<line x1="60" x2="580" y1="165.0" y2="165.0" class="grid"/>
+<text x="50" y="169.0" text-anchor="end" class="small muted">25</text>
+<line x1="60" x2="60" y1="120" y2="540" class="axis"/>
+<line x1="60" x2="580" y1="540" y2="540" class="axis"/>
+<rect x="68.1" y="360.0" width="13.3" height="180.0" fill="#3b82f6"><title>k=0, 0-499: 12</title></rect>
+<rect x="84.4" y="285.0" width="13.3" height="255.0" fill="#10b981"><title>k=1, 0-499: 17</title></rect>
+<rect x="100.6" y="255.0" width="13.3" height="285.0" fill="#f97316"><title>k=2, 0-499: 19</title></rect>
+<text x="92.5" y="558" text-anchor="end" transform="rotate(-35 92.5 558)" class="small muted">0-499</text>
+<rect x="133.1" y="225.0" width="13.3" height="315.0" fill="#3b82f6"><title>k=0, 500-999: 21</title></rect>
+<rect x="149.4" y="150.0" width="13.3" height="390.0" fill="#10b981"><title>k=1, 500-999: 26</title></rect>
+<rect x="165.6" y="255.0" width="13.3" height="285.0" fill="#f97316"><title>k=2, 500-999: 19</title></rect>
+<text x="157.5" y="558" text-anchor="end" transform="rotate(-35 157.5 558)" class="small muted">500-999</text>
+<rect x="198.1" y="120.0" width="13.3" height="420.0" fill="#3b82f6"><title>k=0, 1k-2k: 28</title></rect>
+<rect x="214.4" y="180.0" width="13.3" height="360.0" fill="#10b981"><title>k=1, 1k-2k: 24</title></rect>
+<rect x="230.6" y="120.0" width="13.3" height="420.0" fill="#f97316"><title>k=2, 1k-2k: 28</title></rect>
+<text x="222.5" y="558" text-anchor="end" transform="rotate(-35 222.5 558)" class="small muted">1k-2k</text>
+<rect x="263.1" y="240.0" width="13.3" height="300.0" fill="#3b82f6"><title>k=0, 2k-4k: 20</title></rect>
+<rect x="279.4" y="285.0" width="13.3" height="255.0" fill="#10b981"><title>k=1, 2k-4k: 17</title></rect>
+<rect x="295.6" y="195.0" width="13.3" height="345.0" fill="#f97316"><title>k=2, 2k-4k: 23</title></rect>
+<text x="287.5" y="558" text-anchor="end" transform="rotate(-35 287.5 558)" class="small muted">2k-4k</text>
+<rect x="328.1" y="285.0" width="13.3" height="255.0" fill="#3b82f6"><title>k=0, 4k-8k: 17</title></rect>
+<rect x="344.4" y="360.0" width="13.3" height="180.0" fill="#10b981"><title>k=1, 4k-8k: 12</title></rect>
+<rect x="360.6" y="450.0" width="13.3" height="90.0" fill="#f97316"><title>k=2, 4k-8k: 6</title></rect>
+<text x="352.5" y="558" text-anchor="end" transform="rotate(-35 352.5 558)" class="small muted">4k-8k</text>
+<rect x="393.1" y="540.0" width="13.3" height="0.0" fill="#3b82f6"><title>k=0, 8k-16k: 0</title></rect>
+<rect x="409.4" y="495.0" width="13.3" height="45.0" fill="#10b981"><title>k=1, 8k-16k: 3</title></rect>
+<rect x="425.6" y="495.0" width="13.3" height="45.0" fill="#f97316"><title>k=2, 8k-16k: 3</title></rect>
+<text x="417.5" y="558" text-anchor="end" transform="rotate(-35 417.5 558)" class="small muted">8k-16k</text>
+<rect x="458.1" y="540.0" width="13.3" height="0.0" fill="#3b82f6"><title>k=0, 16k-32k: 0</title></rect>
+<rect x="474.4" y="525.0" width="13.3" height="15.0" fill="#10b981"><title>k=1, 16k-32k: 1</title></rect>
+<rect x="490.6" y="510.0" width="13.3" height="30.0" fill="#f97316"><title>k=2, 16k-32k: 2</title></rect>
+<text x="482.5" y="558" text-anchor="end" transform="rotate(-35 482.5 558)" class="small muted">16k-32k</text>
+<rect x="523.1" y="510.0" width="13.3" height="30.0" fill="#3b82f6"><title>k=0, >=32k: 2</title></rect>
+<rect x="539.4" y="540.0" width="13.3" height="0.0" fill="#10b981"><title>k=1, >=32k: 0</title></rect>
+<rect x="555.6" y="540.0" width="13.3" height="0.0" fill="#f97316"><title>k=2, >=32k: 0</title></rect>
+<text x="547.5" y="558" text-anchor="end" transform="rotate(-35 547.5 558)" class="small muted">&gt;=32k</text>
+<text x="320.0" y="100" text-anchor="middle" font-size="17" font-weight="700">Distribution of reasoning tokens</text>
+<rect x="60" y="625" width="14" height="14" fill="#3b82f6"/>
+<text x="80" y="637" class="legend">k=0</text>
+<rect x="155" y="625" width="14" height="14" fill="#10b981"/>
+<text x="175" y="637" class="legend">k=1</text>
+<rect x="250" y="625" width="14" height="14" fill="#f97316"/>
+<text x="270" y="637" class="legend">k=2</text>
+<line x1="700" x2="1220" y1="540.0" y2="540.0" class="grid"/>
+<text x="690" y="544.0" text-anchor="end" class="small muted">0</text>
+<line x1="700" x2="1220" y1="493.3" y2="493.3" class="grid"/>
+<text x="690" y="497.3" text-anchor="end" class="small muted">5</text>
+<line x1="700" x2="1220" y1="446.7" y2="446.7" class="grid"/>
+<text x="690" y="450.7" text-anchor="end" class="small muted">10</text>
+<line x1="700" x2="1220" y1="400.0" y2="400.0" class="grid"/>
+<text x="690" y="404.0" text-anchor="end" class="small muted">15</text>
+<line x1="700" x2="1220" y1="353.3" y2="353.3" class="grid"/>
+<text x="690" y="357.3" text-anchor="end" class="small muted">20</text>
+<line x1="700" x2="1220" y1="306.7" y2="306.7" class="grid"/>
+<text x="690" y="310.7" text-anchor="end" class="small muted">25</text>
+<line x1="700" x2="1220" y1="260.0" y2="260.0" class="grid"/>
+<text x="690" y="264.0" text-anchor="end" class="small muted">30</text>
+<line x1="700" x2="1220" y1="213.3" y2="213.3" class="grid"/>
+<text x="690" y="217.3" text-anchor="end" class="small muted">35</text>
+<line x1="700" x2="1220" y1="166.7" y2="166.7" class="grid"/>
+<text x="690" y="170.7" text-anchor="end" class="small muted">40</text>
+<line x1="700" x2="1220" y1="120.0" y2="120.0" class="grid"/>
+<text x="690" y="124.0" text-anchor="end" class="small muted">45</text>
+<line x1="700" x2="700" y1="120" y2="540" class="axis"/>
+<line x1="700" x2="1220" y1="540" y2="540" class="axis"/>
+<rect x="707.9" y="530.7" width="13.0" height="9.3" fill="#10b981"><title>k1-k0, <-30k: 1</title></rect>
+<rect x="722.4" y="540.0" width="13.0" height="0.0" fill="#f97316"><title>k2-k1, <-30k: 0</title></rect>
+<text x="721.7" y="558" text-anchor="end" transform="rotate(-35 721.7 558)" class="small muted">&lt;-30k</text>
+<rect x="751.3" y="530.7" width="13.0" height="9.3" fill="#10b981"><title>k1-k0, -30k--10k: 1</title></rect>
+<rect x="765.7" y="530.7" width="13.0" height="9.3" fill="#f97316"><title>k2-k1, -30k--10k: 1</title></rect>
+<text x="765.0" y="558" text-anchor="end" transform="rotate(-35 765.0 558)" class="small muted">-30k--10k</text>
+<rect x="794.6" y="540.0" width="13.0" height="0.0" fill="#10b981"><title>k1-k0, -10k--5k: 0</title></rect>
+<rect x="809.1" y="512.0" width="13.0" height="28.0" fill="#f97316"><title>k2-k1, -10k--5k: 3</title></rect>
+<text x="808.3" y="558" text-anchor="end" transform="rotate(-35 808.3 558)" class="small muted">-10k--5k</text>
+<rect x="837.9" y="493.3" width="13.0" height="46.7" fill="#10b981"><title>k1-k0, -5k--2k: 5</title></rect>
+<rect x="852.4" y="502.7" width="13.0" height="37.3" fill="#f97316"><title>k2-k1, -5k--2k: 4</title></rect>
+<text x="851.7" y="558" text-anchor="end" transform="rotate(-35 851.7 558)" class="small muted">-5k--2k</text>
+<rect x="881.3" y="418.7" width="13.0" height="121.3" fill="#10b981"><title>k1-k0, -2k--1k: 13</title></rect>
+<rect x="895.7" y="474.7" width="13.0" height="65.3" fill="#f97316"><title>k2-k1, -2k--1k: 7</title></rect>
+<text x="895.0" y="558" text-anchor="end" transform="rotate(-35 895.0 558)" class="small muted">-2k--1k</text>
+<rect x="924.6" y="120.0" width="13.0" height="420.0" fill="#10b981"><title>k1-k0, -1k-0: 45</title></rect>
+<rect x="939.1" y="222.7" width="13.0" height="317.3" fill="#f97316"><title>k2-k1, -1k-0: 34</title></rect>
+<text x="938.3" y="558" text-anchor="end" transform="rotate(-35 938.3 558)" class="small muted">-1k-0</text>
+<rect x="967.9" y="325.3" width="13.0" height="214.7" fill="#10b981"><title>k1-k0, 0-1k: 23</title></rect>
+<rect x="982.4" y="185.3" width="13.0" height="354.7" fill="#f97316"><title>k2-k1, 0-1k: 38</title></rect>
+<text x="981.7" y="558" text-anchor="end" transform="rotate(-35 981.7 558)" class="small muted">0-1k</text>
+<rect x="1011.3" y="502.7" width="13.0" height="37.3" fill="#10b981"><title>k1-k0, 1k-2k: 4</title></rect>
+<rect x="1025.7" y="474.7" width="13.0" height="65.3" fill="#f97316"><title>k2-k1, 1k-2k: 7</title></rect>
+<text x="1025.0" y="558" text-anchor="end" transform="rotate(-35 1025.0 558)" class="small muted">1k-2k</text>
+<rect x="1054.6" y="493.3" width="13.0" height="46.7" fill="#10b981"><title>k1-k0, 2k-5k: 5</title></rect>
+<rect x="1069.1" y="530.7" width="13.0" height="9.3" fill="#f97316"><title>k2-k1, 2k-5k: 1</title></rect>
+<text x="1068.3" y="558" text-anchor="end" transform="rotate(-35 1068.3 558)" class="small muted">2k-5k</text>
+<rect x="1097.9" y="521.3" width="13.0" height="18.7" fill="#10b981"><title>k1-k0, 5k-10k: 2</title></rect>
+<rect x="1112.4" y="530.7" width="13.0" height="9.3" fill="#f97316"><title>k2-k1, 5k-10k: 1</title></rect>
+<text x="1111.7" y="558" text-anchor="end" transform="rotate(-35 1111.7 558)" class="small muted">5k-10k</text>
+<rect x="1141.3" y="530.7" width="13.0" height="9.3" fill="#10b981"><title>k1-k0, 10k-30k: 1</title></rect>
+<rect x="1155.7" y="502.7" width="13.0" height="37.3" fill="#f97316"><title>k2-k1, 10k-30k: 4</title></rect>
+<text x="1155.0" y="558" text-anchor="end" transform="rotate(-35 1155.0 558)" class="small muted">10k-30k</text>
+<rect x="1184.6" y="540.0" width="13.0" height="0.0" fill="#10b981"><title>k1-k0, >30k: 0</title></rect>
+<rect x="1199.1" y="540.0" width="13.0" height="0.0" fill="#f97316"><title>k2-k1, >30k: 0</title></rect>
+<text x="1198.3" y="558" text-anchor="end" transform="rotate(-35 1198.3 558)" class="small muted">&gt;30k</text>
+<text x="960.0" y="100" text-anchor="middle" font-size="17" font-weight="700">Paired reasoning-token changes</text>
+<rect x="700" y="625" width="14" height="14" fill="#10b981"/>
+<text x="720" y="637" class="legend">k=1 minus k=0</text>
+<rect x="870" y="625" width="14" height="14" fill="#f97316"/>
+<text x="890" y="637" class="legend">k=2 minus k=1</text>
+<text x="40" y="650" font-size="14" font-weight="700">Summary</text>
+<text x="40" y="674" class="small muted">k=0: mean 2903, median 1515, p90 4097, max 56161</text>
+<text x="40" y="692" class="small muted">k=1: mean 2201, median 1162, p90 4140, max 17240</text>
+<text x="40" y="710" class="small muted">k=2: mean 2456, median 1313, p90 4032, max 27564</text>
+</svg>

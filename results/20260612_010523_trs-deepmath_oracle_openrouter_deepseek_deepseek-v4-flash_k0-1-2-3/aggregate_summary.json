@@ -1,0 +1,108 @@
+{
+  "conditions": {
+    "0": {
+      "n": 300,
+      "accuracy": 0.49,
+      "mean_prompt_tokens": 97.18333333333334,
+      "mean_completion_tokens": 570.4833333333333,
+      "mean_reasoning_tokens": 290.18932038834953,
+      "mean_visible_output_tokens": 241.55333333333334,
+      "mean_total_tokens": 667.6666666666666,
+      "total_prompt_tokens": 29155.0,
+      "total_completion_tokens": 171145.0,
+      "total_reasoning_tokens": 59779.0,
+      "total_visible_output_tokens": 72466.0,
+      "total_tokens": 200300.0,
+      "max_token_hits": 2,
+      "near_max_token_hits": 2,
+      "reasoning_limit_hits": 2,
+      "mean_cost": 0.00023396561601941748,
+      "total_cost": 0.0481969169,
+      "cost_currency": "USD"
+    },
+    "1": {
+      "n": 300,
+      "accuracy": 0.52,
+      "mean_prompt_tokens": 510.39,
+      "mean_completion_tokens": 302.45666666666665,
+      "mean_reasoning_tokens": 80.45893719806763,
+      "mean_visible_output_tokens": 156.62333333333333,
+      "mean_total_tokens": 812.8466666666667,
+      "total_prompt_tokens": 153117.0,
+      "total_completion_tokens": 90737.0,
+      "total_reasoning_tokens": 16655.0,
+      "total_visible_output_tokens": 46987.0,
+      "total_tokens": 243854.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": 0.0001765017198067633,
+      "total_cost": 0.036535856,
+      "cost_currency": "USD"
+    },
+    "2": {
+      "n": 300,
+      "accuracy": 0.48333333333333334,
+      "mean_prompt_tokens": 883.6633333333333,
+      "mean_completion_tokens": 303.01,
+      "mean_reasoning_tokens": 68.24757281553399,
+      "mean_visible_output_tokens": 159.89,
+      "mean_total_tokens": 1186.6733333333334,
+      "total_prompt_tokens": 265099.0,
+      "total_completion_tokens": 90903.0,
+      "total_reasoning_tokens": 14059.0,
+      "total_visible_output_tokens": 47967.0,
+      "total_tokens": 356002.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": 0.00021616002281553398,
+      "total_cost": 0.0445289647,
+      "cost_currency": "USD"
+    },
+    "3": {
+      "n": 300,
+      "accuracy": 0.52,
+      "mean_prompt_tokens": 1254.7233333333334,
+      "mean_completion_tokens": 305.02666666666664,
+      "mean_reasoning_tokens": 89.86473429951691,
+      "mean_visible_output_tokens": 150.44666666666666,
+      "mean_total_tokens": 1559.75,
+      "total_prompt_tokens": 376417.0,
+      "total_completion_tokens": 91508.0,
+      "total_reasoning_tokens": 18602.0,
+      "total_visible_output_tokens": 45134.0,
+      "total_tokens": 467925.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": 0.00026525868357487925,
+      "total_cost": 0.0549085475,
+      "cost_currency": "USD"
+    }
+  },
+  "repetition_deltas": {
+    "1_to_2": {
+      "accuracy_delta": -0.03666666666666668,
+      "mean_completion_tokens_delta": 0.5533333333333417,
+      "mean_total_tokens_delta": 373.8266666666667,
+      "mean_cost_delta": 3.9658303008770695e-05
+    },
+    "1_to_3": {
+      "accuracy_delta": 0.0,
+      "mean_completion_tokens_delta": 2.569999999999993,
+      "mean_total_tokens_delta": 746.9033333333333,
+      "mean_cost_delta": 8.875696376811596e-05
+    }
+  },
+  "transition_counts": {
+    "improved_by_repetition": 14,
+    "hurt_by_repetition": 26,
+    "stable_correct": 114,
+    "stable_wrong": 122,
+    "mixed": 24
+  },
+  "total_cost": 0.1841702851,
+  "cost_currency": "USD",
+  "n_items": 300
+}
