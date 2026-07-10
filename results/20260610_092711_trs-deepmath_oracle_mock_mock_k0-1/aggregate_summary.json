@@ -1,0 +1,49 @@
+{
+  "conditions": {
+    "0": {
+      "n": 2,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 68.5,
+      "mean_completion_tokens": 6.0,
+      "mean_reasoning_tokens": 0.0,
+      "mean_visible_output_tokens": 6.0,
+      "mean_total_tokens": 74.5,
+      "total_prompt_tokens": 137.0,
+      "total_completion_tokens": 12.0,
+      "total_reasoning_tokens": 0.0,
+      "total_visible_output_tokens": 12.0,
+      "total_tokens": 149.0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "1": {
+      "n": 2,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 565.5,
+      "mean_completion_tokens": 6.0,
+      "mean_reasoning_tokens": 0.0,
+      "mean_visible_output_tokens": 6.0,
+      "mean_total_tokens": 571.5,
+      "total_prompt_tokens": 1131.0,
+      "total_completion_tokens": 12.0,
+      "total_reasoning_tokens": 0.0,
+      "total_visible_output_tokens": 12.0,
+      "total_tokens": 1143.0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    }
+  },
+  "repetition_deltas": {},
+  "transition_counts": {
+    "improved_by_repetition": 0,
+    "hurt_by_repetition": 0,
+    "stable_correct": 2,
+    "stable_wrong": 0,
+    "mixed": 0
+  },
+  "total_cost": 0.0,
+  "cost_currency": null,
+  "n_items": 2
+}
