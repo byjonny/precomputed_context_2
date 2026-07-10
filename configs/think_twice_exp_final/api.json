@@ -34,7 +34,9 @@
   },
   "experiments": [
     {"experiment_name": "think_twice", "model": "qwen/qwen-2.5-32b-instruct"},
+    {"experiment_name": "think_twice", "model": "google/gemma-3-12b-it"},
     {"experiment_name": "think_twice", "model": "google/gemma-3-27b-it"},
+    {"experiment_name": "think_twice", "model": "mistralai/mistral-nemo"},
     {"experiment_name": "think_twice", "model": "mistralai/mistral-small-3.1-24b-instruct"}
   ]
 }

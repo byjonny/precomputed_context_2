@@ -34,8 +34,6 @@
     "direct_template": "You are a helpful and harmless assistant.\nYou may be given a Solving Hints section. Use it only if relevant; otherwise ignore it completely.\nIf you find these solving hints useful, please try to reduce the number of tokens used while staying correct.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\nProblem:\n{question}\n"
   },
   "experiments": [
-    {"experiment_name": "think_twice", "model": "qwen2.5:7b"},
-    {"experiment_name": "think_twice", "model": "gemma3:12b"},
-    {"experiment_name": "think_twice", "model": "mistral-nemo"}
+    {"experiment_name": "think_twice", "model": "qwen2.5:7b"}
   ]
 }
