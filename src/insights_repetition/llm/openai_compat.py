@@ -87,6 +87,8 @@ class OpenAICompatibleBridge(LLMBridge):
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "insights-repetition/0.1",
         }
         headers.update({key: value for key, value in self.extra_headers.items() if value})
 
