@@ -425,9 +425,15 @@ def build_prompt(question: str, skill_text: str, k: int, prompt_config: dict[str
 
     layout = _layout(prompt_config)
     if layout == "sequence" or _sequence_for_k(prompt_config, k) is not None:
-        return build_sequence_prompt(question, skill_text, k, prompt_config)
-    if layout == "full_block":
-        return build_full_block_prompt(question, skill_text, k, prompt_config)
-    if layout != "separate":
-        raise ValueError(f"unknown prompt layout: {layout}")
-    return build_separate_prompt(question, skill_text, k, prompt_config)
+        prompt = build_sequence_prompt(question, skill_text, k, prompt_config)
+    elif layout == "full_block":
+        prompt = build_full_block_prompt(question, skill_text, k, prompt_config)
+    else:
+        if layout != "separate":
+            raise ValueError(f"unknown prompt layout: {layout}")
+        prompt = build_separate_prompt(question, skill_text, k, prompt_config)
+
+    suffix = str(prompt_config.get("prompt_suffix") or "")
+    if suffix.strip():
+        return f"{prompt.rstrip()}\n\n{suffix.strip()}\n"
+    return prompt

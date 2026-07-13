@@ -13,7 +13,7 @@ from typing import Any
 from insights_repetition.answer_extraction import estimate_tokens
 from insights_repetition.datasets.base import DatasetAdapter
 from insights_repetition.evaluators.base import Evaluator
-from insights_repetition.io import append_jsonl, write_json
+from insights_repetition.io import append_jsonl, read_jsonl, write_json, write_jsonl
 from insights_repetition.llm.base import LLMBridge
 from insights_repetition.prompts import build_prompt
 from insights_repetition.retrieval import BM25Retriever
@@ -37,6 +37,7 @@ class ExperimentConfig:
     repeats: int
     seed: int
     temperature: float
+    top_k: int | None
     max_tokens: int
     output_root: str
     shuffle_records: bool = False
@@ -56,6 +57,25 @@ class ExperimentConfig:
 
 def stable_hash(text: str, length: int = 16) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:length]
+
+
+def result_key(row: dict[str, Any]) -> tuple[int, int, int]:
+    return (int(row["repeat_idx"]), int(row["item_index"]), int(row["k"]))
+
+
+def result_succeeded(row: dict[str, Any]) -> bool:
+    return not bool(row.get("error"))
+
+
+def merge_result_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Deduplicate calls, preferring the latest successful result for each task."""
+    merged: dict[tuple[int, int, int], dict[str, Any]] = {}
+    for row in rows:
+        key = result_key(row)
+        current = merged.get(key)
+        if current is None or result_succeeded(row) or not result_succeeded(current):
+            merged[key] = row
+    return [merged[key] for key in sorted(merged)]
 
 
 def answer_leaks_in_skill(record: ProblemRecord) -> bool:
@@ -346,13 +366,19 @@ class ExperimentRunner:
         record: ProblemRecord = task["record"]
         prompt: str = task["prompt"]
         k: int = task["k"]
+        extra_body: dict[str, Any] = {}
+        if self.config.reasoning:
+            extra_body["reasoning"] = self.config.reasoning
+        if self.config.top_k is not None:
+            extra_body["top_k"] = self.config.top_k
+
         request = LLMRequest(
             prompt=prompt,
             model=self.config.model,
             temperature=self.config.temperature,
             max_tokens=self.config.max_tokens,
             timeout_s=self.config.request_timeout_s,
-            extra_body={"reasoning": self.config.reasoning} if self.config.reasoning else {},
+            extra_body=extra_body,
             metadata={
                 "question_id": record.question_id,
                 "gold_answer": record.answer,
@@ -369,6 +395,7 @@ class ExperimentRunner:
             try:
                 attempts += 1
                 response = self.llm.generate(request)
+                error_message = None
                 break
             except Exception as exc:
                 error_message = str(exc)
@@ -471,7 +498,7 @@ class ExperimentRunner:
             },
         }
 
-    def run(self) -> Path:
+    def run(self, *, resume_run_dir: str | Path | None = None, retry_errors: bool = True) -> Path:
         records = load_records(self.dataset, skip_answer_leakage=self.config.skip_answer_leakage)
         if not records:
             raise ValueError("no records loaded after filtering")
@@ -495,28 +522,30 @@ class ExperimentRunner:
         if not eval_records:
             raise ValueError("no eval records selected")
 
-        run_id = make_run_id(self.config)
-        run_dir = Path(self.config.output_root) / run_id
+        run_id = Path(resume_run_dir).name if resume_run_dir is not None else make_run_id(self.config)
+        run_dir = Path(resume_run_dir) if resume_run_dir is not None else Path(self.config.output_root) / run_id
         run_dir.mkdir(parents=True, exist_ok=True)
-        write_json(run_dir / "config.json", asdict(self.config))
+        if resume_run_dir is None:
+            write_json(run_dir / "config.json", asdict(self.config))
 
-        result_rows: list[dict[str, Any]] = []
         results_path = run_dir / "results.jsonl"
+        existing_rows = list(read_jsonl(results_path)) if results_path.exists() else []
+        merged_existing_rows = merge_result_rows(existing_rows)
+        rows_by_key = {result_key(row): row for row in merged_existing_rows}
         rate_limiter = RequestRateLimiter(self.config.requests_per_minute)
         total_calls = len(eval_records) * self.config.repeats * len(self.config.k_values)
-        call_index = 0
         reporter = TerminalReporter(enabled=self.config.show_progress)
-        reporter.start(self.config, run_id, run_dir, len(eval_records), total_calls)
 
         def maybe_report_progress_summary() -> None:
             interval = self.config.progress_summary_interval
-            completed_calls = len(result_rows)
+            completed_calls = len(rows_by_key)
             if not interval or interval <= 0 or completed_calls == 0:
                 return
             if completed_calls >= total_calls:
                 return
             if completed_calls % interval != 0:
                 return
+            result_rows = [rows_by_key[key] for key in sorted(rows_by_key)]
             _, partial_aggregate = summarize_run(result_rows, self.config.k_values)
             reporter.preliminary_summary(
                 config=self.config,
@@ -527,6 +556,7 @@ class ExperimentRunner:
             )
 
         tasks: list[dict[str, Any]] = []
+        expected_tasks: dict[tuple[int, int, int], dict[str, Any]] = {}
         order_idx = 0
         for repeat_idx in range(self.config.repeats):
             for item_index, record in enumerate(eval_records):
@@ -543,11 +573,8 @@ class ExperimentRunner:
                         skill_source_id = hits[0].record.question_id
                         retrieval_score = hits[0].score
 
-                reporter.item(repeat_idx, item_index, len(eval_records), record, skill_source_id)
                 for k in self.config.k_values:
                     prompt = build_prompt(record.question, skill_text, k, self.config.prompt_config)
-                    call_index += 1
-                    reporter.request_start(call_index, total_calls, record, k, len(prompt))
                     task = {
                         "order_idx": order_idx,
                         "run_id": run_id,
@@ -560,19 +587,62 @@ class ExperimentRunner:
                         "retrieval_score": retrieval_score,
                         "prompt": prompt,
                     }
-                    if self.config.parallel_workers <= 1:
-                        result = self._execute_task(task, rate_limiter, retry_callback=reporter.request_retry)
-                        reporter.request_done(**result["report"])
-                        append_jsonl(results_path, result["row"])
-                        result_rows.append(result["row"])
-                        maybe_report_progress_summary()
-                    else:
-                        tasks.append(task)
+                    key = (repeat_idx, item_index, k)
+                    expected_tasks[key] = task
                     order_idx += 1
 
+        for row in existing_rows:
+            key = result_key(row)
+            task = expected_tasks.get(key)
+            if task is None:
+                raise ValueError(f"existing result has an unexpected task key: {key}")
+            expected_question_id = task["record"].question_id
+            if row.get("question_id") != expected_question_id:
+                raise ValueError(
+                    f"resume question mismatch for task {key}: "
+                    f"expected {expected_question_id!r}, found {row.get('question_id')!r}"
+                )
+            expected_prompt_hash = stable_hash(task["prompt"])
+            if row.get("prompt_hash") != expected_prompt_hash:
+                raise ValueError(
+                    f"resume prompt mismatch for task {key}: "
+                    f"expected {expected_prompt_hash}, found {row.get('prompt_hash')!r}"
+                )
+
+        for key, task in expected_tasks.items():
+            existing = rows_by_key.get(key)
+            if existing is None or (retry_errors and not result_succeeded(existing)):
+                tasks.append(task)
+
+        reporter.start(self.config, run_id, run_dir, len(eval_records), len(tasks))
+        if resume_run_dir is not None and self.config.show_progress:
+            print(
+                f"Resume state : {len(rows_by_key)}/{total_calls} unique calls saved; "
+                f"{len(tasks)} calls pending",
+                flush=True,
+            )
+
+        def store_result(result: dict[str, Any]) -> None:
+            reporter.request_done(**result["report"])
+            row = result["row"]
+            append_jsonl(results_path, row)
+            key = result_key(row)
+            current = rows_by_key.get(key)
+            if current is None or result_succeeded(row) or not result_succeeded(current):
+                rows_by_key[key] = row
+            maybe_report_progress_summary()
+
+        for call_index, task in enumerate(tasks, start=1):
+            record = task["record"]
+            reporter.item(task["repeat_idx"], task["item_index"], len(eval_records), record, task["skill_source_id"])
+            reporter.request_start(call_index, len(tasks), record, task["k"], len(task["prompt"]))
+
+        if self.config.parallel_workers <= 1:
+            for task in tasks:
+                result = self._execute_task(task, rate_limiter, retry_callback=reporter.request_retry)
+                store_result(result)
+
         if self.config.parallel_workers > 1:
-            completed: dict[int, dict[str, Any]] = {}
-            next_to_write = 0
             with ThreadPoolExecutor(max_workers=self.config.parallel_workers) as executor:
                 futures = [executor.submit(self._execute_task, task, rate_limiter) for task in tasks]
                 for future in as_completed(futures):
@@ -584,18 +654,14 @@ class ExperimentRunner:
                             retry_event["error_message"],
                             retry_event["sleep_s"],
                         )
-                    reporter.request_done(**result["report"])
-                    completed[int(result["order_idx"])] = result["row"]
-                    while next_to_write in completed:
-                        row = completed.pop(next_to_write)
-                        append_jsonl(results_path, row)
-                        result_rows.append(row)
-                        next_to_write += 1
-                        maybe_report_progress_summary()
+                    store_result(result)
 
+        result_rows = [rows_by_key[key] for key in sorted(rows_by_key)]
+        compacted_results_path = results_path.with_suffix(".jsonl.tmp")
+        write_jsonl(compacted_results_path, result_rows)
+        compacted_results_path.replace(results_path)
         per_item, aggregate = summarize_run(result_rows, self.config.k_values)
-        for row in per_item:
-            append_jsonl(run_dir / "per_item_summary.jsonl", row)
+        write_jsonl(run_dir / "per_item_summary.jsonl", per_item)
         write_json(run_dir / "aggregate_summary.json", aggregate)
         reporter.final_summary(config=self.config, run_dir=run_dir, aggregate=aggregate, result_rows=result_rows)
         return run_dir

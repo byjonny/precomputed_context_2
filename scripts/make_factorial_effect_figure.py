@@ -76,7 +76,13 @@ def model_label(run_dir: Path, rows: list[dict]) -> str:
     cfg_path = run_dir / "config.json"
     if cfg_path.exists():
         cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-        return str(cfg.get("model") or rows[0].get("model") or run_dir.name)
+        label = str(cfg.get("model") or rows[0].get("model") or run_dir.name)
+        prompt_suffix = (cfg.get("prompt_config") or {}).get("prompt_suffix")
+        if prompt_suffix == "/think":
+            return f"{label} - Thinking ON"
+        if prompt_suffix == "/no_think":
+            return f"{label} - Thinking OFF"
+        return label
     return str(rows[0].get("model") or run_dir.name)
 
 
@@ -144,8 +150,9 @@ def draw_panel(data: dict, top: float, width: int = 1300, panel_h: int = 430) ->
 
     rows = data["rows"]
     n_per_cell = min(data["accuracy"][k][1] for k in (1, 2, 3, 4))
+    run_status = "Clean run" if data["errors"] == 0 else "Completed run"
     status = (
-        f"Clean run - {len(rows):,}/{data['expected']:,} rows, "
+        f"{run_status} - {len(rows):,}/{data['expected']:,} rows, "
         f"{data['errors']} errors, n={n_per_cell:,} per cell"
     )
     parts.append(text_node(28, top + 44, data["model"], fill=text, size=24, weight="700"))

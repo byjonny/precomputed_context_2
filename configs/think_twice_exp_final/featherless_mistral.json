@@ -9,6 +9,7 @@
   "shuffle_records": true,
   "seed": 42,
   "temperature": 0.7,
+  "top_k": -1,
   "repeats": 1,
   "max_tokens": 2048,
   "max_token_warning_ratio": 0.95,

@@ -1,0 +1,209 @@
+
+Running config experiment 1/2: smoke20_qwen3_8b_thinking_on
+
+==============================================================================
+Insights Repetition Run
+==============================================================================
+run_id      : 20260712_154835_smoke20_qwen3_8b_thinking_on_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+experiment  : smoke20_qwen3_8b_thinking_on
+output      : results/20260712_154835_smoke20_qwen3_8b_thinking_on_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+dataset     : trs-deepmath
+mode        : oracle
+provider    : openai-compatible
+model       : Qwen/Qwen3-8B
+items       : 4
+repeats     : 1
+k_values    : [1, 2, 3, 4, 6]
+top_k       : -1
+calls       : 20
+parallel    : 6 workers
+------------------------------------------------------------------------------
+[item 1/4 | repeat 1] q_83106 skill=q_83106 topic=Mathematics -> Precalculus -> Limits
+  -> call 1/20: q=q_83106 k=1 prompt_chars=2478
+  -> call 2/20: q=q_83106 k=2 prompt_chars=2478
+  -> call 3/20: q=q_83106 k=3 prompt_chars=4637
+  -> call 4/20: q=q_83106 k=4 prompt_chars=4637
+  -> call 5/20: q=q_83106 k=6 prompt_chars=823
+[item 2/4 | repeat 1] q_80947 skill=q_80947 topic=Mathematics -> Calculus -> Integral Calculus ...
+  -> call 6/20: q=q_80947 k=1 prompt_chars=2037
+  -> call 7/20: q=q_80947 k=2 prompt_chars=2037
+  -> call 8/20: q=q_80947 k=3 prompt_chars=3755
+  -> call 9/20: q=q_80947 k=4 prompt_chars=3755
+  -> call 10/20: q=q_80947 k=6 prompt_chars=737
+[item 3/4 | repeat 1] q_102284 skill=q_102284 topic=Mathematics -> Algebra -> Algebra -> Equation...
+  -> call 11/20: q=q_102284 k=1 prompt_chars=2362
+  -> call 12/20: q=q_102284 k=2 prompt_chars=2362
+  -> call 13/20: q=q_102284 k=3 prompt_chars=4405
+  -> call 14/20: q=q_102284 k=4 prompt_chars=4405
+  -> call 15/20: q=q_102284 k=6 prompt_chars=627
+[item 4/4 | repeat 1] q_78735 skill=q_78735 topic=Mathematics -> Calculus -> Integral Calculus ...
+  -> call 16/20: q=q_78735 k=1 prompt_chars=2297
+  -> call 17/20: q=q_78735 k=2 prompt_chars=2297
+  -> call 18/20: q=q_78735 k=3 prompt_chars=4275
+  -> call 19/20: q=q_78735 k=4 prompt_chars=4275
+  -> call 20/20: q=q_78735 k=6 prompt_chars=695
+     correct pred='\\dfrac{7}{10}' tokens=1546 visible=701 reason=- cost=- latency=35.2s
+     correct pred='80' tokens=2625 visible=1385 reason=- cost=- latency=63.9s flags=near_max_tokens
+     token warning: completion=2003/2048, reasoning=-, visible=1385
+     wrong   pred='But let me check once more.' tokens=3217 visible=1446 reason=- cost=- latency=65.1s flags=near_max_tokens
+     token warning: completion=2047/2048, reasoning=-, visible=1446
+     wrong   pred='80?' tokens=2333 visible=1407 reason=- cost=- latency=65.4s flags=near_max_tokens
+     token warning: completion=2025/2048, reasoning=-, visible=1407
+     wrong   pred='Alternatively, using the bridge facto...' tokens=3185 visible=1306 reason=- cost=- latency=66.8s flags=near_max_tokens
+     token warning: completion=2015/2048, reasoning=-, visible=1306
+     correct pred='80' tokens=2615 visible=1430 reason=- cost=- latency=67.3s flags=near_max_tokens
+     token warning: completion=1993/2048, reasoning=-, visible=1430
+     correct pred='7/10' tokens=1682 visible=856 reason=- cost=- latency=41.0s
+     correct pred='$\\frac{7}{10}$' tokens=2472 visible=1015 reason=- cost=- latency=44.2s
+     correct pred='7/10' tokens=2642 visible=1180 reason=- cost=- latency=50.9s
+     correct pred='\\dfrac{7}{3}' tokens=1979 visible=913 reason=- cost=- latency=49.7s
+     correct pred='7/10' tokens=1708 visible=1107 reason=- cost=- latency=53.5s
+     wrong   pred='Second term: (25 -10x +x²)/' tokens=2576 visible=1398 reason=- cost=- latency=64.5s flags=near_max_tokens
+     token warning: completion=2046/2048, reasoning=-, visible=1398
+     wrong   pred='I think this is correct. Let me check...' tokens=3033 visible=1300 reason=- cost=- latency=70.6s flags=near_max_tokens
+     token warning: completion=2047/2048, reasoning=-, visible=1300
+     correct pred='\\dfrac{1}{2}' tokens=1527 visible=752 reason=- cost=- latency=33.0s
+     correct pred='\\dfrac{7}{3}' tokens=1486 visible=853 reason=- cost=- latency=41.4s
+     correct pred='7/3.' tokens=3032 visible=1431 reason=- cost=- latency=61.7s flags=near_max_tokens
+     token warning: completion=2046/2048, reasoning=-, visible=1431
+     wrong   pred='But the problem says that the support...' tokens=2574 visible=1616 reason=- cost=- latency=65.9s flags=near_max_tokens
+     token warning: completion=2026/2048, reasoning=-, visible=1616
+     correct pred='$\\frac{1}{2}$' tokens=2784 visible=1444 reason=- cost=- latency=53.5s
+     correct pred='\\dfrac{1}{2}' tokens=2721 visible=1430 reason=- cost=- latency=53.3s
+     correct pred='1/2' tokens=1458 visible=1017 reason=- cost=- latency=51.5s
+
+==============================================================================
+Result Overview
+==============================================================================
+output      : results/20260712_154835_smoke20_qwen3_8b_thinking_on_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+items       : 4
+total cost  : 0.000000
+elapsed     : 201.0s
+
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+| k | correct | accuracy | bar                | mean in | mean visible | mean reason | mean out | mean total | reason sum | limit flags | cost     |
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+| 1 | 4/4     | 100.0%   | ################## | 561.8   | 949.0        | -           | 1355.0   | 1916.8     | -          | 1           | 0.000000 |
+| 2 | 2/4     | 50.0%    | #########......... | 561.8   | 1313.8       | -           | 1802.5   | 2364.2     | -          | 3           | 0.000000 |
+| 3 | 2/4     | 50.0%    | #########......... | 1049.5  | 1301.2       | -           | 1827.0   | 2876.5     | -          | 2           | 0.000000 |
+| 4 | 3/4     | 75.0%    | ##############.... | 1049.5  | 1336.8       | -           | 1845.5   | 2895.0     | -          | 2           | 0.000000 |
+| 6 | 3/4     | 75.0%    | ##############.... | 233.5   | 1096.0       | -           | 1512.8   | 1746.2     | -          | 1           | 0.000000 |
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+
++--------------------+-------+
+| transition         | items |
++--------------------+-------+
+| hurt by repetition | 3     |
+| stable correct     | 1     |
++--------------------+-------+
+
++--------+------------+-------------------+------------------+
+| delta  | acc change | mean token change | mean cost change |
++--------+------------+-------------------+------------------+
+| 1_to_2 | -50.0%     | 447.5             | -                |
+| 1_to_3 | -50.0%     | 959.8             | -                |
+| 1_to_4 | -25.0%     | 978.2             | -                |
+| 1_to_6 | -25.0%     | -170.5            | -                |
++--------+------------+-------------------+------------------+
+==============================================================================
+results/20260712_154835_smoke20_qwen3_8b_thinking_on_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+
+Running config experiment 2/2: smoke20_qwen3_8b_thinking_off
+
+==============================================================================
+Insights Repetition Run
+==============================================================================
+run_id      : 20260712_155159_smoke20_qwen3_8b_thinking_off_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+experiment  : smoke20_qwen3_8b_thinking_off
+output      : results/20260712_155159_smoke20_qwen3_8b_thinking_off_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+dataset     : trs-deepmath
+mode        : oracle
+provider    : openai-compatible
+model       : Qwen/Qwen3-8B
+items       : 4
+repeats     : 1
+k_values    : [1, 2, 3, 4, 6]
+top_k       : -1
+calls       : 20
+parallel    : 6 workers
+------------------------------------------------------------------------------
+[item 1/4 | repeat 1] q_83106 skill=q_83106 topic=Mathematics -> Precalculus -> Limits
+  -> call 1/20: q=q_83106 k=1 prompt_chars=2481
+  -> call 2/20: q=q_83106 k=2 prompt_chars=2481
+  -> call 3/20: q=q_83106 k=3 prompt_chars=4640
+  -> call 4/20: q=q_83106 k=4 prompt_chars=4640
+  -> call 5/20: q=q_83106 k=6 prompt_chars=826
+[item 2/4 | repeat 1] q_80947 skill=q_80947 topic=Mathematics -> Calculus -> Integral Calculus ...
+  -> call 6/20: q=q_80947 k=1 prompt_chars=2040
+  -> call 7/20: q=q_80947 k=2 prompt_chars=2040
+  -> call 8/20: q=q_80947 k=3 prompt_chars=3758
+  -> call 9/20: q=q_80947 k=4 prompt_chars=3758
+  -> call 10/20: q=q_80947 k=6 prompt_chars=740
+[item 3/4 | repeat 1] q_102284 skill=q_102284 topic=Mathematics -> Algebra -> Algebra -> Equation...
+  -> call 11/20: q=q_102284 k=1 prompt_chars=2365
+  -> call 12/20: q=q_102284 k=2 prompt_chars=2365
+  -> call 13/20: q=q_102284 k=3 prompt_chars=4408
+  -> call 14/20: q=q_102284 k=4 prompt_chars=4408
+  -> call 15/20: q=q_102284 k=6 prompt_chars=630
+[item 4/4 | repeat 1] q_78735 skill=q_78735 topic=Mathematics -> Calculus -> Integral Calculus ...
+  -> call 16/20: q=q_78735 k=1 prompt_chars=2300
+  -> call 17/20: q=q_78735 k=2 prompt_chars=2300
+  -> call 18/20: q=q_78735 k=3 prompt_chars=4278
+  -> call 19/20: q=q_78735 k=4 prompt_chars=4278
+  -> call 20/20: q=q_78735 k=6 prompt_chars=698
+     correct pred='$\\frac{7}{10}$' tokens=1142 visible=341 reason=- cost=- latency=20.5s
+     correct pred='80' tokens=1802 visible=335 reason=- cost=- latency=21.7s
+     correct pred='80' tokens=1761 visible=322 reason=- cost=- latency=24.2s
+     correct pred='80' tokens=1347 visible=429 reason=- cost=- latency=24.5s
+     correct pred='80' tokens=1332 visible=368 reason=- cost=- latency=26.4s
+     wrong   pred='20' tokens=1141 visible=488 reason=- cost=- latency=27.7s
+     correct pred='$\\frac{7}{10}$' tokens=1499 visible=289 reason=- cost=- latency=15.5s
+     correct pred='$\\frac{7}{10}$' tokens=1081 visible=304 reason=- cost=- latency=17.1s
+     correct pred='$\\frac{7}{10}$' tokens=1619 visible=342 reason=- cost=- latency=18.9s
+     correct pred='$\\frac{7}{10}$' tokens=804 visible=324 reason=- cost=- latency=18.8s
+     correct pred='\\frac{7}{3}' tokens=1283 visible=442 reason=- cost=- latency=24.1s
+     correct pred='$\\frac{1}{2}$' tokens=901 visible=254 reason=- cost=- latency=11.5s
+     correct pred='$\\frac{1}{2}$' tokens=837 visible=204 reason=- cost=- latency=9.6s
+     correct pred='\\frac{7}{3}' tokens=1736 visible=418 reason=- cost=- latency=23.3s
+     correct pred='\\frac{7}{3}' tokens=1386 visible=458 reason=- cost=- latency=36.4s
+     correct pred='\\frac{7}{3}' tokens=1852 visible=493 reason=- cost=- latency=29.0s
+     correct pred='$\\frac{1}{2}$' tokens=1427 visible=293 reason=- cost=- latency=14.0s
+     correct pred='\\frac{7}{3}' tokens=1050 visible=470 reason=- cost=- latency=30.0s
+     correct pred='$\\frac{1}{2}$' tokens=676 visible=326 reason=- cost=- latency=17.0s
+     correct pred='$\\frac{1}{2}$' tokens=1502 visible=361 reason=- cost=- latency=18.8s
+
+==============================================================================
+Result Overview
+==============================================================================
+output      : results/20260712_155159_smoke20_qwen3_8b_thinking_off_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6
+items       : 4
+total cost  : 0.000000
+elapsed     : 78.9s
+
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+| k | correct | accuracy | bar                | mean in | mean visible | mean reason | mean out | mean total | reason sum | limit flags | cost     |
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+| 1 | 4/4     | 100.0%   | ################## | 562.8   | 366.5        | -           | 605.5    | 1168.2     | -          | 0           | 0.000000 |
+| 2 | 4/4     | 100.0%   | ################## | 562.8   | 333.5        | -           | 596.2    | 1159.0     | -          | 0           | 0.000000 |
+| 3 | 4/4     | 100.0%   | ################## | 1050.5  | 352.5        | -           | 594.5    | 1645.0     | -          | 0           | 0.000000 |
+| 4 | 4/4     | 100.0%   | ################## | 1050.5  | 360.8        | -           | 604.0    | 1654.5     | -          | 0           | 0.000000 |
+| 6 | 3/4     | 75.0%    | ##############.... | 234.5   | 402.0        | -           | 683.2    | 917.8      | -          | 0           | 0.000000 |
++---+---------+----------+--------------------+---------+--------------+-------------+----------+------------+------------+-------------+----------+
+
++--------------------+-------+
+| transition         | items |
++--------------------+-------+
+| hurt by repetition | 1     |
+| stable correct     | 3     |
++--------------------+-------+
+
++--------+------------+-------------------+------------------+
+| delta  | acc change | mean token change | mean cost change |
++--------+------------+-------------------+------------------+
+| 1_to_2 | 0.0%       | -9.2              | -                |
+| 1_to_3 | 0.0%       | 476.8             | -                |
+| 1_to_4 | 0.0%       | 486.2             | -                |
+| 1_to_6 | -25.0%     | -250.5            | -                |
++--------+------------+-------------------+------------------+
+==============================================================================
+results/20260712_155159_smoke20_qwen3_8b_thinking_off_trs-deepmath_oracle_openai-compatible_Qwen_Qwen3-8B_k1-2-3-4-6

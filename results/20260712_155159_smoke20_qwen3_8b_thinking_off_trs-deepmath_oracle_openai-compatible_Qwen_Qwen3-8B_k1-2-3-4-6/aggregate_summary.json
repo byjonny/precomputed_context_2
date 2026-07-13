@@ -1,0 +1,140 @@
+{
+  "conditions": {
+    "1": {
+      "n": 4,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 562.75,
+      "mean_completion_tokens": 605.5,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 366.5,
+      "mean_total_tokens": 1168.25,
+      "total_prompt_tokens": 2251.0,
+      "total_completion_tokens": 2422.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 1466.0,
+      "total_tokens": 4673.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "2": {
+      "n": 4,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 562.75,
+      "mean_completion_tokens": 596.25,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 333.5,
+      "mean_total_tokens": 1159.0,
+      "total_prompt_tokens": 2251.0,
+      "total_completion_tokens": 2385.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 1334.0,
+      "total_tokens": 4636.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "3": {
+      "n": 4,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 1050.5,
+      "mean_completion_tokens": 594.5,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 352.5,
+      "mean_total_tokens": 1645.0,
+      "total_prompt_tokens": 4202.0,
+      "total_completion_tokens": 2378.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 1410.0,
+      "total_tokens": 6580.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "4": {
+      "n": 4,
+      "accuracy": 1.0,
+      "mean_prompt_tokens": 1050.5,
+      "mean_completion_tokens": 604.0,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 360.75,
+      "mean_total_tokens": 1654.5,
+      "total_prompt_tokens": 4202.0,
+      "total_completion_tokens": 2416.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 1443.0,
+      "total_tokens": 6618.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "6": {
+      "n": 4,
+      "accuracy": 0.75,
+      "mean_prompt_tokens": 234.5,
+      "mean_completion_tokens": 683.25,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 402.0,
+      "mean_total_tokens": 917.75,
+      "total_prompt_tokens": 938.0,
+      "total_completion_tokens": 2733.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 1608.0,
+      "total_tokens": 3671.0,
+      "max_token_hits": 0,
+      "near_max_token_hits": 0,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    }
+  },
+  "repetition_deltas": {
+    "1_to_2": {
+      "accuracy_delta": 0.0,
+      "mean_completion_tokens_delta": -9.25,
+      "mean_total_tokens_delta": -9.25,
+      "mean_cost_delta": null
+    },
+    "1_to_3": {
+      "accuracy_delta": 0.0,
+      "mean_completion_tokens_delta": -11.0,
+      "mean_total_tokens_delta": 476.75,
+      "mean_cost_delta": null
+    },
+    "1_to_4": {
+      "accuracy_delta": 0.0,
+      "mean_completion_tokens_delta": -1.5,
+      "mean_total_tokens_delta": 486.25,
+      "mean_cost_delta": null
+    },
+    "1_to_6": {
+      "accuracy_delta": -0.25,
+      "mean_completion_tokens_delta": 77.75,
+      "mean_total_tokens_delta": -250.5,
+      "mean_cost_delta": null
+    }
+  },
+  "transition_counts": {
+    "improved_by_repetition": 0,
+    "hurt_by_repetition": 1,
+    "stable_correct": 3,
+    "stable_wrong": 0,
+    "mixed": 0
+  },
+  "total_cost": 0.0,
+  "cost_currency": null,
+  "n_items": 4
+}

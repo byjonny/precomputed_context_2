@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="1720" viewBox="0 0 1300 1720">
+<style>text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }</style>
+<rect x="0" y="0" width="1300" height="1720" fill="#121416"/>
+<rect x="0.0" y="0.0" width="1300.0" height="430.0" fill="#121416" stroke="#121416" stroke-width="1"/>
+<text x="28.0" y="44.0" fill="#d6d8dc" font-size="24" font-weight="700" text-anchor="start" dominant-baseline="middle">google/gemma-3-12b-it</text>
+<text x="28.0" y="82.0" fill="#aeb4bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle">Clean run - 6,000/6,000 rows, 0 errors, n=1,000 per cell</text>
+<rect x="28.0" y="120.0" width="360.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="120.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="120.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="120.0" width="385.6" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="177.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="177.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="177.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="177.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="237.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="237.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="237.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="237.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="297.6" width="360.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="297.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="297.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="297.6" width="385.6" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<text x="208.4" y="148.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="513.2" y="148.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x1 (single)</text>
+<text x="762.0" y="148.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x2 (repeated)</text>
+<text x="1079.2" y="148.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">repetition effect</text>
+<text x="44.0" y="207.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">insight-first  {i,q}</text>
+<text x="513.2" y="207.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">61.70%</text>
+<text x="762.0" y="207.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">64.30%</text>
+<text x="1079.2" y="207.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.60 pp (ns)</text>
+<text x="44.0" y="267.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">problem-first  {q,i}</text>
+<text x="513.2" y="267.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">64.40%</text>
+<text x="762.0" y="267.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">64.30%</text>
+<text x="1079.2" y="267.6" fill="#ff8f7a" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">-0.10 pp (ns)</text>
+<text x="44.0" y="328.8" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">order effect</text>
+<text x="513.2" y="328.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.70 pp (ns)</text>
+<text x="762.0" y="328.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+0.00 pp (ns)</text>
+<text x="1079.2" y="328.8" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="28.0" y="396.0" fill="#aeb4bd" font-size="15" font-weight="400" text-anchor="start" dominant-baseline="middle">Interaction: +2.70 pp  (positive means repetition helps insight-first more)</text>
+<rect x="0.0" y="430.0" width="1300.0" height="430.0" fill="#121416" stroke="#121416" stroke-width="1"/>
+<text x="28.0" y="474.0" fill="#d6d8dc" font-size="24" font-weight="700" text-anchor="start" dominant-baseline="middle">google/gemma-3-27b-it</text>
+<text x="28.0" y="512.0" fill="#aeb4bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle">Completed run - 6,000/6,000 rows, 36 errors, n=1,000 per cell</text>
+<rect x="28.0" y="550.0" width="360.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="550.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="550.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="550.0" width="385.6" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="607.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="607.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="607.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="607.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="667.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="667.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="667.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="667.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="727.6" width="360.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="727.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="727.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="727.6" width="385.6" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<text x="208.4" y="578.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="513.2" y="578.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x1 (single)</text>
+<text x="762.0" y="578.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x2 (repeated)</text>
+<text x="1079.2" y="578.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">repetition effect</text>
+<text x="44.0" y="637.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">insight-first  {i,q}</text>
+<text x="513.2" y="637.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">70.00%</text>
+<text x="762.0" y="637.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">71.90%</text>
+<text x="1079.2" y="637.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+1.90 pp (ns)</text>
+<text x="44.0" y="697.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">problem-first  {q,i}</text>
+<text x="513.2" y="697.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">72.40%</text>
+<text x="762.0" y="697.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">73.50%</text>
+<text x="1079.2" y="697.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+1.10 pp (ns)</text>
+<text x="44.0" y="758.8" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">order effect</text>
+<text x="513.2" y="758.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.40 pp (ns)</text>
+<text x="762.0" y="758.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+1.60 pp (ns)</text>
+<text x="1079.2" y="758.8" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="28.0" y="826.0" fill="#aeb4bd" font-size="15" font-weight="400" text-anchor="start" dominant-baseline="middle">Interaction: +0.80 pp  (positive means repetition helps insight-first more)</text>
+<rect x="0.0" y="860.0" width="1300.0" height="430.0" fill="#121416" stroke="#121416" stroke-width="1"/>
+<text x="28.0" y="904.0" fill="#d6d8dc" font-size="24" font-weight="700" text-anchor="start" dominant-baseline="middle">Qwen/Qwen3-8B - Thinking ON</text>
+<text x="28.0" y="942.0" fill="#aeb4bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle">Completed run - 6,000/6,000 rows, 13 errors, n=1,000 per cell</text>
+<rect x="28.0" y="980.0" width="360.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="980.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="980.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="980.0" width="385.6" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1037.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1037.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1037.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1037.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1097.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1097.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1097.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1097.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1157.6" width="360.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1157.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1157.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1157.6" width="385.6" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<text x="208.4" y="1008.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="513.2" y="1008.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x1 (single)</text>
+<text x="762.0" y="1008.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x2 (repeated)</text>
+<text x="1079.2" y="1008.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">repetition effect</text>
+<text x="44.0" y="1067.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">insight-first  {i,q}</text>
+<text x="513.2" y="1067.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">30.20%</text>
+<text x="762.0" y="1067.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">33.00%</text>
+<text x="1079.2" y="1067.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.80 pp (p=0.042) *</text>
+<text x="44.0" y="1127.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">problem-first  {q,i}</text>
+<text x="513.2" y="1127.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">32.00%</text>
+<text x="762.0" y="1127.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">31.20%</text>
+<text x="1079.2" y="1127.6" fill="#ff8f7a" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">-0.80 pp (ns)</text>
+<text x="44.0" y="1188.8" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">order effect</text>
+<text x="513.2" y="1188.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+1.80 pp (ns)</text>
+<text x="762.0" y="1188.8" fill="#ff8f7a" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">-1.80 pp (ns)</text>
+<text x="1079.2" y="1188.8" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="28.0" y="1256.0" fill="#aeb4bd" font-size="15" font-weight="400" text-anchor="start" dominant-baseline="middle">Interaction: +3.60 pp  (positive means repetition helps insight-first more)</text>
+<rect x="0.0" y="1290.0" width="1300.0" height="430.0" fill="#121416" stroke="#121416" stroke-width="1"/>
+<text x="28.0" y="1334.0" fill="#d6d8dc" font-size="24" font-weight="700" text-anchor="start" dominant-baseline="middle">Qwen/Qwen3-8B - Thinking OFF</text>
+<text x="28.0" y="1372.0" fill="#aeb4bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle">Clean run - 6,000/6,000 rows, 0 errors, n=1,000 per cell</text>
+<rect x="28.0" y="1410.0" width="360.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1410.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1410.0" width="248.8" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1410.0" width="385.6" height="57.6" fill="#1b1e22" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1467.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1467.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1467.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1467.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1527.6" width="360.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1527.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1527.6" width="248.8" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1527.6" width="385.6" height="60.0" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="28.0" y="1587.6" width="360.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="388.8" y="1587.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="637.6" y="1587.6" width="248.8" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<rect x="886.4" y="1587.6" width="385.6" height="62.4" fill="#171a1d" stroke="#2a2e33" stroke-width="1"/>
+<text x="208.4" y="1438.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="513.2" y="1438.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x1 (single)</text>
+<text x="762.0" y="1438.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">x2 (repeated)</text>
+<text x="1079.2" y="1438.8" fill="#bfc7d5" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle">repetition effect</text>
+<text x="44.0" y="1497.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">insight-first  {i,q}</text>
+<text x="513.2" y="1497.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">58.70%</text>
+<text x="762.0" y="1497.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">60.70%</text>
+<text x="1079.2" y="1497.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.00 pp (ns)</text>
+<text x="44.0" y="1557.6" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">problem-first  {q,i}</text>
+<text x="513.2" y="1557.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">59.70%</text>
+<text x="762.0" y="1557.6" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">63.40%</text>
+<text x="1079.2" y="1557.6" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+3.70 pp (p=0.010) *</text>
+<text x="44.0" y="1618.8" fill="#d6d8dc" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle">order effect</text>
+<text x="513.2" y="1618.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+1.00 pp (ns)</text>
+<text x="762.0" y="1618.8" fill="#79d38b" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2.70 pp (p=0.048) *</text>
+<text x="1079.2" y="1618.8" fill="#d6d8dc" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="middle"></text>
+<text x="28.0" y="1686.0" fill="#aeb4bd" font-size="15" font-weight="400" text-anchor="start" dominant-baseline="middle">Interaction: -1.70 pp  (positive means repetition helps insight-first more)</text>
+</svg>

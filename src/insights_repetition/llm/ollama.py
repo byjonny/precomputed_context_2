@@ -31,6 +31,9 @@ class OllamaBridge(LLMBridge):
         reasoning = (request.extra_body or {}).get("reasoning")
         if isinstance(reasoning, dict) and "enabled" in reasoning:
             payload["think"] = bool(reasoning["enabled"])
+        top_k = (request.extra_body or {}).get("top_k")
+        if top_k is not None and int(top_k) >= 0:
+            payload["options"]["top_k"] = int(top_k)
         body = json.dumps(payload).encode("utf-8")
         http_request = urllib.request.Request(
             f"{self.base_url}/api/generate",

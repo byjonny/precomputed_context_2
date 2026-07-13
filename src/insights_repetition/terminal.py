@@ -86,6 +86,8 @@ class TerminalReporter:
         write_line(f"items       : {n_items}")
         write_line(f"repeats     : {config.repeats}")
         write_line(f"k_values    : {config.k_values}")
+        if config.top_k is not None:
+            write_line(f"top_k       : {config.top_k}")
         write_line(f"calls       : {total_calls}")
         if config.reasoning:
             write_line(f"reasoning   : {config.reasoning}")

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from dataclasses import asdict
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -46,6 +47,7 @@ def add_common_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--shuffle-records", action="store_true", default=False)
     parser.add_argument("--temperature", type=float, default=0.0)
+    parser.add_argument("--top-k", type=int)
     parser.add_argument("--max-tokens", type=int, default=2048)
     parser.add_argument("--max-token-warning-ratio", type=float, default=0.95)
     parser.add_argument("--output-root", default="results")
@@ -85,6 +87,7 @@ RUN_DEFAULTS = {
     "seed": 0,
     "shuffle_records": False,
     "temperature": 0.0,
+    "top_k": None,
     "max_tokens": 2048,
     "max_token_warning_ratio": 0.95,
     "output_root": "results",
@@ -263,7 +266,7 @@ def cmd_inspect(args: argparse.Namespace) -> None:
     print(json.dumps(records, indent=2, ensure_ascii=False))
 
 
-def cmd_run(args: argparse.Namespace) -> None:
+def build_runner(args: argparse.Namespace) -> tuple[ExperimentRunner, ExperimentConfig]:
     field_map = FieldMap(
         question_id=args.field_question_id,
         question=args.field_question,
@@ -295,6 +298,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         seed=args.seed,
         shuffle_records=args.shuffle_records,
         temperature=args.temperature,
+        top_k=args.top_k,
         max_tokens=args.max_tokens,
         max_token_warning_ratio=args.max_token_warning_ratio,
         output_root=args.output_root,
@@ -311,6 +315,11 @@ def cmd_run(args: argparse.Namespace) -> None:
         continue_on_error=args.continue_on_error,
     )
     runner = ExperimentRunner(dataset=dataset, evaluator=evaluator, llm=llm, config=config)
+    return runner, config
+
+
+def cmd_run(args: argparse.Namespace) -> None:
+    runner, _ = build_runner(args)
     run_dir = runner.run()
     print(str(run_dir))
 
@@ -322,6 +331,45 @@ def cmd_run_config(args: argparse.Namespace) -> None:
             name = namespace.experiment_name or f"experiment_{index + 1}"
             print(f"\nRunning config experiment {index + 1}/{len(namespaces)}: {name}", flush=True)
         cmd_run(namespace)
+
+
+def find_latest_compatible_run(config: ExperimentConfig) -> Path | None:
+    output_root = Path(config.output_root)
+    if not output_root.exists():
+        return None
+    expected = asdict(config)
+    candidates: list[Path] = []
+    for config_path in output_root.glob("*/config.json"):
+        try:
+            saved = json.loads(config_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if saved == expected:
+            candidates.append(config_path.parent)
+    if not candidates:
+        return None
+    return max(candidates, key=lambda path: path.name)
+
+
+def cmd_resume_config(args: argparse.Namespace) -> None:
+    namespaces = namespaces_from_config(args.config)
+    for index, namespace in enumerate(namespaces):
+        runner, config = build_runner(namespace)
+        name = config.experiment_name or f"experiment_{index + 1}"
+        run_dir = find_latest_compatible_run(config)
+        if run_dir is None:
+            print(
+                f"\nNo compatible run found for {name} ({config.model}); starting a new run.",
+                flush=True,
+            )
+            completed_dir = runner.run()
+        else:
+            print(
+                f"\nResuming compatible run for {name} ({config.model}): {run_dir}",
+                flush=True,
+            )
+            completed_dir = runner.run(resume_run_dir=run_dir, retry_errors=not args.keep_errors)
+        print(str(completed_dir))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -350,6 +398,18 @@ def build_parser() -> argparse.ArgumentParser:
     run_config_parser = subparsers.add_parser("run-config", help="Run an experiment from a JSON config file.")
     run_config_parser.add_argument("config")
     run_config_parser.set_defaults(func=cmd_run_config)
+
+    resume_config_parser = subparsers.add_parser(
+        "resume-config",
+        help="Resume the latest compatible run for each config experiment, or start it if missing.",
+    )
+    resume_config_parser.add_argument("config")
+    resume_config_parser.add_argument(
+        "--keep-errors",
+        action="store_true",
+        help="Treat saved error rows as complete instead of retrying them.",
+    )
+    resume_config_parser.set_defaults(func=cmd_resume_config)
     return parser
 
 
