@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="820" viewBox="0 0 1540 820">
+<title>Accuracy across six prompt conditions</title>
+<style>text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }</style>
+<rect x="0.0" y="0.0" width="1540.0" height="820.0" rx="0.0" fill="#111315" stroke="none" opacity="1.000"/>
+<text x="40.0" y="48.0" fill="#eef1f4" font-size="28" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Seven non-reasoning models across all six prompt conditions</text>
+<text x="40.0" y="84.0" fill="#aeb5bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">Accuracy; n=1,000 matched questions per cell. Darker green indicates higher accuracy.</text>
+<rect x="324.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="324.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#58b9e8" stroke="none" opacity="1.000"/>
+<text x="417.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C1  insight-first x1</text>
+<text x="417.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{i,q}</text>
+<rect x="519.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="519.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#f2c14e" stroke="none" opacity="1.000"/>
+<text x="612.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C2  problem-first x1</text>
+<text x="612.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{q,i}</text>
+<rect x="714.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="714.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#65d58a" stroke="none" opacity="1.000"/>
+<text x="807.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C3  insight-first x2</text>
+<text x="807.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{i,q,...,i,q}</text>
+<rect x="909.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="909.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#ff8066" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C4  problem-first x2</text>
+<text x="1002.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{q,i,...,q,i}</text>
+<rect x="1104.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="1104.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#9fb3c8" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C5  problem only x1</text>
+<text x="1197.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{q}</text>
+<rect x="1299.0" y="126.0" width="187.0" height="58.0" rx="4.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<rect x="1299.0" y="126.0" width="187.0" height="4.0" rx="2.0" fill="#d6a96c" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="146.0" fill="#eef1f4" font-size="15" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C6  problem only x2</text>
+<text x="1392.5" y="169.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">{q,...,q}</text>
+<rect x="28.0" y="205.0" width="1484.0" height="66.0" rx="3.0" fill="#171a1d" stroke="none" opacity="1.000"/>
+<text x="46.0" y="230.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Mistral Nemo 12B</text>
+<text x="46.0" y="253.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">clean</text>
+<rect x="325.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#503635" stroke="none" opacity="1.000"/>
+<text x="417.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">18.6%</text>
+<rect x="520.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#503634" stroke="none" opacity="1.000"/>
+<text x="612.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">18.1%</text>
+<rect x="715.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#513534" stroke="none" opacity="1.000"/>
+<text x="807.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">17.2%</text>
+<rect x="910.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#4f3735" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">19.3%</text>
+<rect x="1105.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#543132" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">13.8%</text>
+<rect x="1300.0" y="212.0" width="185.0" height="52.0" rx="4.0" fill="#543132" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="239.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">13.8%</text>
+<rect x="28.0" y="275.0" width="1484.0" height="66.0" rx="3.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<text x="46.0" y="300.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Mistral Small 24B</text>
+<text x="46.0" y="323.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">9 saved errors</text>
+<rect x="325.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#385242" stroke="none" opacity="1.000"/>
+<text x="417.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">44.2%</text>
+<rect x="520.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#375343" stroke="none" opacity="1.000"/>
+<text x="612.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">44.8%</text>
+<rect x="715.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#365544" stroke="none" opacity="1.000"/>
+<text x="807.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">46.7%</text>
+<rect x="910.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#355644" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">47.1%</text>
+<rect x="1105.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#42463c" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">33.2%</text>
+<rect x="1300.0" y="282.0" width="185.0" height="52.0" rx="4.0" fill="#41473d" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="309.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">34.0%</text>
+<rect x="28.0" y="345.0" width="1484.0" height="66.0" rx="3.0" fill="#171a1d" stroke="none" opacity="1.000"/>
+<text x="46.0" y="370.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 2.5 7B</text>
+<text x="46.0" y="393.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">clean</text>
+<rect x="325.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#375343" stroke="none" opacity="1.000"/>
+<text x="417.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">44.8%</text>
+<rect x="520.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#325946" stroke="none" opacity="1.000"/>
+<text x="612.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">50.1%</text>
+<rect x="715.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#345745" stroke="none" opacity="1.000"/>
+<text x="807.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">48.7%</text>
+<rect x="910.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#2f5c47" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">53.3%</text>
+<rect x="1105.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#3a5042" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">42.5%</text>
+<rect x="1300.0" y="352.0" width="185.0" height="52.0" rx="4.0" fill="#395142" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="379.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">43.0%</text>
+<rect x="28.0" y="415.0" width="1484.0" height="66.0" rx="3.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<text x="46.0" y="440.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 2.5 32B</text>
+<text x="46.0" y="463.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">11 saved errors</text>
+<rect x="325.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#26674d" stroke="none" opacity="1.000"/>
+<text x="417.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">63.3%</text>
+<rect x="520.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#236a4e" stroke="none" opacity="1.000"/>
+<text x="612.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">66.0%</text>
+<rect x="715.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#25684d" stroke="none" opacity="1.000"/>
+<text x="807.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">64.3%</text>
+<rect x="910.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#246a4e" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">65.5%</text>
+<rect x="1105.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#2f5c47" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">53.2%</text>
+<rect x="1300.0" y="422.0" width="185.0" height="52.0" rx="4.0" fill="#305b47" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="449.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">52.2%</text>
+<rect x="28.0" y="485.0" width="1484.0" height="66.0" rx="3.0" fill="#171a1d" stroke="none" opacity="1.000"/>
+<text x="46.0" y="510.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Gemma 3 12B</text>
+<text x="46.0" y="533.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">clean</text>
+<rect x="325.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#27654c" stroke="none" opacity="1.000"/>
+<text x="417.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">61.7%</text>
+<rect x="520.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#25684d" stroke="none" opacity="1.000"/>
+<text x="612.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">64.4%</text>
+<rect x="715.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#25684d" stroke="none" opacity="1.000"/>
+<text x="807.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">64.3%</text>
+<rect x="910.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#25684d" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">64.3%</text>
+<rect x="1105.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#305c47" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">53.0%</text>
+<rect x="1300.0" y="492.0" width="185.0" height="52.0" rx="4.0" fill="#2e5e48" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="519.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">54.8%</text>
+<rect x="28.0" y="555.0" width="1484.0" height="66.0" rx="3.0" fill="#1b1f23" stroke="none" opacity="1.000"/>
+<text x="46.0" y="580.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Gemma 3 27B</text>
+<text x="46.0" y="603.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">36 saved errors</text>
+<rect x="325.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#206f50" stroke="none" opacity="1.000"/>
+<text x="417.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">70.0%</text>
+<rect x="520.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#1d7152" stroke="none" opacity="1.000"/>
+<text x="612.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">72.4%</text>
+<rect x="715.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#1e7151" stroke="none" opacity="1.000"/>
+<text x="807.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">71.9%</text>
+<rect x="910.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#1c7252" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">73.5%</text>
+<rect x="1105.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#29644b" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">60.6%</text>
+<rect x="1300.0" y="562.0" width="185.0" height="52.0" rx="4.0" fill="#27664c" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="589.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">62.6%</text>
+<rect x="28.0" y="625.0" width="1484.0" height="66.0" rx="3.0" fill="#171a1d" stroke="none" opacity="1.000"/>
+<text x="46.0" y="650.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 3 8B (thinking off)</text>
+<text x="46.0" y="673.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">clean</text>
+<rect x="325.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#2a624a" stroke="none" opacity="1.000"/>
+<text x="417.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">58.7%</text>
+<rect x="520.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#29634b" stroke="none" opacity="1.000"/>
+<text x="612.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">59.7%</text>
+<rect x="715.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#28644b" stroke="none" opacity="1.000"/>
+<text x="807.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">60.7%</text>
+<rect x="910.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#26674d" stroke="none" opacity="1.000"/>
+<text x="1002.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">63.4%</text>
+<rect x="1105.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#335845" stroke="none" opacity="1.000"/>
+<text x="1197.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">49.5%</text>
+<rect x="1300.0" y="632.0" width="185.0" height="52.0" rx="4.0" fill="#305c47" stroke="none" opacity="1.000"/>
+<text x="1392.5" y="659.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">52.9%</text>
+<line x1="28.0" y1="345.0" x2="1512.0" y2="345.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<line x1="28.0" y1="485.0" x2="1512.0" y2="485.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<text x="40.0" y="778.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">Rows with provider errors remain in the original n=1,000 denominators for consistency with the saved aggregates.</text>
+</svg>
