@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="900" viewBox="0 0 2200 900">
+<title>Repetition effects with question-only controls</title>
+<style>text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }</style>
+<rect x="0.0" y="0.0" width="2200.0" height="900.0" rx="0.0" fill="#111315" stroke="none" opacity="1.000"/>
+<text x="40.0" y="48.0" fill="#eef1f4" font-size="28" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Repetition effects with question-only controls</text>
+<text x="40.0" y="84.0" fill="#aeb5bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">{q} is below both insight-containing baselines in all 7 models; mean pure-question repetition is +1.07 pp versus +1.79/+1.56 pp with insights.</text>
+<text x="38.0" y="151.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Model</text>
+<line x1="330.0" y1="132.0" x2="454.0" y2="132.0" stroke="#58b9e8" stroke-width="4.0" opacity="1.000"/>
+<text x="392.0" y="151.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">Question only</text>
+<text x="392.0" y="176.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C5: {q} accuracy</text>
+<line x1="480.0" y1="132.0" x2="650.0" y2="132.0" stroke="#9fb3c8" stroke-width="4.0" opacity="1.000"/>
+<text x="565.0" y="151.0" fill="#eef1f4" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">Question repetition</text>
+<text x="565.0" y="176.0" fill="#aeb5bd" font-size="12" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C6-C5: {q} x2 - {q} x1</text>
+<line x1="700.0" y1="132.0" x2="1240.0" y2="132.0" stroke="#65d58a" stroke-width="4.0" opacity="1.000"/>
+<text x="970.0" y="151.0" fill="#eef1f4" font-size="20" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">Insight-first repetition</text>
+<text x="970.0" y="176.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C3-C1: {i,q} x2 - {i,q} x1</text>
+<line x1="1450.0" y1="132.0" x2="1990.0" y2="132.0" stroke="#f2c14e" stroke-width="4.0" opacity="1.000"/>
+<text x="1720.0" y="151.0" fill="#eef1f4" font-size="20" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">Problem-first repetition</text>
+<text x="1720.0" y="176.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">C4-C2: {q,i} x2 - {q,i} x1</text>
+<line x1="310.0" y1="126.0" x2="310.0" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<line x1="470.0" y1="126.0" x2="470.0" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<line x1="670.0" y1="126.0" x2="670.0" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<line x1="1410.0" y1="126.0" x2="1410.0" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<line x1="743.2" y1="198.0" x2="743.2" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="743.2" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">-4</text>
+<line x1="829.6" y1="198.0" x2="829.6" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="829.6" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">-2</text>
+<line x1="916.0" y1="198.0" x2="916.0" y2="747.0" stroke="#78818a" stroke-width="1.5" opacity="1.000"/>
+<text x="916.0" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+0</text>
+<line x1="1002.4" y1="198.0" x2="1002.4" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1002.4" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+2</text>
+<line x1="1088.8" y1="198.0" x2="1088.8" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1088.8" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+4</text>
+<line x1="1175.2" y1="198.0" x2="1175.2" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1175.2" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+6</text>
+<text x="970.0" y="801.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">accuracy difference (percentage points)</text>
+<line x1="1493.2" y1="198.0" x2="1493.2" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1493.2" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">-4</text>
+<line x1="1579.6" y1="198.0" x2="1579.6" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1579.6" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">-2</text>
+<line x1="1666.0" y1="198.0" x2="1666.0" y2="747.0" stroke="#78818a" stroke-width="1.5" opacity="1.000"/>
+<text x="1666.0" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+0</text>
+<line x1="1752.4" y1="198.0" x2="1752.4" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1752.4" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+2</text>
+<line x1="1838.8" y1="198.0" x2="1838.8" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1838.8" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+4</text>
+<line x1="1925.2" y1="198.0" x2="1925.2" y2="747.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1925.2" y="773.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+6</text>
+<text x="1720.0" y="801.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle" opacity="1.000">accuracy difference (percentage points)</text>
+<text x="38.0" y="253.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Mistral Nemo 12B</text>
+<text x="392.0" y="253.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">13.8%</text>
+<text x="565.0" y="253.0" fill="#aeb5bd" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+0.00 pp</text>
+<line x1="916.0" y1="253.0" x2="855.5" y2="253.0" stroke="#ff8066" stroke-width="17.0" opacity="0.780"/>
+<line x1="735.8" y1="253.0" x2="975.3" y2="253.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="735.8" y1="245.0" x2="735.8" y2="261.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="975.3" y1="245.0" x2="975.3" y2="261.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="855.5" cy="253.0" r="7.0" fill="#ff8066" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="253.0" fill="#ff8066" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">-1.40 pp</text>
+<line x1="1666.0" y1="253.0" x2="1717.8" y2="253.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="1602.3" y1="253.0" x2="1833.3" y2="253.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1602.3" y1="245.0" x2="1602.3" y2="261.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1833.3" y1="245.0" x2="1833.3" y2="261.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1717.8" cy="253.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="253.0" fill="#f2c14e" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+1.20 pp</text>
+<text x="38.0" y="329.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Mistral Small 24B</text>
+<text x="392.0" y="329.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">33.2%</text>
+<text x="565.0" y="329.0" fill="#58b9e8" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+0.80 pp</text>
+<line x1="916.0" y1="329.0" x2="1024.0" y2="329.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="888.9" y1="329.0" x2="1159.1" y2="329.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="888.9" y1="321.0" x2="888.9" y2="337.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1159.1" y1="321.0" x2="1159.1" y2="337.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1024.0" cy="329.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="329.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+2.50 pp</text>
+<line x1="1666.0" y1="329.0" x2="1765.4" y2="329.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="1629.7" y1="329.0" x2="1901.0" y2="329.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1629.7" y1="321.0" x2="1629.7" y2="337.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1901.0" y1="321.0" x2="1901.0" y2="337.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1765.4" cy="329.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="329.0" fill="#f2c14e" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+2.30 pp</text>
+<text x="38.0" y="405.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 2.5 7B</text>
+<text x="392.0" y="405.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">42.5%</text>
+<text x="565.0" y="405.0" fill="#58b9e8" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+0.50 pp</text>
+<line x1="916.0" y1="405.0" x2="1084.5" y2="405.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="955.0" y1="405.0" x2="1213.9" y2="405.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="955.0" y1="397.0" x2="955.0" y2="413.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1213.9" y1="397.0" x2="1213.9" y2="413.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1084.5" cy="405.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="405.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+3.90 pp</text>
+<line x1="1666.0" y1="405.0" x2="1804.2" y2="405.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="1678.9" y1="405.0" x2="1929.6" y2="405.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1678.9" y1="397.0" x2="1678.9" y2="413.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1929.6" y1="397.0" x2="1929.6" y2="413.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1804.2" cy="405.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="405.0" fill="#f2c14e" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+3.20 pp</text>
+<text x="38.0" y="481.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 2.5 32B</text>
+<text x="392.0" y="481.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">53.2%</text>
+<text x="565.0" y="481.0" fill="#ff8066" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">-1.00 pp</text>
+<line x1="916.0" y1="481.0" x2="959.2" y2="481.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="854.1" y1="481.0" x2="1064.3" y2="481.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="854.1" y1="473.0" x2="854.1" y2="489.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1064.3" y1="473.0" x2="1064.3" y2="489.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="959.2" cy="481.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="481.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+1.00 pp</text>
+<line x1="1666.0" y1="481.0" x2="1644.4" y2="481.0" stroke="#ff8066" stroke-width="17.0" opacity="0.780"/>
+<line x1="1538.9" y1="481.0" x2="1749.9" y2="481.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1538.9" y1="473.0" x2="1538.9" y2="489.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1749.9" y1="473.0" x2="1749.9" y2="489.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1644.4" cy="481.0" r="7.0" fill="#ff8066" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="481.0" fill="#ff8066" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">-0.50 pp</text>
+<text x="38.0" y="557.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Gemma 3 12B</text>
+<text x="392.0" y="557.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">53.0%</text>
+<text x="565.0" y="557.0" fill="#58b9e8" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+1.80 pp</text>
+<line x1="916.0" y1="557.0" x2="1028.3" y2="557.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="918.1" y1="557.0" x2="1138.6" y2="557.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="918.1" y1="549.0" x2="918.1" y2="565.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1138.6" y1="549.0" x2="1138.6" y2="565.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1028.3" cy="557.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="557.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+2.60 pp</text>
+<line x1="1666.0" y1="557.0" x2="1661.7" y2="557.0" stroke="#ff8066" stroke-width="17.0" opacity="0.780"/>
+<line x1="1549.0" y1="557.0" x2="1774.4" y2="557.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1549.0" y1="549.0" x2="1549.0" y2="565.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1774.4" y1="549.0" x2="1774.4" y2="565.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1661.7" cy="557.0" r="7.0" fill="#ff8066" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="557.0" fill="#ff8066" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">-0.10 pp</text>
+<text x="38.0" y="633.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Gemma 3 27B</text>
+<text x="392.0" y="633.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">60.6%</text>
+<text x="565.0" y="633.0" fill="#58b9e8" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+2.00 pp</text>
+<line x1="916.0" y1="633.0" x2="998.1" y2="633.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="898.3" y1="633.0" x2="1097.8" y2="633.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="898.3" y1="625.0" x2="898.3" y2="641.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1097.8" y1="625.0" x2="1097.8" y2="641.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="998.1" cy="633.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="633.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+1.90 pp</text>
+<line x1="1666.0" y1="633.0" x2="1713.5" y2="633.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="1616.6" y1="633.0" x2="1810.4" y2="633.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1616.6" y1="625.0" x2="1616.6" y2="641.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1810.4" y1="625.0" x2="1810.4" y2="641.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1713.5" cy="633.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="633.0" fill="#f2c14e" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+1.10 pp</text>
+<text x="38.0" y="709.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle" opacity="1.000">Qwen 3 8B (thinking off)</text>
+<text x="392.0" y="709.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">49.5%</text>
+<text x="565.0" y="709.0" fill="#58b9e8" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" opacity="1.000">+3.40 pp</text>
+<line x1="916.0" y1="709.0" x2="1002.4" y2="709.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="884.5" y1="709.0" x2="1120.3" y2="709.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="884.5" y1="701.0" x2="884.5" y2="717.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1120.3" y1="701.0" x2="1120.3" y2="717.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1002.4" cy="709.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2.0"/>
+<text x="1370.0" y="709.0" fill="#65d58a" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+2.00 pp</text>
+<line x1="1666.0" y1="709.0" x2="1825.8" y2="709.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="1707.4" y1="709.0" x2="1944.3" y2="709.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1707.4" y1="701.0" x2="1707.4" y2="717.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1944.3" y1="701.0" x2="1944.3" y2="717.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1825.8" cy="709.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2.0"/>
+<text x="2170.0" y="709.0" fill="#f2c14e" font-size="16" font-weight="700" text-anchor="end" dominant-baseline="middle" opacity="1.000">+3.70 pp</text>
+<line x1="28.0" y1="367.0" x2="2172.0" y2="367.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<line x1="28.0" y1="519.0" x2="2172.0" y2="519.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<text x="40.0" y="875.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle" opacity="1.000">Effect panels use the same scale and paired 95% CIs. Control values use the same 1,000 matched questions per model.</text>
+</svg>

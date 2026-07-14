@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create four SVG summaries for the seven completed non-reasoning runs."""
+"""Create SVG summaries for the seven completed non-reasoning runs."""
 from __future__ import annotations
 
 import json
@@ -86,6 +86,8 @@ class ModelData:
                 value = values[3] - values[1]
             elif expression == "repeat_problem":
                 value = values[4] - values[2]
+            elif expression == "repeat_question":
+                value = values[6] - values[5]
             else:
                 raise ValueError(f"unknown effect expression: {expression}")
             effects.append(100 * value)
@@ -115,6 +117,14 @@ class ModelData:
     @property
     def repeat_problem(self) -> float:
         return 100 * (self.accuracy[4] - self.accuracy[2])
+
+    @property
+    def question_only(self) -> float:
+        return 100 * self.accuracy[5]
+
+    @property
+    def repeat_question(self) -> float:
+        return 100 * (self.accuracy[6] - self.accuracy[5])
 
 
 def load_model(label: str, relative_run_dir: str) -> ModelData:
@@ -538,6 +548,122 @@ def figure_split_repetition(models: list[ModelData], output: Path) -> None:
     write_svg(output, width, height, "Repetition effects split by prompt order", parts)
 
 
+def figure_repetition_robustness(models: list[ModelData], output: Path) -> None:
+    width, height = 2200, 900
+    parts: list[str] = []
+    mean_question_repeat = statistics.mean(model.repeat_question for model in models)
+    mean_insight_repeat = statistics.mean(model.repeat_insight for model in models)
+    mean_problem_repeat = statistics.mean(model.repeat_problem for model in models)
+    add_title(
+        parts,
+        "Repetition effects with question-only controls",
+        (
+            "{q} is below both insight-containing baselines in all 7 models; "
+            f"mean pure-question repetition is {mean_question_repeat:+.2f} pp versus "
+            f"{mean_insight_repeat:+.2f}/{mean_problem_repeat:+.2f} pp with insights."
+        ),
+    )
+
+    question_only_center = 392.0
+    question_repeat_center = 565.0
+    insight_x1, insight_x2 = 700.0, 1240.0
+    problem_x1, problem_x2 = 1450.0, 1990.0
+    insight_label_x, problem_label_x = 1370.0, 2170.0
+    minimum, maximum = -5.0, 7.5
+    y0, row_height = 215.0, 76.0
+    y2 = y0 + len(models) * row_height
+    ticks = [-4, -2, 0, 2, 4, 6]
+
+    parts.append(text_node(38, 151, "Model", size=18, weight="700"))
+    parts.append(line(330, 132, 454, 132, stroke=CYAN, width=4))
+    parts.append(text_node(question_only_center, 151, "Question only", size=18, weight="700", anchor="middle"))
+    parts.append(text_node(question_only_center, 176, "C5: {q} accuracy", size=12, fill=MUTED, anchor="middle"))
+    parts.append(line(480, 132, 650, 132, stroke="#9fb3c8", width=4))
+    parts.append(text_node(question_repeat_center, 151, "Question repetition", size=18, weight="700", anchor="middle"))
+    parts.append(text_node(question_repeat_center, 176, "C6-C5: {q} x2 - {q} x1", size=12, fill=MUTED, anchor="middle"))
+
+    insight_center = (insight_x1 + insight_x2) / 2
+    problem_center = (problem_x1 + problem_x2) / 2
+    parts.append(line(insight_x1, 132, insight_x2, 132, stroke=GREEN, width=4))
+    parts.append(text_node(insight_center, 151, "Insight-first repetition", size=20, weight="700", anchor="middle"))
+    parts.append(text_node(insight_center, 176, "C3-C1: {i,q} x2 - {i,q} x1", size=13, fill=MUTED, anchor="middle"))
+    parts.append(line(problem_x1, 132, problem_x2, 132, stroke=GOLD, width=4))
+    parts.append(text_node(problem_center, 151, "Problem-first repetition", size=20, weight="700", anchor="middle"))
+    parts.append(text_node(problem_center, 176, "C4-C2: {q,i} x2 - {q,i} x1", size=13, fill=MUTED, anchor="middle"))
+
+    parts.append(line(310, 126, 310, y2, stroke=GRID))
+    parts.append(line(470, 126, 470, y2, stroke=GRID))
+    parts.append(line(670, 126, 670, y2, stroke=GRID))
+    parts.append(line(1410, 126, 1410, y2, stroke=GRID))
+
+    add_effect_axis(
+        parts,
+        minimum=minimum,
+        maximum=maximum,
+        ticks=ticks,
+        x1=insight_x1,
+        x2=insight_x2,
+        y1=198,
+        y2=y2,
+    )
+    add_effect_axis(
+        parts,
+        minimum=minimum,
+        maximum=maximum,
+        ticks=ticks,
+        x1=problem_x1,
+        x2=problem_x2,
+        y1=198,
+        y2=y2,
+    )
+
+    for index, model in enumerate(models):
+        y = y0 + index * row_height + row_height / 2
+        parts.append(text_node(38, y, model.label, size=17, weight="700"))
+        parts.append(text_node(question_only_center, y, f"{model.question_only:.1f}%", size=17, fill=CYAN, weight="700", anchor="middle"))
+        question_repeat_color = CYAN if model.repeat_question > 0 else CORAL if model.repeat_question < 0 else MUTED
+        parts.append(
+            text_node(
+                question_repeat_center,
+                y,
+                f"{model.repeat_question:+.2f} pp",
+                size=16,
+                fill=question_repeat_color,
+                weight="700",
+                anchor="middle",
+            )
+        )
+
+        for expression, effect, x1, x2, positive_color, label_x in (
+            ("repeat_insight", model.repeat_insight, insight_x1, insight_x2, GREEN, insight_label_x),
+            ("repeat_problem", model.repeat_problem, problem_x1, problem_x2, GOLD, problem_label_x),
+        ):
+            ci_low, ci_high = model.ci95(expression)
+            zero_x = axis_scale(0, minimum, maximum, x1, x2)
+            effect_x = axis_scale(effect, minimum, maximum, x1, x2)
+            ci_x1 = axis_scale(ci_low, minimum, maximum, x1, x2)
+            ci_x2 = axis_scale(ci_high, minimum, maximum, x1, x2)
+            color = positive_color if effect >= 0 else CORAL
+            parts.append(line(zero_x, y, effect_x, y, stroke=color, width=17, opacity=0.78))
+            parts.append(line(ci_x1, y, ci_x2, y, stroke=WHITE, width=2))
+            parts.append(line(ci_x1, y - 8, ci_x1, y + 8, stroke=WHITE, width=2))
+            parts.append(line(ci_x2, y - 8, ci_x2, y + 8, stroke=WHITE, width=2))
+            parts.append(circle(effect_x, y, 7, fill=color, stroke=BG, width=2))
+            parts.append(text_node(label_x, y, f"{effect:+.2f} pp", size=16, fill=color, weight="700", anchor="end"))
+
+    add_model_separators(parts, y0, row_height, 28, width - 28)
+    parts.append(
+        text_node(
+            40,
+            height - 25,
+            "Effect panels use the same scale and paired 95% CIs. Control values use the same 1,000 matched questions per model.",
+            size=13,
+            fill=MUTED,
+        )
+    )
+    write_svg(output, width, height, "Repetition effects with question-only controls", parts)
+
+
 def figure_split_order(models: list[ModelData], output: Path) -> None:
     width, height = 1800, 880
     parts: list[str] = []
@@ -631,6 +757,7 @@ def main(argv: list[str]) -> int:
         output_dir / "nonreasoning_7_models_04_overall_repetition_20260713.svg",
         output_dir / "nonreasoning_7_models_05_repetition_split_panels_20260713.svg",
         output_dir / "nonreasoning_7_models_06_order_effect_split_panels_20260713.svg",
+        output_dir / "nonreasoning_7_models_07_repetition_robustness_20260713.svg",
     ]
     figure_all_conditions(models, outputs[0])
     figure_order_effect(models, outputs[1])
@@ -638,6 +765,7 @@ def main(argv: list[str]) -> int:
     figure_overall_repetition(models, outputs[3])
     figure_split_repetition(models, outputs[4])
     figure_split_order(models, outputs[5])
+    figure_repetition_robustness(models, outputs[6])
 
     print("model\torder overall\trep insight\trep problem\trep overall\terrors")
     for model in models:

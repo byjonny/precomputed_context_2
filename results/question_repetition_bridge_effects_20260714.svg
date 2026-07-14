@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900">
+<title>Full-pair versus question-only repetition effects</title>
+<style>text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }</style>
+<rect x="0" y="0" width="1800" height="900" fill="#111315"/>
+<text x="40.0" y="48.0" fill="#eef1f4" font-size="29" font-weight="700" text-anchor="start" dominant-baseline="middle">Full-pair repetition versus question-only repetition</text>
+<text x="40.0" y="84.0" fill="#aeb5bd" font-size="16" font-weight="400" text-anchor="start" dominant-baseline="middle">Paired accuracy change relative to the same-run {q,i} control; n=1,000 per condition, bars show 95% CIs.</text>
+<line x1="900.0" y1="126.0" x2="900.0" y2="825.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<text x="450.0" y="145.0" fill="#eef1f4" font-size="24" font-weight="700" text-anchor="middle" dominant-baseline="middle">Qwen 2.5 7B</text>
+<line x1="35.0" y1="178.0" x2="865.0" y2="178.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<line x1="305.0" y1="205.0" x2="305.0" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="305.0" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">-4</text>
+<line x1="383.2" y1="205.0" x2="383.2" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="383.2" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">-2</text>
+<line x1="461.4" y1="205.0" x2="461.4" y2="705.0" stroke="#78818a" stroke-width="1.5" opacity="1.000"/>
+<text x="461.4" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+0</text>
+<line x1="539.5" y1="205.0" x2="539.5" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="539.5" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2</text>
+<line x1="617.7" y1="205.0" x2="617.7" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="617.7" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+4</text>
+<line x1="695.9" y1="205.0" x2="695.9" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="695.9" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+6</text>
+<text x="45.0" y="263.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">Two insights</text>
+<text x="45.0" y="289.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i | q,i}</text>
+<text x="45.0" y="315.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 50.1%</text>
+<text x="45.0" y="337.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 53.3%</text>
+<line x1="461.4" y1="285.0" x2="586.5" y2="285.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="473.0" y1="285.0" x2="699.9" y2="285.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="473.0" y1="277.0" x2="473.0" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="699.9" y1="277.0" x2="699.9" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="586.5" cy="285.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2"/>
+<text x="860.0" y="274.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+3.20 pp</text>
+<text x="860.0" y="301.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.037</text>
+<text x="45.0" y="418.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">One insight, first copy</text>
+<text x="45.0" y="444.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i | q}</text>
+<text x="45.0" y="470.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 50.9%</text>
+<text x="45.0" y="492.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 51.0%</text>
+<line x1="461.4" y1="440.0" x2="465.3" y2="440.0" stroke="#58b9e8" stroke-width="17.0" opacity="0.780"/>
+<line x1="341.9" y1="440.0" x2="588.6" y2="440.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="341.9" y1="432.0" x2="341.9" y2="448.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="588.6" y1="432.0" x2="588.6" y2="448.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="465.3" cy="440.0" r="7.0" fill="#58b9e8" stroke="#111315" stroke-width="2"/>
+<text x="860.0" y="429.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+0.10 pp</text>
+<text x="860.0" y="456.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=1.000</text>
+<text x="45.0" y="573.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">One insight, second copy</text>
+<text x="45.0" y="599.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q | q,i}</text>
+<text x="45.0" y="625.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 50.9%</text>
+<text x="45.0" y="647.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 51.2%</text>
+<line x1="461.4" y1="595.0" x2="473.1" y2="595.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="352.1" y1="595.0" x2="594.1" y2="595.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="352.1" y1="587.0" x2="352.1" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="594.1" y1="587.0" x2="594.1" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="473.1" cy="595.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2"/>
+<text x="860.0" y="584.0" fill="#f2c14e" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+0.30 pp</text>
+<text x="860.0" y="611.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.899</text>
+<text x="450.0" y="790.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle">Full-pair gain minus mean one-insight gain: +3.0 pp</text>
+<text x="1350.0" y="145.0" fill="#eef1f4" font-size="24" font-weight="700" text-anchor="middle" dominant-baseline="middle">Mistral Small 24B</text>
+<line x1="935.0" y1="178.0" x2="1765.0" y2="178.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
+<line x1="1205.0" y1="205.0" x2="1205.0" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1205.0" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">-4</text>
+<line x1="1283.2" y1="205.0" x2="1283.2" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1283.2" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">-2</text>
+<line x1="1361.4" y1="205.0" x2="1361.4" y2="705.0" stroke="#78818a" stroke-width="1.5" opacity="1.000"/>
+<text x="1361.4" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+0</text>
+<line x1="1439.5" y1="205.0" x2="1439.5" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1439.5" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+2</text>
+<line x1="1517.7" y1="205.0" x2="1517.7" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1517.7" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+4</text>
+<line x1="1595.9" y1="205.0" x2="1595.9" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
+<text x="1595.9" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+6</text>
+<text x="945.0" y="263.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">Two insights</text>
+<text x="945.0" y="289.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i | q,i}</text>
+<text x="945.0" y="315.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 44.8%</text>
+<text x="945.0" y="337.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 47.1%</text>
+<line x1="1361.4" y1="285.0" x2="1451.3" y2="285.0" stroke="#65d58a" stroke-width="17.0" opacity="0.780"/>
+<line x1="1328.5" y1="285.0" x2="1574.0" y2="285.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1328.5" y1="277.0" x2="1328.5" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1574.0" y1="277.0" x2="1574.0" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1451.3" cy="285.0" r="7.0" fill="#65d58a" stroke="#111315" stroke-width="2"/>
+<text x="1760.0" y="274.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+2.30 pp</text>
+<text x="1760.0" y="301.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.170</text>
+<text x="945.0" y="418.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">One insight, first copy</text>
+<text x="945.0" y="444.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i | q}</text>
+<text x="945.0" y="470.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 44.4%</text>
+<text x="945.0" y="492.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 44.7%</text>
+<line x1="1361.4" y1="440.0" x2="1373.1" y2="440.0" stroke="#58b9e8" stroke-width="17.0" opacity="0.780"/>
+<line x1="1252.1" y1="440.0" x2="1494.1" y2="440.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1252.1" y1="432.0" x2="1252.1" y2="448.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1494.1" y1="432.0" x2="1494.1" y2="448.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1373.1" cy="440.0" r="7.0" fill="#58b9e8" stroke="#111315" stroke-width="2"/>
+<text x="1760.0" y="429.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+0.30 pp</text>
+<text x="1760.0" y="456.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.899</text>
+<text x="945.0" y="573.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">One insight, second copy</text>
+<text x="945.0" y="599.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{q | q,i}</text>
+<text x="945.0" y="625.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{q,i} baseline: 44.4%</text>
+<text x="945.0" y="647.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 44.3%</text>
+<line x1="1361.4" y1="595.0" x2="1357.5" y2="595.0" stroke="#ff8066" stroke-width="17.0" opacity="0.780"/>
+<line x1="1232.7" y1="595.0" x2="1482.2" y2="595.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1232.7" y1="587.0" x2="1232.7" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="1482.2" y1="587.0" x2="1482.2" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="1357.5" cy="595.0" r="7.0" fill="#ff8066" stroke="#111315" stroke-width="2"/>
+<text x="1760.0" y="584.0" fill="#ff8066" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">-0.10 pp</text>
+<text x="1760.0" y="611.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=1.000</text>
+<text x="1350.0" y="790.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle">Full-pair gain minus mean one-insight gain: +2.2 pp</text>
+<text x="40.0" y="865.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Baseline in every row is {q,i}. Full-pair uses the original-run control; one-insight rows use the bridge-run control.</text>
+</svg>

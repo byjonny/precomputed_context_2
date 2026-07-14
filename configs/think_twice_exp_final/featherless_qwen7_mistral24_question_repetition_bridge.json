@@ -1,0 +1,48 @@
+{
+  "dataset": "trs-deepmath",
+  "provider": "openai-compatible",
+  "api_base_url": "https://api.featherless.ai/v1/chat/completions",
+  "api_key_env": "FEATHERLESS_API_KEY",
+  "mode": "oracle",
+  "sample_size": 1000,
+  "eval_offset": 2000,
+  "shuffle_records": true,
+  "seed": 42,
+  "temperature": 0.7,
+  "top_k": null,
+  "repeats": 1,
+  "max_tokens": 2048,
+  "max_token_warning_ratio": 0.95,
+  "requests_per_minute": null,
+  "parallel_workers": 6,
+  "request_timeout_s": 600,
+  "max_retries": 2,
+  "retry_backoff_s": 5,
+  "continue_on_error": true,
+  "show_progress": true,
+  "progress_summary_interval": 50,
+  "output_root": "results",
+  "k_values": [1, 2, 3, 4],
+  "prompt_config": {
+    "mode": "sequence",
+    "sequence_by_k": {
+      "1": "{q, i}",
+      "2": "{q, i, sep, q}",
+      "3": "{q, sep, q, i}",
+      "4": "{i, q}"
+    },
+    "direct_template": "You are a helpful and harmless assistant.\nYou may be given a Solving Hints section. Use it only if relevant; otherwise ignore it completely.\nIf you find these solving hints useful, please try to reduce the number of tokens used while staying correct.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\nProblem:\n{question}\n"
+  },
+  "experiments": [
+    {
+      "experiment_name": "question_repetition_bridge",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "parallel_workers": 6
+    },
+    {
+      "experiment_name": "question_repetition_bridge",
+      "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+      "parallel_workers": 12
+    }
+  ]
+}
