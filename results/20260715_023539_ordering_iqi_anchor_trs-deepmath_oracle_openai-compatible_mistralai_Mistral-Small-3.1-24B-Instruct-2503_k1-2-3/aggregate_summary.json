@@ -1,0 +1,88 @@
+{
+  "conditions": {
+    "1": {
+      "n": 1000,
+      "accuracy": 0.412,
+      "mean_prompt_tokens": 514.897,
+      "mean_completion_tokens": 617.543,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 416.555,
+      "mean_total_tokens": 1132.44,
+      "total_prompt_tokens": 514897.0,
+      "total_completion_tokens": 617543.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 416555.0,
+      "total_tokens": 1132440.0,
+      "max_token_hits": 4,
+      "near_max_token_hits": 4,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "2": {
+      "n": 1000,
+      "accuracy": 0.431,
+      "mean_prompt_tokens": 889.698,
+      "mean_completion_tokens": 602.209,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 408.231,
+      "mean_total_tokens": 1491.907,
+      "total_prompt_tokens": 889698.0,
+      "total_completion_tokens": 602209.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 408231.0,
+      "total_tokens": 1491907.0,
+      "max_token_hits": 5,
+      "near_max_token_hits": 6,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    },
+    "3": {
+      "n": 1000,
+      "accuracy": 0.422,
+      "mean_prompt_tokens": 890.554,
+      "mean_completion_tokens": 625.943,
+      "mean_reasoning_tokens": null,
+      "mean_visible_output_tokens": 424.848,
+      "mean_total_tokens": 1516.497,
+      "total_prompt_tokens": 890554.0,
+      "total_completion_tokens": 625943.0,
+      "total_reasoning_tokens": null,
+      "total_visible_output_tokens": 424848.0,
+      "total_tokens": 1516497.0,
+      "max_token_hits": 6,
+      "near_max_token_hits": 8,
+      "reasoning_limit_hits": 0,
+      "mean_cost": null,
+      "total_cost": 0.0,
+      "cost_currency": null
+    }
+  },
+  "repetition_deltas": {
+    "1_to_2": {
+      "accuracy_delta": 0.019000000000000017,
+      "mean_completion_tokens_delta": -15.33400000000006,
+      "mean_total_tokens_delta": 359.46699999999987,
+      "mean_cost_delta": null
+    },
+    "1_to_3": {
+      "accuracy_delta": 0.010000000000000009,
+      "mean_completion_tokens_delta": 8.399999999999977,
+      "mean_total_tokens_delta": 384.057,
+      "mean_cost_delta": null
+    }
+  },
+  "transition_counts": {
+    "improved_by_repetition": 192,
+    "hurt_by_repetition": 166,
+    "stable_correct": 246,
+    "stable_wrong": 396,
+    "mixed": 0
+  },
+  "total_cost": 0.0,
+  "cost_currency": null,
+  "n_items": 1000
+}

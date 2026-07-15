@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Visualize full-pair versus question-only repetition effects."""
+"""Visualize full-pair versus insight-only repetition effects."""
 from __future__ import annotations
 
 import json
@@ -16,22 +16,15 @@ RUNS = [
         "Qwen 2.5 7B",
         "results/20260710_020210_think_twice_trs-deepmath_oracle_openai-compatible_"
         "Qwen_Qwen2.5-7B-Instruct_k1-2-3-4-5-6",
-        "results/20260714_002712_question_repetition_bridge_trs-deepmath_oracle_"
-        "openai-compatible_Qwen_Qwen2.5-7B-Instruct_k1-2-3-4",
+        "results/20260714_231502_ordering_iqi_anchor_trs-deepmath_oracle_"
+        "openai-compatible_Qwen_Qwen2.5-7B-Instruct_k1-2-3",
     ),
     (
         "Mistral Small 24B",
         "results/20260710_221900_think_twice_trs-deepmath_oracle_openai-compatible_"
         "mistralai_Mistral-Small-3.1-24B-Instruct-2503_k1-2-3-4-5-6",
-        "results/20260714_051855_question_repetition_bridge_trs-deepmath_oracle_"
-        "openai-compatible_mistralai_Mistral-Small-3.1-24B-Instruct-2503_k1-2-3-4",
-    ),
-    (
-        "Gemma 3 27B",
-        "results/20260712_211003_think_twice_trs-deepmath_oracle_openai-compatible_"
-        "google_gemma-3-27b-it_k1-2-3-4-5-6",
-        "results/20260714_234023_question_repetition_bridge_gemma27_trs-deepmath_"
-        "oracle_openai-compatible_google_gemma-3-27b-it_k1-2-3",
+        "results/20260715_023539_ordering_iqi_anchor_trs-deepmath_oracle_"
+        "openai-compatible_mistralai_Mistral-Small-3.1-24B-Instruct-2503_k1-2-3",
     ),
 ]
 
@@ -40,8 +33,8 @@ TEXT = "#eef1f4"
 MUTED = "#aeb5bd"
 GRID = "#343a40"
 WHITE = "#ffffff"
-GREEN = "#65d58a"
 CYAN = "#58b9e8"
+GREEN = "#65d58a"
 GOLD = "#f2c14e"
 CORAL = "#ff8066"
 
@@ -145,13 +138,22 @@ def render_panel(parts: list[str], x0: float, model: str, effects: list[dict]) -
 
     for tick in (-4, -2, 0, 2, 4, 6):
         x = scale(tick, plot_x1, plot_x2)
-        parts.append(line(x, 205, x, axis_y, stroke="#78818a" if tick == 0 else GRID, width=1.5 if tick == 0 else 1))
+        parts.append(
+            line(
+                x,
+                205,
+                x,
+                axis_y,
+                stroke="#78818a" if tick == 0 else GRID,
+                width=1.5 if tick == 0 else 1,
+            )
+        )
         parts.append(text_node(x, axis_y + 25, f"{tick:+d}", size=14, fill=MUTED, anchor="middle"))
 
     labels = [
-        ("Two insights", "{q,i | q,i}", GREEN),
-        ("One insight, first copy", "{q,i | q}", CYAN),
-        ("One insight, second copy", "{q | q,i}", GOLD),
+        ("Second insight after question", "{i,q | i}", CYAN),
+        ("Full pair repeated", "{i,q | i,q}", GREEN),
+        ("Second insight before question", "{i | i,q}", GOLD),
     ]
     for y, effect, (title, recipe, positive_color) in zip(row_ys, effects, labels):
         color = positive_color if effect["effect"] >= 0 else CORAL
@@ -161,7 +163,7 @@ def render_panel(parts: list[str], x0: float, model: str, effects: list[dict]) -
             text_node(
                 label_x,
                 y + 30,
-                f'{{q,i}} baseline: {effect["baseline"]:.1f}%',
+                f'{{i,q}} baseline: {effect["baseline"]:.1f}%',
                 size=13,
                 fill=MUTED,
             )
@@ -184,16 +186,26 @@ def render_panel(parts: list[str], x0: float, model: str, effects: list[dict]) -
         parts.append(line(low_x, y - 8, low_x, y + 8, stroke=WHITE, width=2))
         parts.append(line(high_x, y - 8, high_x, y + 8, stroke=WHITE, width=2))
         parts.append(circle(effect_x, y, 7, fill=color))
-        parts.append(text_node(value_x, y - 11, f'{effect["effect"]:+.2f} pp', size=17, fill=color, weight="700", anchor="end"))
+        parts.append(
+            text_node(
+                value_x,
+                y - 11,
+                f'{effect["effect"]:+.2f} pp',
+                size=17,
+                fill=color,
+                weight="700",
+                anchor="end",
+            )
+        )
         parts.append(text_node(value_x, y + 16, p_label(effect["p"]), size=13, fill=MUTED, anchor="end"))
 
-    q_only_mean = statistics.mean(effect["effect"] for effect in effects[1:])
-    gap = effects[0]["effect"] - q_only_mean
+    one_insight_mean = statistics.mean((effects[0]["effect"], effects[2]["effect"]))
+    gap = effects[1]["effect"] - one_insight_mean
     parts.append(
         text_node(
             x0 + panel_width / 2,
             790,
-            f"Full-pair gain minus mean one-insight gain: {gap:+.1f} pp",
+            f"Full-pair gain minus mean one-extra-insight gain: {gap:+.1f} pp",
             size=17,
             fill=GREEN,
             weight="700",
@@ -203,49 +215,47 @@ def render_panel(parts: list[str], x0: float, model: str, effects: list[dict]) -
 
 
 def main(argv: list[str]) -> int:
-    output = Path(argv[0]) if argv else ROOT / "results/question_repetition_bridge_effects_20260714.svg"
+    output = Path(argv[0]) if argv else ROOT / "results/iqi_bridge_effects_20260715.svg"
     if not output.is_absolute():
         output = ROOT / output
 
     model_effects = []
-    for model, old_dir, new_dir in RUNS:
+    for model, old_dir, bridge_dir in RUNS:
         old_rows = load_rows(old_dir)
-        new_rows = load_rows(new_dir)
-        if set(old_rows) != set(new_rows) or len(new_rows) != 1000:
-            raise ValueError(f"{model}: old and new item sets do not match")
+        bridge_rows = load_rows(bridge_dir)
+        if set(old_rows) != set(bridge_rows) or len(bridge_rows) != 1000:
+            raise ValueError(f"{model}: old and bridge item sets do not match")
         model_effects.append(
             (
                 model,
                 [
-                    paired_effect(old_rows, 2, 4),
-                    paired_effect(new_rows, 1, 2),
-                    paired_effect(new_rows, 1, 3),
+                    paired_effect(bridge_rows, 1, 2),
+                    paired_effect(old_rows, 1, 3),
+                    paired_effect(bridge_rows, 1, 3),
                 ],
             )
         )
 
-    width, height = 900 * len(model_effects), 900
+    width, height = 1800, 900
     parts = [
         f'<rect x="0" y="0" width="{width}" height="{height}" fill="{BG}"/>',
-        text_node(40, 48, "Full-pair repetition versus question-only repetition", size=29, weight="700"),
+        text_node(40, 48, "Full-pair repetition versus insight-only repetition", size=29, weight="700"),
         text_node(
             40,
             84,
-            "Paired accuracy change relative to the same-run {q,i} control; n=1,000 per condition, bars show 95% CIs.",
+            "Paired accuracy change relative to the same-run {i,q} control; n=1,000 per condition, bars show 95% CIs.",
             size=16,
             fill=MUTED,
         ),
+        line(900, 126, 900, 825, stroke="#4a5159", width=1.5),
     ]
-    for panel_index in range(1, len(model_effects)):
-        divider_x = 900 * panel_index
-        parts.append(line(divider_x, 126, divider_x, 825, stroke="#4a5159", width=1.5))
-    for panel_index, model_effect in enumerate(model_effects):
-        render_panel(parts, 35 + 900 * panel_index, *model_effect)
+    render_panel(parts, 35, *model_effects[0])
+    render_panel(parts, 935, *model_effects[1])
     parts.append(
         text_node(
             40,
             850,
-            "Baseline in every row is {q,i}. Full-pair uses the original-run control; one-insight rows use the bridge-run control.",
+            "Baseline in every row is {i,q}. Full-pair uses the original-run control; one-extra-insight rows use the IQI bridge-run control.",
             size=13,
             fill=MUTED,
         )
@@ -254,7 +264,7 @@ def main(argv: list[str]) -> int:
         text_node(
             40,
             874,
-            "Evaluator errors count as incorrect (Gemma bridge: 132 balanced DNS failures across k=1/2/3).",
+            "Evaluator errors count as incorrect (Qwen bridge: 66 balanced DNS failures across k=1/2/3; Mistral bridge: 0).",
             size=13,
             fill=MUTED,
         )
@@ -262,7 +272,7 @@ def main(argv: list[str]) -> int:
     document = "\n".join(
         [
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-            "<title>Full-pair versus question-only repetition effects</title>",
+            "<title>Full-pair versus insight-only repetition effects</title>",
             '<style>text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }</style>',
             *parts,
             "</svg>",

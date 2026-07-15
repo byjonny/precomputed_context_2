@@ -1,0 +1,93 @@
+% Requires: \usepackage{booktabs,graphicx}
+% Each timestamp is the MM-DD HH:MM prefix of the corresponding result directory.
+\begin{table*}[t]
+  \centering
+  \caption{Exact-match accuracy for all completed full-scale runs involving the eight model variants. Each populated cell contains the accuracy, in percent, for one independently executed prompt condition with $n=1{,}000$ questions. Repeated prompt conditions in later robustness experiments are reported in separate rows and are not averaged with the main run.}
+  \label{tab:all-eight-models-all-runs}
+  \setlength{\tabcolsep}{3.0pt}
+  \renewcommand{\arraystretch}{1.13}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llrrrrrrrrrrr@{}}
+      \toprule
+      & & \multicolumn{10}{c}{Prompt condition accuracy (\%)} & \\
+      \cmidrule(lr){3-12}
+      Model variant & Run
+        & $\{q\}$
+        & $\{q\mid q\}$
+        & $\{q,i\}$
+        & $\{i,q\}$
+        & $\{q,i\mid q,i\}$
+        & $\{i,q\mid i,q\}$
+        & $\{q,i\mid q\}$
+        & $\{q\mid q,i\}$
+        & $\{i,q\mid i\}$
+        & $\{i\mid i,q\}$
+        & Errors \\
+      \midrule
+      Mistral Nemo 12B
+        & Main (07-10 00:50)
+        & 13.8 & 13.8 & 18.1 & 18.6 & 19.3 & 17.2 & -- & -- & -- & -- & 0 \\
+      \addlinespace[2pt]
+      Mistral Small 24B
+        & Main (07-10 22:19)
+        & 33.2 & 34.0 & 44.8 & 44.2 & 47.1 & 46.7 & -- & -- & -- & -- & 9 \\
+      Mistral Small 24B
+        & Question bridge (07-14 05:18)
+        & -- & -- & 44.4 & 43.5 & -- & -- & 44.7 & 44.3 & -- & -- & 0 \\
+      Mistral Small 24B
+        & Insight bridge (07-15 02:35)
+        & -- & -- & -- & 41.2 & -- & -- & -- & -- & 43.1 & 42.2 & 0 \\
+      \addlinespace[2pt]
+      Qwen 2.5 7B
+        & Main (07-10 02:02)
+        & 42.5 & 43.0 & 50.1 & 44.8 & 53.3 & 48.7 & -- & -- & -- & -- & 0 \\
+      Qwen 2.5 7B
+        & Question bridge (07-14 00:27)
+        & -- & -- & 50.9 & 46.1 & -- & -- & 51.0 & 51.2 & -- & -- & 0 \\
+      Qwen 2.5 7B
+        & Insight bridge (07-14 23:15)
+        & -- & -- & -- & 46.9 & -- & -- & -- & -- & 49.1 & 48.1 & 66 \\
+      \addlinespace[2pt]
+      Qwen 2.5 32B
+        & Main (07-10 17:53)
+        & 53.2 & 52.2 & 66.0 & 63.3 & 65.5 & 64.3 & -- & -- & -- & -- & 11 \\
+      \addlinespace[2pt]
+      Gemma 3 12B
+        & Main (07-12 15:48)
+        & 53.0 & 54.8 & 64.4 & 61.7 & 64.3 & 64.3 & -- & -- & -- & -- & 0 \\
+      \addlinespace[2pt]
+      Gemma 3 27B
+        & Main (07-12 21:10)
+        & 60.6 & 62.6 & 72.4 & 70.0 & 73.5 & 71.9 & -- & -- & -- & -- & 36 \\
+      Gemma 3 27B
+        & Question bridge (07-14 23:40)
+        & -- & -- & 67.3 & -- & -- & -- & 68.0 & 67.5 & -- & -- & 132 \\
+      \addlinespace[2pt]
+      Qwen 3 8B (thinking on)
+        & Main (07-12 16:05)
+        & 25.8 & 25.5 & 32.0 & 30.2 & 31.2 & 33.0 & -- & -- & -- & -- & 13 \\
+      Qwen 3 8B (thinking off)
+        & Main (07-13 00:21)
+        & 49.5 & 52.9 & 59.7 & 58.7 & 63.4 & 60.7 & -- & -- & -- & -- & 0 \\
+      \bottomrule
+    \end{tabular}%
+  }
+  \vspace{2pt}
+
+  \begin{minipage}{\textwidth}
+    \footnotesize
+    \textit{Notes.}
+    $q$ denotes the question, $i$ the oracle solving insight, and $\mid$ the explicit separator between prompt copies.
+    All runs used the TRS-DeepMath oracle setting, exact-match evaluation, sample size $1{,}000$, evaluation offset $2{,}000$, seed 42, temperature 0.7, and a 2,048-token completion limit.
+    ``Main'' denotes the original six-condition factorial run. ``Question bridge'' denotes the question-repetition robustness run, and ``Insight bridge'' denotes the insight-repetition robustness run.
+    The two Qwen 3 rows use the same base model with the prompt suffixes \texttt{/think} and \texttt{/no\_think}, respectively.
+    ``Errors'' is the total number of saved provider-error records across all populated cells in that row. Error records remain in the original denominator and therefore count as incorrect in the reported aggregate accuracy. A dash indicates that the condition was not executed in that run.
+  \end{minipage}
+\end{table*}
+
+% Source result-directory prefixes, in table order:
+% 20260710_005059, 20260710_221900, 20260714_051855,
+% 20260715_023539, 20260710_020210, 20260714_002712,
+% 20260714_231502, 20260710_175306, 20260712_154858,
+% 20260712_211003, 20260714_234023, 20260712_160527,
+% 20260713_002119.

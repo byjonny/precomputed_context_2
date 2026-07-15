@@ -1,28 +1,27 @@
 {
+  "experiment_name": "ordering_iqi_anchor",
   "dataset": "trs-deepmath",
+  "data_path": "data/trs/corpora/deepmath_103k_oss_skill_corpus.jsonl.gz",
+  "evaluator": "exact",
   "provider": "openai-compatible",
-  "api_base_url": "https://api.featherless.ai/v1/chat/completions",
-  "api_key_env": "FEATHERLESS_API_KEY",
+  "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
   "mode": "oracle",
+  "k_values": [
+    1,
+    2,
+    3
+  ],
   "sample_size": 1000,
   "eval_offset": 2000,
-  "shuffle_records": true,
+  "library_size": 1000,
+  "repeats": 1,
   "seed": 42,
   "temperature": 0.7,
   "top_k": null,
-  "repeats": 1,
   "max_tokens": 2048,
-  "max_token_warning_ratio": 0.95,
-  "requests_per_minute": null,
-  "parallel_workers": 6,
-  "request_timeout_s": 600,
-  "max_retries": 2,
-  "retry_backoff_s": 5,
-  "continue_on_error": true,
-  "show_progress": true,
-  "progress_summary_interval": 50,
   "output_root": "results",
-  "k_values": [1, 2, 3],
+  "shuffle_records": true,
+  "progress_summary_interval": 50,
   "prompt_config": {
     "mode": "sequence",
     "sequence_by_k": {
@@ -32,16 +31,14 @@
     },
     "direct_template": "You are a helpful and harmless assistant.\nYou may be given a Solving Hints section. Use it only if relevant; otherwise ignore it completely.\nIf you find these solving hints useful, please try to reduce the number of tokens used while staying correct.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\nProblem:\n{question}\n"
   },
-  "experiments": [
-    {
-      "experiment_name": "ordering_iqi_anchor",
-      "model": "Qwen/Qwen2.5-7B-Instruct",
-      "parallel_workers": 6
-    },
-    {
-      "experiment_name": "ordering_iqi_anchor",
-      "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
-      "parallel_workers": 12
-    }
-  ]
+  "requests_per_minute": null,
+  "skip_answer_leakage": true,
+  "show_progress": true,
+  "reasoning": null,
+  "request_timeout_s": 600,
+  "max_retries": 2,
+  "retry_backoff_s": 5,
+  "continue_on_error": true,
+  "max_token_warning_ratio": 0.95,
+  "parallel_workers": 12
 }

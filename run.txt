@@ -1,9 +1,0 @@
-Gemma 3 12B + 27B über Featherless:
-
-cd /Users/jonaswalcher/Documents/Codex/2026-06-05/files-mentioned-by-the-user-i2s && mkdir -p logs && caffeinate -dimsu ./insights-repetition run-config configs/think_twice_exp_final/featherless_gemma3_p6.json 2>&1 | tee "logs/featherless_gemma3_p6_$(date +%Y%m%d_%H%M%S).log"
-
-Qwen3-8B thinking on + off über Featherless:
-cd /Users/jonaswalcher/Documents/Codex/2026-06-05/files-mentioned-by-the-user-i2s && mkdir -p logs && caffeinate -dimsu bash -lc './insights-repetition run-config configs/think_twice_exp_final/featherless_qwen3_8b_thinking_on.json && ./insights-repetition run-config configs/think_twice_exp_final/featherless_qwen3_8b_thinking_off.json' 2>&1 | tee "logs/featherless_qwen3_8b_on_off_$(date +%Y%m%d_%H%M%S).log"
-
-Gemma 12B + Gemma 27B + Qwen3 Thinking On/Off fortsetzen und mergen:
-cd /Users/jonaswalcher/Documents/Codex/2026-06-05/files-mentioned-by-the-user-i2s && mkdir -p logs && caffeinate -dimsu ./insights-repetition resume-config configs/think_twice_exp_final/featherless_resume_gemma_qwen3.json 2>&1 | tee "logs/featherless_resume_gemma_qwen3_$(date +%Y%m%d_%H%M%S).log"
