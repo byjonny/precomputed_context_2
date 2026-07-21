@@ -75,6 +75,28 @@ DEFAULT_PROBLEM_DELIMITER = DEFAULT_REPEAT_DELIMITER
 DEFAULT_BLOCK_DELIMITER = DEFAULT_REPEAT_DELIMITER
 
 
+# Single-source preamble: set prompt_config["preamble"] to replace the
+# instruction header of every built-in template at once (the {q} direct
+# template, the [Solving Hints] template, and the sequence template share
+# their body structure below). An explicit per-template override in the
+# config still wins; configs without "preamble" behave exactly as before.
+_PREAMBLE_BODIES = {
+    "direct_template": "\n\nProblem:\n{question}\n",
+    "hinted_template": "\n\n[Solving Hints]\n{hints}\n[/Solving Hints]\n\nProblem:\n{question}\n",
+    "sequence_template": "\n\n{parts}\n",
+}
+
+
+def _template(prompt_config: dict[str, Any], key: str, default: str) -> str:
+    explicit = prompt_config.get(key)
+    if explicit is not None:
+        return str(explicit)
+    preamble = prompt_config.get("preamble")
+    if preamble is not None and key in _PREAMBLE_BODIES:
+        return str(preamble).rstrip("\n") + _PREAMBLE_BODIES[key]
+    return default
+
+
 def _positive_int(value: Any, default: int) -> int:
     if value is None:
         return default
@@ -329,10 +351,10 @@ def build_separate_prompt(question: str, skill_text: str, k: int, prompt_config:
         "problem_repetitions": problem_count,
     }
     if not hints.strip():
-        template = str(prompt_config.get("direct_template", DIRECT_TEMPLATE))
+        template = _template(prompt_config, "direct_template", DIRECT_TEMPLATE)
         return _format(template, **values)
 
-    template = str(prompt_config.get("hinted_template", TRS_TEMPLATE))
+    template = _template(prompt_config, "hinted_template", TRS_TEMPLATE)
     return _format(template, **values)
 
 
@@ -405,7 +427,7 @@ def build_sequence_prompt(question: str, skill_text: str, k: int, prompt_config:
 
     separator = _repeat_delimiter(prompt_config, "separator", DEFAULT_REPEAT_DELIMITER)
     parts = [_render_sequence_part(part, question, skill_text, separator) for part in sequence]
-    template = str(prompt_config.get("sequence_template", SEQUENCE_TEMPLATE))
+    template = _template(prompt_config, "sequence_template", SEQUENCE_TEMPLATE)
     return _format(
         template,
         parts="\n\n".join(part for part in parts if part.strip()),

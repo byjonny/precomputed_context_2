@@ -1,0 +1,50 @@
+{
+  "experiment_name": "greedy_robustness",
+  "dataset": "trs-deepmath",
+  "data_path": "data/trs/corpora/deepmath_103k_oss_skill_corpus.jsonl.gz",
+  "evaluator": "exact",
+  "provider": "openai-compatible",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "mode": "oracle",
+  "k_values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "sample_size": 1000,
+  "eval_offset": 2000,
+  "library_size": 1000,
+  "repeats": 1,
+  "seed": 42,
+  "temperature": 0.0,
+  "top_k": null,
+  "max_tokens": 2048,
+  "output_root": "results",
+  "shuffle_records": true,
+  "progress_summary_interval": 50,
+  "prompt_config": {
+    "mode": "sequence",
+    "sequence_by_k": {
+      "1": "{i, q}",
+      "2": "{q, i}",
+      "3": "{i, q, sep, i, q}",
+      "4": "{q, i, sep, q, i}",
+      "5": "{q}",
+      "6": "{q, sep, q}"
+    },
+    "direct_template": "You are a helpful and harmless assistant.\nYou may be given a Solving Hints section. Use it only if relevant; otherwise ignore it completely.\nIf you find these solving hints useful, please try to reduce the number of tokens used while staying correct.\nEnd your response with exactly one line in this format:\nFinal answer: <answer>\n\nProblem:\n{question}\n"
+  },
+  "requests_per_minute": null,
+  "skip_answer_leakage": true,
+  "show_progress": true,
+  "reasoning": null,
+  "request_timeout_s": 600,
+  "max_retries": 2,
+  "retry_backoff_s": 5,
+  "continue_on_error": true,
+  "max_token_warning_ratio": 0.95,
+  "parallel_workers": 12
+}

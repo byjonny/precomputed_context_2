@@ -254,7 +254,7 @@ def main(argv: list[str]) -> int:
         text_node(
             40,
             874,
-            "Evaluator errors count as incorrect (Gemma bridge: 132 balanced DNS failures across k=1/2/3).",
+            "Transient provider errors were retried with identical prompts; no error records remain in these runs.",
             size=13,
             fill=MUTED,
         )

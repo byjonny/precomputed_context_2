@@ -21,15 +21,15 @@
 <text x="695.9" y="730.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="middle" dominant-baseline="middle">+6</text>
 <text x="45.0" y="263.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">Second insight after question</text>
 <text x="45.0" y="289.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q | i}</text>
-<text x="45.0" y="315.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q} baseline: 46.9%</text>
-<text x="45.0" y="337.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 49.1%</text>
-<line x1="461.4" y1="285.0" x2="547.4" y2="285.0" stroke="#58b9e8" stroke-width="17.0" opacity="0.780"/>
-<line x1="431.2" y1="285.0" x2="663.5" y2="285.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<line x1="431.2" y1="277.0" x2="431.2" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<line x1="663.5" y1="277.0" x2="663.5" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<circle cx="547.4" cy="285.0" r="7.0" fill="#58b9e8" stroke="#111315" stroke-width="2"/>
-<text x="860.0" y="274.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+2.20 pp</text>
-<text x="860.0" y="301.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.166</text>
+<text x="45.0" y="315.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q} baseline: 47.9%</text>
+<text x="45.0" y="337.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 50.0%</text>
+<line x1="461.4" y1="285.0" x2="543.5" y2="285.0" stroke="#58b9e8" stroke-width="17.0" opacity="0.780"/>
+<line x1="426.1" y1="285.0" x2="660.9" y2="285.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="426.1" y1="277.0" x2="426.1" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="660.9" y1="277.0" x2="660.9" y2="293.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="543.5" cy="285.0" r="7.0" fill="#58b9e8" stroke="#111315" stroke-width="2"/>
+<text x="860.0" y="274.0" fill="#58b9e8" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+2.10 pp</text>
+<text x="860.0" y="301.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.192</text>
 <text x="45.0" y="418.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">Full pair repeated</text>
 <text x="45.0" y="444.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q | i,q}</text>
 <text x="45.0" y="470.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q} baseline: 44.8%</text>
@@ -43,16 +43,16 @@
 <text x="860.0" y="456.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.013</text>
 <text x="45.0" y="573.0" fill="#eef1f4" font-size="17" font-weight="700" text-anchor="start" dominant-baseline="middle">Second insight before question</text>
 <text x="45.0" y="599.0" fill="#aeb5bd" font-size="14" font-weight="400" text-anchor="start" dominant-baseline="middle">{i | i,q}</text>
-<text x="45.0" y="625.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q} baseline: 46.9%</text>
-<text x="45.0" y="647.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 48.1%</text>
-<line x1="461.4" y1="595.0" x2="508.3" y2="595.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
-<line x1="397.2" y1="595.0" x2="619.3" y2="595.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<line x1="397.2" y1="587.0" x2="397.2" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<line x1="619.3" y1="587.0" x2="619.3" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
-<circle cx="508.3" cy="595.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2"/>
-<text x="860.0" y="584.0" fill="#f2c14e" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+1.20 pp</text>
-<text x="860.0" y="611.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.448</text>
-<text x="450.0" y="790.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle">Full-pair gain minus mean one-extra-insight gain: +2.2 pp</text>
+<text x="45.0" y="625.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">{i,q} baseline: 47.9%</text>
+<text x="45.0" y="647.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="start" dominant-baseline="middle">Treatment accuracy: 49.3%</text>
+<line x1="461.4" y1="595.0" x2="516.1" y2="595.0" stroke="#f2c14e" stroke-width="17.0" opacity="0.780"/>
+<line x1="403.5" y1="595.0" x2="628.7" y2="595.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="403.5" y1="587.0" x2="403.5" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<line x1="628.7" y1="587.0" x2="628.7" y2="603.0" stroke="#ffffff" stroke-width="2.0" opacity="1.000"/>
+<circle cx="516.1" cy="595.0" r="7.0" fill="#f2c14e" stroke="#111315" stroke-width="2"/>
+<text x="860.0" y="584.0" fill="#f2c14e" font-size="17" font-weight="700" text-anchor="end" dominant-baseline="middle">+1.40 pp</text>
+<text x="860.0" y="611.0" fill="#aeb5bd" font-size="13" font-weight="400" text-anchor="end" dominant-baseline="middle">p=.376</text>
+<text x="450.0" y="790.0" fill="#65d58a" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle">Full-pair gain minus mean one-extra-insight gain: +2.1 pp</text>
 <text x="1350.0" y="145.0" fill="#eef1f4" font-size="24" font-weight="700" text-anchor="middle" dominant-baseline="middle">Mistral Small 24B</text>
 <line x1="935.0" y1="178.0" x2="1765.0" y2="178.0" stroke="#4a5159" stroke-width="1.5" opacity="1.000"/>
 <line x1="1205.0" y1="205.0" x2="1205.0" y2="705.0" stroke="#343a40" stroke-width="1.0" opacity="1.000"/>
