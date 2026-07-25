@@ -1,0 +1,111 @@
+% Appendix: Prompt templates.
+% Requires: \usepackage[most]{tcolorbox}
+% All strings below are verbatim from the run configs / prompts.py.
+% NB: the skill cards contain Trigger / Do / Avoid / Risk but NO explicit
+% "Check" step, so the schema is stated as Trigger / Do / Avoid / Risk.
+
+\subsection{Prompt templates}
+\label{app:prompts}
+
+Every condition shares one fixed system header and is assembled from two blocks,
+a \emph{problem block} and a \emph{skill-card block}, concatenated in a
+condition-specific order. We evaluate two headers, shown side by side in
+Figure~\ref{fig:promptboxes}. The \textbf{TRS} header is the one used for every
+result in the main analysis. The \textbf{directive} header is used only for the
+prompt-sensitivity robustness check (Table~\ref{tab:promptsens}); it adds an
+explicit instruction to exploit the hints and to keep the answer short.
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[t]{0.485\textwidth}
+\begin{tcolorbox}[colback=green!4, colframe=green!45!black,
+    title=\textbf{TRS header (used for all analysis)}, fonttitle=\small,
+    boxrule=0.6pt, left=3pt, right=3pt, top=2pt, bottom=2pt]
+{\ttfamily\scriptsize
+You are a helpful and harmless assistant.\\
+You may be given an optional Solving Hints section. Use it only if it is relevant to the problem; otherwise, ignore it completely.\\
+End your response with exactly one line in this format:\\
+Final answer: \textless answer\textgreater
+}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+\begin{tcolorbox}[colback=black!3, colframe=black!45,
+    title=\textbf{Directive header (extended / robustness only)}, fonttitle=\small,
+    boxrule=0.6pt, left=3pt, right=3pt, top=2pt, bottom=2pt]
+{\ttfamily\scriptsize
+You are a helpful and harmless assistant.\\
+You may be given a Solving Hints section. Use it only if relevant; otherwise ignore it completely.\\
+\textbf{If you find these solving hints useful, please try to reduce the number of tokens used while staying correct.}\\
+End your response with exactly one line in this format:\\
+Final answer: \textless answer\textgreater
+}
+\end{tcolorbox}
+\end{minipage}
+\caption{System headers. The two prompts differ only in the hint-usage
+instruction: the directive header (right) adds the bold sentence and drops the
+words ``optional'' and ``to the problem''. Everything else in the pipeline is
+identical. All results outside Table~\ref{tab:promptsens} use the TRS header.}
+\label{fig:promptboxes}
+\end{figure*}
+
+\paragraph{Blocks and separator.}
+The two blocks are fixed across conditions:
+%
+\begin{center}
+\ttfamily\small
+\begin{tabular}{@{}ll@{}}
+problem block: & Problem:\\
+               & \{question\}\\[4pt]
+skill block:   & [Solving Hints]\\
+               & \{card\}\\
+               & [/Solving Hints]\\
+\end{tabular}
+\end{center}
+%
+Consecutive blocks are joined by a blank line. When a segment is repeated, the
+copies are separated by the token \texttt{Let me repeat it:} on its own line
+(rendered with a blank line above and below). The header is prepended once, at
+the top, in all conditions.
+
+\paragraph{Conditions.}
+Writing \texttt{q} for the problem block, \texttt{i} for the skill-card block,
+and \texttt{|} for the separator token, the ten conditions are:
+%
+\begin{center}
+\small
+\begin{tabular}{@{}cll@{}}
+\toprule
+$k$ & sequence & description \\
+\midrule
+1  & \texttt{i\ q}          & insight-first, single \\
+2  & \texttt{q\ i}          & problem-first, single \\
+3  & \texttt{i\ q\ |\ i\ q} & insight-first, full pair repeated \\
+4  & \texttt{q\ i\ |\ q\ i} & problem-first, full pair repeated \\
+5  & \texttt{q}             & problem only (no card) \\
+6  & \texttt{q\ |\ q}       & problem only, repeated \\
+7  & \texttt{q\ i\ |\ q}    & problem-first $+$ problem-only bridge \\
+8  & \texttt{q\ |\ q\ i}    & problem-only bridge $+$ problem-first \\
+9  & \texttt{i\ q\ |\ i}    & insight-first $+$ card-only bridge \\
+10 & \texttt{i\ |\ i\ q}    & card-only bridge $+$ insight-first \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Skill-card format.}
+Each \texttt{\{card\}} is a retrieved DeepMath-103K OSS skill entry: a numbered
+list of four to six heuristics. Every item follows an implicit
+\emph{Trigger\,/\,Do\,/\,Avoid\,/\,Risk} schema, as in this verbatim example:
+%
+\begin{quote}\small
+\emph{1. When encountering a difference of radicals with high indices as a
+variable approaches infinity} [\textsc{Trigger}], \emph{adopt a Binomial
+Expansion or Taylor Series approach} [\textsc{Do}] \emph{rather than
+rationalization} [\textsc{Avoid}]. Rationalizing $n$-th roots becomes
+algebraically prohibitive, whereas expanding $(x+a)^k$ quickly reveals the
+leading order of growth. \emph{Be cautious of cases where the leading terms
+cancel} [\textsc{Risk}].
+\end{quote}
+%
+The cards are used exactly as retrieved; we do not reformat them into explicit
+field labels.

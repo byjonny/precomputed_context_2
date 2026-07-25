@@ -63,7 +63,10 @@ def load_env_file(path: Path) -> None:
 
 
 def merged_rows(run_dir: Path) -> list[dict]:
-    return merge_result_rows(list(read_jsonl(run_dir / "results.jsonl")))
+    results_path = run_dir / "results.jsonl"
+    if not results_path.exists():
+        return []
+    return merge_result_rows(list(read_jsonl(results_path)))
 
 
 def accuracy_by_k(rows: list[dict]) -> dict[int, tuple[int, int]]:

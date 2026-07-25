@@ -37,9 +37,39 @@ def strip_latex_wrappers(text: str) -> str:
     return out.strip()
 
 
+THINK_CLOSE_TAG = "</think>"
+
+
+def strip_think_block(text: str) -> str:
+    """Visible answer text of a thinking-mode response.
+
+    Providers that inline the reasoning trace (e.g. Featherless with Qwen3
+    /think) return "<think>...</think>ANSWER" in the completion text. The
+    answer must be extracted from the part after the last closing tag, not
+    from the trace, where intermediate \\boxed{} candidates would shadow the
+    real final answer. Returns text unchanged when no closing tag is present.
+    """
+    idx = text.rfind(THINK_CLOSE_TAG)
+    if idx < 0:
+        return text
+    return text[idx + len(THINK_CLOSE_TAG):]
+
+
 def extract_final_answer(text: str) -> str:
     if not text:
         return ""
+    visible = strip_think_block(text)
+    if visible is not text:
+        # Only an explicit marker (boxed / "final answer:") in the visible
+        # part may override the trace: a \boxed{} the model committed to while
+        # thinking is more reliable than a marker-free closing line.
+        marked = _extract_marked_answer(visible)
+        if marked:
+            return marked
+    return _extract_final_answer_impl(text)
+
+
+def _extract_marked_answer(text: str) -> str:
     boxed = find_last_boxed(text)
     if boxed:
         return boxed
@@ -54,6 +84,13 @@ def extract_final_answer(text: str) -> str:
         matches = list(re.finditer(pattern, text))
         if matches:
             return matches[-1].group(1).strip()
+    return ""
+
+
+def _extract_final_answer_impl(text: str) -> str:
+    marked = _extract_marked_answer(text)
+    if marked:
+        return marked
 
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     return lines[-1] if lines else ""

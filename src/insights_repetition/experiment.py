@@ -64,7 +64,12 @@ def result_key(row: dict[str, Any]) -> tuple[int, int, int]:
 
 
 def result_succeeded(row: dict[str, Any]) -> bool:
-    return not bool(row.get("error"))
+    # An empty completion with no error is a silent provider failure (seen as
+    # cold-start bursts on Featherless: finish_reason=stop, 1 token, no text).
+    # Treating it as failed makes resume/retry re-send it like an error row.
+    if row.get("error"):
+        return False
+    return bool(str(row.get("response_text") or "").strip())
 
 
 def merge_result_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
